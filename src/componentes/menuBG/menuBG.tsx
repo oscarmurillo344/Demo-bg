@@ -19,7 +19,7 @@ export default class MenuBG extends React.Component<any, any>
           <Menu pageWrapId={ "page-wrap" } outerContainerId={ "outer-container" } >
               <div id="items-menu" style={{display:"flex", flexDirection:"column"}}>
                     {
-                        ["Item uno ","Item numero dos","iterm numero 3"].map((recorre, id)=>{
+                        ["Clientes","Creditos","Roles Pagos"].map((recorre, id)=>{
                             return ( <p> {recorre} </p>);
                         })
                     }
