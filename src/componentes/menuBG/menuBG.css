@@ -91,9 +91,48 @@ Note: Beware of modifying this element as it can break the animations - you shou
 {
   height: 100px;
   background: #bc157c;
+  justify-content: space-between;
 }
 
-.nav-bar .logo{
+.nav-bar img{
   margin-left: 20px;
   margin-top: 20px;
+}
+
+.menuItems
+{
+  justify-content: center;
+}
+
+#items-menu .items
+{
+  margin-top: 20px;
+  align-items: center;
+  
+
+}
+
+#items-menu .items:hover
+{
+  cursor: pointer;
+}
+
+#items-menu .items > *
+{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.nav-bar .navegacion
+{
+  margin-right: 20px;
+  align-items: center;  
+  width: 500px ;
+  justify-content: space-between;
+}
+
+.nav-bar .navegacion > *
+{
+  font-weight: 500;
+  color: white;
 }

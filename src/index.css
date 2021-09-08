@@ -9,3 +9,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.flex{
+  display: flex;
+}
+
+.colum{
+  flex-direction: column;
+}
+
+.row{
+  flex-direction: row;
+}
