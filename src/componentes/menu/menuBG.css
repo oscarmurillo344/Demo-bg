@@ -1,0 +1,140 @@
+.bm-burger-button {
+  position: absolute;
+  width: 25px;
+  height: 20px;
+  left: 10px;
+  bottom: 25%;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {  
+  background: #bc157c
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background:  #bc157c
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+  overflow: hidden !important
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.container
+{
+    padding-top: 60px;
+   
+}
+
+.nav
+{
+    position: fixed;
+    top: 0;
+    
+    width: 100%;
+    height: 60px;
+    padding-bottom: 60px;
+}
+
+#items-menu
+{
+    height: 100%;
+    
+    
+ 
+} 
+#items-menu  > *
+{
+  color:  red;
+  list-style: none;
+  margin-top: 25px;
+  text-decoration: none;
+
+}
+#items-menu  > *:hover{
+    cursor: pointer;
+}
+
+#items-menu .items > *
+{
+  margin-left: 14px;
+  margin-right: 14px;
+}
+#salir
+{
+    background: red;
+    border-color: red;
+}
+#salir:focus{
+  box-shadow: none;
+}
+
+#container-salir
+{
+  position: fixed;   
+  right: 36px;
+  top: 11px;
+}
+
+#usuarioAutenticado
+{
+  position: fixed;   
+  
+  right: 100px;
+  top: 11px;
+}
+
+.container-menu
+{
+  width: 100%;
+  height: 46px;
+  border-bottom: 1px solid rgba(1,34,68,.2);
+  position: absolute;
+
+  background-color: rgba(1,34,68,.01) 
+}
