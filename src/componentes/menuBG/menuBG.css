@@ -86,3 +86,14 @@ Note: Beware of modifying this element as it can break the animations - you shou
   font-weight: 500;
   font-size: 17px;
 }
+
+.nav-bar
+{
+  height: 100px;
+  background: #bc157c;
+}
+
+.nav-bar .logo{
+  margin-left: 20px;
+  margin-top: 20px;
+}
