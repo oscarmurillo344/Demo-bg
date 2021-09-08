@@ -23,8 +23,11 @@ export default class MenuBG extends React.Component<any, any>
                             return ( <p> {recorre} </p>);
                         })
                     }
-                </div>         
-          </Menu>
+                </div>                         
+          </Menu>          
+          <div className="descripcion-pantalla" >
+                    Clientes
+          </div>
         </div>
                
     </>)

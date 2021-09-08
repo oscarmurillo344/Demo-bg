@@ -65,69 +65,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: rgba(0, 0, 0, 0.3);
 }
 
-.container
-{
-    padding-top: 60px;
-   
-}
 
-.nav
-{
-    position: fixed;
-    top: 0;
-    
-    width: 100%;
-    height: 60px;
-    padding-bottom: 60px;
-}
-
-#items-menu
-{
-    height: 100%;
-    
-    
- 
-} 
-#items-menu  > *
-{
-  color:  red;
-  list-style: none;
-  margin-top: 25px;
-  text-decoration: none;
-
-}
-#items-menu  > *:hover{
-    cursor: pointer;
-}
-
-#items-menu .items > *
-{
-  margin-left: 14px;
-  margin-right: 14px;
-}
-#salir
-{
-    background: red;
-    border-color: red;
-}
-#salir:focus{
-  box-shadow: none;
-}
-
-#container-salir
-{
-  position: fixed;   
-  right: 36px;
-  top: 11px;
-}
-
-#usuarioAutenticado
-{
-  position: fixed;   
-  
-  right: 100px;
-  top: 11px;
-}
 
 .container-menu
 {
@@ -137,4 +75,14 @@ Note: Beware of modifying this element as it can break the animations - you shou
   position: absolute;
 
   background-color: rgba(1,34,68,.01) 
+}
+
+.descripcion-pantalla
+{
+  position: absolute;
+  left: 45%;
+  top: 25%;
+  color: #bc157c;
+  font-weight: 500;
+  font-size: 17px;
 }

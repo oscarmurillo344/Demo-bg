@@ -1,6 +1,6 @@
 
 import './App.css';
-import MenuBG from './componentes/menu/menuBG';
+import MenuBG from './componentes/menuBG/menuBG';
 
 function App() {
   return (
