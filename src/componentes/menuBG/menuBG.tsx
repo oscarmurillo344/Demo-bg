@@ -57,6 +57,9 @@ export default class MenuBG extends React.Component<any, any>
                     Clientes
           </div>
         </div>
+        <div style={{marginTop:"60px"}}>
+            {this.props.children}
+        </div>
                
     </>)
   }
