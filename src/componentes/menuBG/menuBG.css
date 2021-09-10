@@ -136,3 +136,16 @@ Note: Beware of modifying this element as it can break the animations - you shou
   font-weight: 500;
   color: white;
 }
+
+#items-menu .submenu{
+  color: black;
+
+}
+
+#items-menu .submenu:hover{
+  color: #bc157c;  
+}
+
+#items-menu .submenu:active{
+  color: #bc157c;  
+}
