@@ -8,7 +8,27 @@
     color: #bc157c;    
 }
 
+.outline:active{
+    border-color: #bc157c;
+    color: #bc157c;    
+}
+
+.outline:focus{
+    border-color: #bc157c;
+    color: #bc157c;    
+}
+
 .normal{
+    color: white;
+    background: #bc157c;
+}
+
+.normal:hover{
+    color: white;
+    background: #bc157c;
+}
+
+.normal:focus{
     color: white;
     background: #bc157c;
 }

@@ -64,7 +64,7 @@ export default class MenuBG extends React.Component<any, any>
                           </Menu.Item>                          
                           </Menu>
                       } trigger={['click']}>
-                      <a style={{color:"white", textAlign:"center", width:"100%"}} className="ant-dropdown-link flex" onClick={e => e.preventDefault()}>
+                      <a style={{color:"white", textAlign:"center", border:"1px", borderStyle:"solid",borderColor:"white" , padding:"8px", borderRadius:"15px", width:"100%"}} className="ant-dropdown-link flex" onClick={e => e.preventDefault()}>
                         OPCIONES
                       </a> 
                       </Dropdown>
@@ -85,7 +85,7 @@ export default class MenuBG extends React.Component<any, any>
                     {
                         this.menu.map((recorre, id)=>{
                           return (
-                            <SubMenu className="submenu" key={id} icon={recorre.icon} title={recorre.nombre}>
+                            <SubMenu className="submenu"  key={id} icon={recorre.icon} title={recorre.nombre}>
                               {
                                 recorre.items.map((recorreItem, idItem)=>{
                                   return (

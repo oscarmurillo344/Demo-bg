@@ -102,6 +102,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .menuItems
 {
   justify-content: center;
+  
 }
 
 #items-menu .items
@@ -142,8 +143,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 }
 
-#items-menu .submenu:hover{
-  color: #bc157c;  
+.submenu:hover{
+  color: black;  
+  
 }
 
 #items-menu .submenu:active{
