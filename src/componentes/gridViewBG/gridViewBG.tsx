@@ -1,10 +1,13 @@
 import React, { CSSProperties, useState } from 'react';
 import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilterItem, GridFilterModel, GridLinkOperator, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@material-ui/data-grid';
 import 'antd/dist/antd.css';
+import './gridViewBG.css'
 import { Badge, Dropdown, Space, Table } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { DownloadOutlined, DownOutlined, SelectOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import ButtonBG from '../buttonBG/buttonBG';
 
-interface RimGridViewProps{
+interface GridViewBGProps{
     width:number;
     height:number,
     pagesize:number;
@@ -14,7 +17,7 @@ interface RimGridViewProps{
 }
 
 
-const GridViewBG = (props:RimGridViewProps)=>{
+const GridViewBG = (props:GridViewBGProps)=>{
 
     const expandedRowRender = () => {
         const columns: any[] = [
@@ -45,15 +48,21 @@ const GridViewBG = (props:RimGridViewProps)=>{
       };
      
       return (
-        <Table
-        className="components-table-demo-nested"
-        pagination  ={{pageSize : props.pagesize}}
-        style={{width:props.width}}
-        scroll ={{y:340}}
-        columns={props.columns}
-        expandable={{ expandedRowRender }}
-        dataSource={props.rows}
-        />
+        <div>
+          <div className="acciones">
+          <ButtonBG color="#bc157c" text="Exportar EXCEL" type="outline" icon={<DownloadOutlined />} /> 
+          </div>
+          
+          <Table
+            className="components-table-demo-nested"
+            pagination  ={{pageSize : props.pagesize}}
+            style={{width:props.width}}
+            scroll ={{y:340}}
+            columns={props.columns}
+            expandable={{ expandedRowRender }}
+            dataSource={props.rows}
+          />
+        </div>
       );
 
   

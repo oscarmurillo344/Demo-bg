@@ -4,6 +4,7 @@ import './App.css';
 import GridViewBG from './componentes/gridViewBG/gridViewBG';
 import MenuBG from './componentes/menuBG/menuBG';
 import data from './data.json'
+import 'antd/dist/antd.css';
 
 function App() {
   const columns: any[] = [

@@ -1,0 +1,14 @@
+.outline{
+    border-color: #bc157c;
+    color: #bc157c;    
+}
+
+.outline:hover{
+    border-color: #bc157c;
+    color: #bc157c;    
+}
+
+.normal{
+    color: white;
+    background: #bc157c;
+}

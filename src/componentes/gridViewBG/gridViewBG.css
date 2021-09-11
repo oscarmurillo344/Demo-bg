@@ -1,0 +1,10 @@
+.acciones
+{
+    
+    margin-bottom: 10px;
+}
+
+.acciones >*
+{
+    margin-right: 10px;
+}
