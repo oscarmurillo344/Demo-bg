@@ -8,40 +8,17 @@ import { Dropdown, Menu } from 'antd';
 import { AppstoreOutlined, DownOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import SubMenu from 'antd/lib/menu/SubMenu';
+import MenuListBg from '../../interfaces/menu';
 
-interface MenuListBg {
-  nombre :string
-  icon: any
-  items : any[]
-}
 
-export default class MenuBG extends React.Component<any, any>
+
+interface MenuBGProps
 {
- menu : MenuListBg[] = [
-   {nombre:"Activos y Pasivos", icon: <AiOutlineUser></AiOutlineUser>,
-    items: [
-      {nombre:"Total Pasivos"}, 
-      {nombre:"Corrientes"},
-      {nombre:"Ahorros"},
-      {nombre:"Depositos A Plazo"},
-      {nombre:"Cartera y Conrigente"}
-    ] 
-  },
-   {nombre:"Cobertura", icon: <AiOutlineShop></AiOutlineShop>,
-   items: [
-     {nombre:"Total Cobertura"}     
-    ]
-  },
-   {nombre:"Informes", icon: <AiOutlineSolution></AiOutlineSolution>,
-   items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
-  },
-  {nombre:"Seguridad", icon: <AiOutlineUser></AiOutlineUser>,
-  items: [{nombre:"Usuarios"}, {nombre:"Roles"}] 
-  },
-  {nombre:"Configuraciones", icon: <AiOutlineShop></AiOutlineShop>,
-  items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
-  }
-  ]
+  items: MenuListBg[]
+}
+export default class MenuBG extends React.Component<MenuBGProps, any>
+{
+ 
  constructor(props:any)
  {   
     super(props);
@@ -88,7 +65,7 @@ export default class MenuBG extends React.Component<any, any>
                   mode="inline"
                   >                    
                     {
-                        this.menu.map((recorre, id)=>{
+                        this.props.items.map((recorre, id)=>{
                           return (
                             <SubMenu className="submenu"  key={id} icon={recorre.icon} title={recorre.nombre}>
                               {

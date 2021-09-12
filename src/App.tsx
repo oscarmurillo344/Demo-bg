@@ -5,6 +5,8 @@ import GridViewBG from './componentes/gridViewBG/gridViewBG';
 import MenuBG from './componentes/menuBG/menuBG';
 import data from './data.json'
 import 'antd/dist/antd.css';
+import MenuListBg from './interfaces/menu';
+import { AiOutlineShop, AiOutlineSolution, AiOutlineUser } from 'react-icons/ai';
 
 function App() {
   const columns: any[] = [
@@ -16,7 +18,31 @@ function App() {
     {dataIndex: 'correo', key:"correo",  title: 'Correo', width: 170},
   ];
 
-
+  const menu : MenuListBg[] = [
+    {nombre:"Activos y Pasivos", icon: <AiOutlineUser></AiOutlineUser>,
+     items: [
+       {nombre:"Total Pasivos"}, 
+       {nombre:"Corrientes"},
+       {nombre:"Ahorros"},
+       {nombre:"Depositos A Plazo"},
+       {nombre:"Cartera y Conrigente"}
+     ] 
+   },
+    {nombre:"Cobertura", icon: <AiOutlineShop></AiOutlineShop>,
+    items: [
+      {nombre:"Total Cobertura"}     
+     ]
+   },
+    {nombre:"Informes", icon: <AiOutlineSolution></AiOutlineSolution>,
+    items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
+   },
+   {nombre:"Seguridad", icon: <AiOutlineUser></AiOutlineUser>,
+   items: [{nombre:"Usuarios"}, {nombre:"Roles"}] 
+   },
+   {nombre:"Configuraciones", icon: <AiOutlineShop></AiOutlineShop>,
+   items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
+   }
+   ]
   let rows = new Array<any>();
   for(let recorre = 0; recorre<300000; recorre++)
   {
@@ -32,7 +58,7 @@ function App() {
   }
   return (
       <> 
-        <MenuBG>
+        <MenuBG items={menu} >
           <div className="flex" style={{justifyContent:"center"}}  >
             <GridViewBG height={325} columns={columns} rows={rows} pagesize={10}  width={1200}/>
           </div>
