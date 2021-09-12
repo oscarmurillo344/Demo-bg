@@ -34,9 +34,7 @@ function App() {
       <> 
         <MenuBG>
           <div className="flex" style={{justifyContent:"center"}}  >
-            <GridViewBG height={325} columns={columns} rows={rows} pagesize={10}  width={1200} 
-              
-            />
+            <GridViewBG height={325} columns={columns} rows={rows} pagesize={10}  width={1200}/>
           </div>
         </MenuBG>
         

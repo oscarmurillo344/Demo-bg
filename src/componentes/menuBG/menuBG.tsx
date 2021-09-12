@@ -18,22 +18,27 @@ interface MenuListBg {
 export default class MenuBG extends React.Component<any, any>
 {
  menu : MenuListBg[] = [
-   {nombre:"Clientes", icon: <AiOutlineUser></AiOutlineUser>,
-    items: [{nombre:"opcion1"}, {nombre:"opcion2"}] 
+   {nombre:"Activos y Pasivos", icon: <AiOutlineUser></AiOutlineUser>,
+    items: [
+      {nombre:"Total Pasivos"}, 
+      {nombre:"Corrientes"},
+      {nombre:"Ahorros"},
+      {nombre:"Depositos A Plazo"},
+      {nombre:"Cartera y Conrigente"}
+    ] 
   },
-   {nombre:"Creditos", icon: <AiOutlineShop></AiOutlineShop>,
+   {nombre:"Cobertura", icon: <AiOutlineShop></AiOutlineShop>,
+   items: [
+     {nombre:"Total Cobertura"}     
+    ]
+  },
+   {nombre:"Informes", icon: <AiOutlineSolution></AiOutlineSolution>,
    items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
   },
-   {nombre:"Roles Pagos", icon: <AiOutlineSolution></AiOutlineSolution>,
-   items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
+  {nombre:"Seguridad", icon: <AiOutlineUser></AiOutlineUser>,
+  items: [{nombre:"Usuarios"}, {nombre:"Roles"}] 
   },
-  {nombre:"Modulo 4", icon: <AiOutlineUser></AiOutlineUser>,
-  items: [{nombre:"opcion1"}, {nombre:"opcion2"}] 
-  },
-  {nombre:"Modulo 5", icon: <AiOutlineShop></AiOutlineShop>,
-  items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
-  },
-  {nombre:"Modulo 6", icon: <AiOutlineSolution></AiOutlineSolution>,
+  {nombre:"Configuraciones", icon: <AiOutlineShop></AiOutlineShop>,
   items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
   }
   ]
