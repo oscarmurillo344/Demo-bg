@@ -7,60 +7,103 @@ import data from './data.json'
 import 'antd/dist/antd.css';
 import MenuListBg from './interfaces/menu';
 import { AiOutlineShop, AiOutlineSolution, AiOutlineUser } from 'react-icons/ai';
-
+import { ColumnsType } from 'antd/lib/table';
+import menuBG from './menu'
+import ColumnasGrupo from './interfaces/columnasGrupos';
+import DataSet from './interfaces/cuentaAhorros';
 function App() {
-  const columns: any[] = [
-    {dataIndex: 'id', key:'id', title: 'Id', width: 160},
-    {dataIndex: 'nombre', key:'nombre', title: 'Nombre', width: 170},      
-    {dataIndex: 'apellido', key:'apellido', title: 'Apellido', width: 170},
-    {dataIndex: 'ci', key:'ci',  title: 'Ci', width: 170},
-    {dataIndex: 'fehaNacimiento', key:'fehaNacimiento' , title: 'Fecha Nacimiento', width: 170},
-    {dataIndex: 'correo', key:"correo",  title: 'Correo', width: 170},
-  ];
-
-  const menu : MenuListBg[] = [
-    {nombre:"Activos y Pasivos", icon: <AiOutlineUser></AiOutlineUser>,
-     items: [
-       {nombre:"Total Pasivos"}, 
-       {nombre:"Corrientes"},
-       {nombre:"Ahorros"},
-       {nombre:"Depositos A Plazo"},
-       {nombre:"Cartera y Conrigente"}
-     ] 
-   },
-    {nombre:"Cobertura", icon: <AiOutlineShop></AiOutlineShop>,
+  const menu : MenuListBg[] = menuBG;
+  const columnsGroup :ColumnasGrupo[] = [
+    {
+    tituloGrupo:"ANTERIOR",
     items: [
-      {nombre:"Total Cobertura"}     
-     ]
-   },
-    {nombre:"Informes", icon: <AiOutlineSolution></AiOutlineSolution>,
-    items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
-   },
-   {nombre:"Seguridad", icon: <AiOutlineUser></AiOutlineUser>,
-   items: [{nombre:"Usuarios"}, {nombre:"Roles"}] 
-   },
-   {nombre:"Configuraciones", icon: <AiOutlineShop></AiOutlineShop>,
-   items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
-   }
-   ]
-  let rows = new Array<any>();
+        {
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Cuentas', 
+          width: 100,
+          render: (objeto:any) =>  objeto.cuenta
+        },
+        {
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Saldos', 
+          width: 100,
+          render: (objeto:any) =>  objeto.saldo
+        },
+        {
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Tasa', 
+          width: 100,
+          render: (objeto:any) =>  objeto.tasa
+        }
+      ]
+    },
+    {
+    tituloGrupo:"ACTUAL",
+    items: [
+      {
+        dataIndex: 'actual', 
+        key:'actual', 
+        title: 'Cuentas', 
+        width: 100,
+        render: (objeto:any) =>  objeto.cuenta
+      },
+      {
+        dataIndex: 'actual', 
+        key:'actual', 
+        title: 'Saldos', 
+        width: 100,
+        render: (objeto:any) =>  objeto.saldo
+      },
+      {
+        dataIndex: 'actual', 
+        key:'actual', 
+        title: 'Tasa', 
+        width: 100,
+        render: (objeto:any) =>  objeto.tasa
+      }
+    ]
+    },
+    {
+      tituloGrupo:"VARIACION",
+      items: [      
+        {
+          dataIndex: 'variacion', 
+          key:'variacion', 
+          title: 'Saldos', 
+          width: 100,
+          render: (objeto:any) =>  objeto.saldo
+        },
+        {
+          dataIndex: 'actual', 
+          key:'actual', 
+          title: 'Tasa', 
+          width: 100,
+          render: (objeto:any) =>  objeto.tasa
+        }
+      ]
+      },
+]
+
+  let rows = new Array<DataSet>();
   for(let recorre = 0; recorre<300000; recorre++)
   {
     rows.push({
       key: recorre+1,
-      id:recorre+1,
-      nombre: "Nathalie Andrea",
-      apellido: "Bohorquez Velez",
-      ci: "0932312113",
-      fehaNacimiento : "1998/05/03",
-      correo: "leonel-14-velez@hotmail.com",
+      codigo : (recorre +1).toString(),
+      descripcion: "",
+      anterior: {cuenta:1, saldo : 2, tasa:3},
+      actual: {cuenta:1, saldo : 2, tasa:3},
+      variacion: {cuenta:1, saldo : 2, tasa:3}    
 })
   }
   return (
       <> 
-        <MenuBG items={menu} >
+        <MenuBG items={menu} tituloPaguna="Detalle Cuentas Ahorros" >
           <div className="flex" style={{justifyContent:"center"}}  >
-            <GridViewBG height={325} columns={columns} rows={rows} pagesize={10}  width={1200}/>
+            <GridViewBG height={325} columns={columnsGroup} rows={rows} pagesize={10}  width={1200}/>
           </div>
         </MenuBG>
         

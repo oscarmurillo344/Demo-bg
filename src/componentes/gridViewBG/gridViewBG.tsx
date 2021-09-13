@@ -6,12 +6,16 @@ import { Badge, Dropdown, Space, Table } from 'antd';
 import { DownloadOutlined, DownOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
+import { ColumnsType } from 'antd/lib/table';
+import ColumnGroup from 'rc-table/lib/sugar/ColumnGroup';
+import Column from 'rc-table/lib/sugar/Column';
+import ColumnasGrupo from '../../interfaces/columnasGrupos';
 
 interface GridViewBGProps{
     width:number;
     height:number,
     pagesize:number;
-    columns: GridColDef[]
+    columns: ColumnasGrupo[];
     rows : Array<any>    
 
 }
@@ -57,11 +61,31 @@ const GridViewBG = (props:GridViewBGProps)=>{
             className="components-table-demo-nested"
             pagination  ={{pageSize : props.pagesize}}
             style={{width:props.width}}
-            scroll ={{y:340}}
-            columns={props.columns}
+            scroll ={{y:340}}            
             expandable={{ expandedRowRender }}
-            dataSource={props.rows}
-          />
+            dataSource={props.rows}>
+            {
+              props.columns.map((recorre, index) =>{
+                return (
+                  <>
+                    <ColumnGroup key={index} title={recorre.tituloGrupo} >
+                      {recorre.items.map((recorreChildre, indexChildren)=>{
+                        return (<> 
+                          <Column title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
+                            width={recorreChildre.width} render={recorreChildre.render}                            
+                          />
+                        </>)
+                      })
+                      }
+                      
+                    </ColumnGroup>                   
+                  </>
+                )
+              })
+            }
+            
+          </Table>
+
         </div>
       );
 
