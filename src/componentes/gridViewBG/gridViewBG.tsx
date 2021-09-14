@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilte
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
 import { Badge, Dropdown, Space, Table } from 'antd';
-import { DownloadOutlined, DownOutlined, SelectOutlined } from '@ant-design/icons';
+import { DownloadOutlined, DownOutlined, FunnelPlotOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
 import { ColumnsType } from 'antd/lib/table';
@@ -17,77 +17,64 @@ interface GridViewBGProps{
     pagesize:number;
     columns: ColumnasGrupo[];
     rows : Array<any>    
-
+    onOpenDetalle : any;
+    buttonDownload?:boolean;
+    buttonFilter?:boolean;
 }
 
-
+const getColumnsGroup = (columns:any[])=>{
+  return columns.map((recorre, index) =>{
+    return (
+      <>
+        <ColumnGroup key={index} title={recorre.tituloGrupo} >
+          {recorre.items.map((recorreChildre:any, indexChildren:any)=>{
+            let render = undefined
+            if(recorreChildre.render)
+            {
+              render = recorreChildre.render
+            }
+            return (<> 
+              <Column   title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
+                width={recorreChildre.width} render={render}                            
+              />
+            </>)
+          })
+          }
+          
+        </ColumnGroup>                   
+      </>
+    )
+  })
+}
 const GridViewBG = (props:GridViewBGProps)=>{
 
-    const expandedRowRender = () => {
-        const columns: any[] = [
-            {dataIndex: 'ruc', title: 'Ruc', width: 160},
-            {dataIndex: 'empresa', title: 'Empresa', width: 170},      
-            {dataIndex: 'direccion', title: 'Direccion', width: 170},
-       
-          ];
-    
-        const rows = [
-        {
-        ruc: 1,
-        empresa: "Nathalie Andrea",
-        direccion: "Bohorquez Velez"       
-        },
-        {
-        ruc: 2,
-        empresa: "Nathalie Andrea",
-        direccion: "Bohorquez Velez"       
-        },
-        {
-        ruc: 3,
-        empresa: "Nathalie Andrea",
-        direccion: "Bohorquez Velez"       
-        }
-        ]
-        return <Table columns={columns} dataSource={rows} pagination={false} />;
-      };
-     
-      return (
-        <div>
-          <div className="acciones">
-          <ButtonBG color="#bc157c" text="Exportar EXCEL" type="outline" icon={<DownloadOutlined />} /> 
-          </div>
-          
-          <Table
-            className="components-table-demo-nested"
-            pagination  ={{pageSize : props.pagesize}}
-            style={{width:props.width}}
-            scroll ={{y:340}}            
-            expandable={{ expandedRowRender }}
-            dataSource={props.rows}>
-            {
-              props.columns.map((recorre, index) =>{
-                return (
-                  <>
-                    <ColumnGroup key={index} title={recorre.tituloGrupo} >
-                      {recorre.items.map((recorreChildre, indexChildren)=>{
-                        return (<> 
-                          <Column title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
-                            width={recorreChildre.width} render={recorreChildre.render}                            
-                          />
-                        </>)
-                      })
-                      }
-                      
-                    </ColumnGroup>                   
-                  </>
-                )
-              })
-            }
-            
-          </Table>
-
+  const expandedRowRender = (e:any) => {
+      const retorno = props.onOpenDetalle(e)
+      return <Table scroll={{y:340}} dataSource={retorno.rows} pagination={false}>  {getColumnsGroup(retorno.columns)}  </Table>;
+    };
+  
+    return (
+      <div>
+        <div className="acciones">          
+        <ButtonBG style={{display: `${props.buttonDownload? "inline" : "none"}` }}   text="Exportar EXCEL" type="outline" icon={<DownloadOutlined />} /> 
+        <ButtonBG style={{display: `${props.buttonFilter? "inline" : "none"}` }}   text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
         </div>
-      );
+        
+        <Table
+          className="components-table-demo-nested"
+          pagination  ={{pageSize : props.pagesize}}
+          style={{width:props.width}}
+          scroll ={{y:340}}            
+          expandable={{ expandedRowRender }}
+          dataSource={props.rows}>
+          {
+            getColumnsGroup(props.columns)
+          }
+          
+        </Table>
+
+      </div>
+    );
 
   
 }

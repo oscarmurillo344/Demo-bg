@@ -4,10 +4,11 @@ import React, { CSSProperties, useState } from 'react';
 import './buttonBG.css'
 interface ButtonBGProps
 {
-    color:string;
+    
     type : "outline" | "normal"
     text:string;
     icon?:any;
+    style?:CSSProperties;
 }
 
 const ButtonBG = (props:ButtonBGProps)=>
@@ -24,7 +25,7 @@ const ButtonBG = (props:ButtonBGProps)=>
     }
 
     return (<> 
-        <Button shape="round" className={classe} type={type} icon={props.icon}> {props.text}</Button>        
+        <Button shape="round" style={props.style} className={classe} type={type} icon={props.icon}> {props.text}</Button>        
     </>)
 }
 

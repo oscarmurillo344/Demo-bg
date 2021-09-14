@@ -21,14 +21,19 @@
 .normal{
     color: white;
     background: #bc157c;
+    border-color: #bc157c;
 }
 
 .normal:hover{
     color: white;
     background: #bc157c;
+    border-color: #bc157c;
+
 }
 
 .normal:focus{
     color: white;
     background: #bc157c;
+    border-color: #bc157c;
+
 }

@@ -99,11 +99,118 @@ function App() {
       variacion: {cuenta:1, saldo : 2, tasa:3}    
 })
   }
+  const onOpenDetalle = (e:any) : any =>
+  {
+    console.log(e) //objeto obtenido cuando se abre el detalle
+    const columns :ColumnasGrupo[] = [
+      {
+        tituloGrupo: "",
+        items : [{
+          dataIndex: 'codigo', 
+          key:'codigo', 
+          title: 'Codigo', 
+          width: 100,
+        },
+        {
+          dataIndex: 'descripcion', 
+          key:'descripcion', 
+          title: 'Descripcion', 
+          width: 100,
+        }
+      ]
+      },
+      {
+      tituloGrupo:"ANTERIOR",
+      items: [
+          {
+            dataIndex: 'anterior', 
+            key:'anterior', 
+            title: 'Cuentas', 
+            width: 100,
+            render: (objeto:any) =>  objeto.cuenta
+          },
+          {
+            dataIndex: 'anterior', 
+            key:'anterior', 
+            title: 'Saldos', 
+            width: 100,
+            render: (objeto:any) =>  objeto.saldo
+          },
+          {
+            dataIndex: 'anterior', 
+            key:'anterior', 
+            title: 'Tasa', 
+            width: 100,
+            render: (objeto:any) =>  objeto.tasa
+          }
+        ]
+      },
+      {
+      tituloGrupo:"ACTUAL",
+      items: [
+        {
+          dataIndex: 'actual', 
+          key:'actual', 
+          title: 'Cuentas', 
+          width: 100,
+          render: (objeto:any) =>  objeto.cuenta
+        },
+        {
+          dataIndex: 'actual', 
+          key:'actual', 
+          title: 'Saldos', 
+          width: 100,
+          render: (objeto:any) =>  objeto.saldo
+        },
+        {
+          dataIndex: 'actual', 
+          key:'actual', 
+          title: 'Tasa', 
+          width: 100,
+          render: (objeto:any) =>  objeto.tasa
+        }
+      ]
+      },
+      {
+        tituloGrupo:"VARIACION",
+        items: [      
+          {
+            dataIndex: 'variacion', 
+            key:'variacion', 
+            title: 'Saldos', 
+            width: 100,
+            render: (objeto:any) =>  objeto.saldo
+          },
+          {
+            dataIndex: 'actual', 
+            key:'actual', 
+            title: 'Tasa', 
+            width: 100,
+            render: (objeto:any) =>  objeto.tasa
+          }
+        ]
+      }  
+    ]
+
+    let rows = new Array<DataSet>();
+    for(let recorre = 0; recorre<10; recorre++)
+    {
+      rows.push({
+        key: recorre+1,
+        codigo : (recorre +1).toString(),
+        descripcion: "descripcion",
+        anterior: {cuenta:1, saldo : 2, tasa:3},
+        actual: {cuenta:1, saldo : 2, tasa:3},
+        variacion: {cuenta:1, saldo : 2, tasa:3}      
+    })
+  }
+    return {columns: columns, rows: rows}
+  }
   return (
       <> 
-        <MenuBG items={menu} tituloPaguna="Detalle Cuentas Ahorros" >
+        <MenuBG items={menu} tituloPagina="Detalle Cuentas Ahorros" >
           <div className="flex" style={{justifyContent:"center"}}  >
-            <GridViewBG height={325} columns={columnsGroup} rows={rows} pagesize={10}  width={1200}/>
+            <GridViewBG buttonDownload={true} buttonFilter={true}  onOpenDetalle={onOpenDetalle} height={325} columns={columnsGroup} rows={rows} pagesize={10}  width={1200}/>
           </div>
         </MenuBG>
         

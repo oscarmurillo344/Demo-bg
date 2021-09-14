@@ -15,7 +15,7 @@ import MenuListBg from '../../interfaces/menu';
 interface MenuBGProps
 {
   items: MenuListBg[]
-  tituloPaguna :string;
+  tituloPagina :string;
 }
 export default class MenuBG extends React.Component<MenuBGProps, any>
 {
@@ -85,7 +85,7 @@ export default class MenuBG extends React.Component<MenuBGProps, any>
                 </div>                         
           </MenuBurger>          
           <div className="descripcion-pantalla" >
-                    {this.props.tituloPaguna}
+                    {this.props.tituloPagina}
           </div>
         </div>
         <div style={{marginTop:"60px"}}>
