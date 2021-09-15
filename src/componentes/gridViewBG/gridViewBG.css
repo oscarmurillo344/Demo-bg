@@ -24,3 +24,13 @@
     margin-left: 10px;
     
 }
+
+.accionesModal {
+    justify-content: end;
+    margin-bottom: 20px;
+}
+
+.accionesModal > *
+{
+    margin-left: 10px;
+}

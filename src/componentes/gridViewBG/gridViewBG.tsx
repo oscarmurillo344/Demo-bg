@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilte
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
 import { Badge, Dropdown, Modal, Space, Table, Select } from 'antd';
-import { DownloadOutlined, DownOutlined, FunnelPlotOutlined, PlusOutlined, SelectOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DownloadOutlined, DownOutlined, FunnelPlotOutlined, PlusOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
 import { ColumnsType } from 'antd/lib/table';
@@ -81,6 +81,14 @@ const GridViewBG = (props:GridViewBGProps)=>{
     ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))
     setElementosFiltros(oldElements)
   }
+  const quitarFiltrosAll = ()=>{
+    
+    
+    ReactDOM.render(<> </>, document.getElementById("contenedorFiltro"))
+    setElementosFiltros([])   
+    setBadge(0) 
+    setFiltro(false)
+  }
   const okModal = ()=>{
     setFiltro(false)
     setBadge(elementosFiltros.length)
@@ -90,8 +98,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
     return (
       <> 
          <Modal style={{height:"1000px"}}  title="Filtros" visible={filtro} onOk={okModal}  onCancel={()=>setFiltro(false)} >
-           <div className="flex row" style={{justifyContent:"end"}}  > 
-            <ButtonBG text="Agregar Filtro" type="outline" onClick={agregarFiltro} icon={<PlusOutlined />} />
+           <div className="flex row accionesModal"  > 
+              <ButtonBG text="Limpiar" type="normal" onClick={quitarFiltrosAll}  icon={<DeleteOutlined />} />
+              <ButtonBG text="Agregar Filtro" type="outline" onClick={agregarFiltro} icon={<PlusOutlined />} />
            </div>
            <div> </div>
             <div id="contenedorFiltro" className="flex colum contenedorFiltro"  >
