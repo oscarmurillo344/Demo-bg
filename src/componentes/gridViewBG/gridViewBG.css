@@ -9,3 +9,18 @@
     margin-right: 10px;
 }
 
+.contenedorFiltro{
+    
+    align-items: flex-start;
+}
+
+.contenedorFiltro .elementoFiltro{
+    justify-content: center;
+    margin-bottom: 20px;
+
+}
+
+.contenedorFiltro .elementoFiltro > *{
+    margin-left: 10px;
+    
+}
