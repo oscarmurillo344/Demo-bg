@@ -27,6 +27,7 @@ interface GridViewBGProps{
 const GridViewBG = (props:GridViewBGProps)=>{
   const [filtro, setFiltro] = useState(false)
   const [elementosFiltros, setElementosFiltros] = useState(Array)
+  const [badge, setBadge] = useState(0)
   const getColumnsGroup = (columns:any[])=>{
     return columns.map((recorre, index) =>{
       return (
@@ -80,11 +81,15 @@ const GridViewBG = (props:GridViewBGProps)=>{
     ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))
     setElementosFiltros(oldElements)
   }
+  const okModal = ()=>{
+    setFiltro(false)
+    setBadge(elementosFiltros.length)
+  }
   const modal = ()=>
   {
     return (
       <> 
-         <Modal style={{height:"1000px"}}  title="Filtros" visible={filtro} onOk={()=>setFiltro(false)}  onCancel={()=>setFiltro(false)} >
+         <Modal style={{height:"1000px"}}  title="Filtros" visible={filtro} onOk={okModal}  onCancel={()=>setFiltro(false)} >
            <div className="flex row" style={{justifyContent:"end"}}  > 
             <ButtonBG text="Agregar Filtro" type="outline" onClick={agregarFiltro} icon={<PlusOutlined />} />
            </div>
@@ -101,9 +106,8 @@ const GridViewBG = (props:GridViewBGProps)=>{
         <div className="acciones">          
         <ButtonBG style={{display: `${props.buttonDownload? "inline" : "none"}` }}   text="Exportar EXCEL" type="outline" icon={<DownloadOutlined />} /> 
 
-        <Badge count={1} color="#bc157c" > 
+        <Badge count={badge} color="#bc157c" > 
           <ButtonBG style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
-
         </Badge>
         
         </div>
