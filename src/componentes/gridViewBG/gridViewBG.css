@@ -12,6 +12,7 @@
 .contenedorFiltro{
     
     align-items: flex-start;
+    justify-content: center;
 }
 
 .contenedorFiltro .elementoFiltro{
@@ -33,4 +34,9 @@
 .accionesModal > *
 {
     margin-left: 10px;
+}
+
+.elementoFiltro .iconEliminar:hover
+{
+    cursor: pointer;
 }

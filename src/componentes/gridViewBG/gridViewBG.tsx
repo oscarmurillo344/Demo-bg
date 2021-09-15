@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilte
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
 import { Badge, Dropdown, Modal, Space, Table, Select } from 'antd';
-import { DeleteOutlined, DownloadOutlined, DownOutlined, FunnelPlotOutlined, PlusOutlined, SelectOutlined } from '@ant-design/icons';
+import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FunnelPlotOutlined, PlusOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
 import { ColumnsType } from 'antd/lib/table';
@@ -23,10 +23,14 @@ interface GridViewBGProps{
     buttonFilter?:boolean;
 }
 
+interface GridViewBGModalState {
+  id:number;
+  element:any
+}
 
 const GridViewBG = (props:GridViewBGProps)=>{
   const [filtro, setFiltro] = useState(false)
-  const [elementosFiltros, setElementosFiltros] = useState(Array)
+  const [elementosFiltros, setElementosFiltros] = useState<Array<GridViewBGModalState>>([])
   const [badge, setBadge] = useState(0)
   const getColumnsGroup = (columns:any[])=>{
     return columns.map((recorre, index) =>{
@@ -63,10 +67,13 @@ const GridViewBG = (props:GridViewBGProps)=>{
     return (
       <> 
           <div className="flex row elementoFiltro" key={id}   >
-          <Select defaultValue="lucy" style={{ width: 120 }} >
-            <option value="jack">Jack</option>
+            <Select defaultValue="Seleccione" style={{ width: 150 }} >
+              <option value="0">Opcion 1</option>            
+            </Select>
+            <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
+              <CloseOutlined className="iconEliminar" onClick={()=>{quitarFiltro(id)}} />
+            </div>
             
-          </Select>
           </div>
       </>
     )
@@ -74,12 +81,16 @@ const GridViewBG = (props:GridViewBGProps)=>{
   let contador = 0;
   const agregarFiltro =()=>{
     const oldElements = elementosFiltros
-    oldElements.push(elementoFiltro(contador++))
-    const elementos = React.createElement("div", {}, oldElements.map((recorre, index)=>{
-      return <div key={index} > {recorre} </div>
+    oldElements?.push({id:contador++, element: elementoFiltro(contador++)})
+    const elementos = React.createElement("div", {}, oldElements?.map((recorre, index)=>{      
+      return <div key={index} > {recorre.element} </div>
     }))
+
     ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))
     setElementosFiltros(oldElements)
+  }
+  const quitarFiltro = (id:number)=>{
+    console.log(id)
   }
   const quitarFiltrosAll = ()=>{
     
@@ -91,7 +102,11 @@ const GridViewBG = (props:GridViewBGProps)=>{
   }
   const okModal = ()=>{
     setFiltro(false)
-    setBadge(elementosFiltros.length)
+    if(elementosFiltros)
+    {
+      setBadge(elementosFiltros.length)
+    }
+    
   }
   const modal = ()=>
   {
