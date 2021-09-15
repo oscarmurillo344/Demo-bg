@@ -210,10 +210,17 @@ function App() {
       <> 
         <MenuBG items={menu} tituloPagina="Detalle Cuentas Ahorros" >
           <div className="flex" style={{justifyContent:"center"}}  >
-            <GridViewBG buttonDownload={true} buttonFilter={true}  onOpenDetalle={onOpenDetalle} height={325} columns={columnsGroup} rows={rows} pagesize={10}  width={1200}/>
+            <GridViewBG 
+            buttonDownload={true} 
+            buttonFilter={true}  
+            onOpenDetalle={onOpenDetalle} 
+            height={325} 
+            columns={columnsGroup} 
+            rows={rows} 
+            pagesize={10}  
+            width={1200}/>
           </div>
-        </MenuBG>
-        
+        </MenuBG>        
       </>
   );
 }

@@ -9,6 +9,7 @@ interface ButtonBGProps
     text:string;
     icon?:any;
     style?:CSSProperties;
+    onClick?: any;
 }
 
 const ButtonBG = (props:ButtonBGProps)=>
@@ -23,9 +24,14 @@ const ButtonBG = (props:ButtonBGProps)=>
         classe = "outline"
         type = "ghost"
     }
-
+    const onClick = ()=>{
+        if(props.onClick)
+        {
+            props.onClick()
+        }        
+    }
     return (<> 
-        <Button shape="round" style={props.style} className={classe} type={type} icon={props.icon}> {props.text}</Button>        
+        <Button shape="round" onClick={onClick} style={props.style} className={classe} type={type} icon={props.icon}> {props.text}</Button>        
     </>)
 }
 
