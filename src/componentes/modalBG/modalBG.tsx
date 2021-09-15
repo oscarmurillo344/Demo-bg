@@ -89,7 +89,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         return (
           <> 
               <div className="flex row elementoFiltro" key={id}   >
-                <Select defaultValue="Seleccione" style={{ width: 150 }} >
+                <Select defaultValue="0" style={{ width: 150 }} >
+                  <option value="-1" selected>Seleccione</option>            
                   <option value="0">Opcion 1</option>            
                 </Select>
                 <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
@@ -104,21 +105,27 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
       agregarFiltro =async ()=>{
         
         const oldElements = this.ElementosFiltro()
-        const idAsignada= this.ElementosFiltro().length;
+        const elementosOrdenados = oldElements.sort((a,b)=>a.id - b.id)
+        
+        let idAsignada = 0
+        if(elementosOrdenados.length > 0)
+        {
+            idAsignada = elementosOrdenados[elementosOrdenados.length - 1].id + 1;
+        }
+        
         oldElements?.push({id:idAsignada, element: this.createElementoFiltro(idAsignada)})
         await this.setElementosFiltro(oldElements)     
-        console.log(this.ElementosFiltro())      
+        console.log(this.ElementosFiltro())
         const elementos = React.createElement("div", {}, this.ElementosFiltro()?.map((recorre, index)=>{      
         return <div key={index} > {recorre.element} </div>
         }))
-        ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))
+        ReactDOM.render(elementos, document.getElementById("contenedorFiltro")) 
         
       }
     
       
     
       quitarFiltro = async (idIngreso:number)=>{
-        console.log(idIngreso)
         console.log(this.ElementosFiltro())
         const retorno = this.ElementosFiltro().filter(x=>x.id !== idIngreso)
         console.log(retorno)
