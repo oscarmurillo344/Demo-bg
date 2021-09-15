@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilterItem, GridFilterModel, GridLinkOperator, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@material-ui/data-grid';
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
@@ -11,6 +11,7 @@ import ColumnGroup from 'rc-table/lib/sugar/ColumnGroup';
 import Column from 'rc-table/lib/sugar/Column';
 import ColumnasGrupo from '../../interfaces/columnasGrupos';
 import ReactDOM from 'react-dom';
+import ModalBG from '../modalBG/modalBG';
 
 interface GridViewBGProps{
     width:number;
@@ -27,10 +28,9 @@ interface GridViewBGModalState {
   id:number;
   element:any
 }
-
+let validarRefencia = 0;
 const GridViewBG = (props:GridViewBGProps)=>{
-  const [filtro, setFiltro] = useState(false)
-  const [elementosFiltros, setElementosFiltros] = useState<Array<GridViewBGModalState>>([])
+  const [open, setOpen] = useState(false)
   const [badge, setBadge] = useState(0)
   const getColumnsGroup = (columns:any[])=>{
     return columns.map((recorre, index) =>{
@@ -60,71 +60,27 @@ const GridViewBG = (props:GridViewBGProps)=>{
       const retorno = props.onOpenDetalle(e)
       return <Table scroll={{y:340}} dataSource={retorno.rows} pagination={false}>  {getColumnsGroup(retorno.columns)}  </Table>;
     };
-  const onOpenModal = ()=>{
-    setFiltro(true)
-  }
-  const elementoFiltro = (id:number)=>{
-    return (
-      <> 
-          <div className="flex row elementoFiltro" key={id}   >
-            <Select defaultValue="Seleccione" style={{ width: 150 }} >
-              <option value="0">Opcion 1</option>            
-            </Select>
-            <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
-              <CloseOutlined className="iconEliminar" onClick={()=>{quitarFiltro(id)}} />
-            </div>
-            
-          </div>
-      </>
-    )
-  }
-  let contador = 0;
-  const agregarFiltro =()=>{
-    const oldElements = elementosFiltros
-    oldElements?.push({id:contador++, element: elementoFiltro(contador++)})
-    const elementos = React.createElement("div", {}, oldElements?.map((recorre, index)=>{      
-      return <div key={index} > {recorre.element} </div>
-    }))
-
-    ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))
-    setElementosFiltros(oldElements)
-  }
-  const quitarFiltro = (id:number)=>{
-    console.log(id)
-  }
-  const quitarFiltrosAll = ()=>{
-    
-    
-    ReactDOM.render(<> </>, document.getElementById("contenedorFiltro"))
-    setElementosFiltros([])   
-    setBadge(0) 
-    setFiltro(false)
-  }
-  const okModal = ()=>{
-    setFiltro(false)
-    if(elementosFiltros)
-    {
-      setBadge(elementosFiltros.length)
+    const onOpenModal = ()=>{
+      console.log("entro")
+      setOpen(true)
+      
     }
-    
-  }
-  const modal = ()=>
-  {
-    return (
-      <> 
-         <Modal style={{height:"1000px"}}  title="Filtros" visible={filtro} onOk={okModal}  onCancel={()=>setFiltro(false)} >
-           <div className="flex row accionesModal"  > 
-              <ButtonBG text="Limpiar" type="normal" onClick={quitarFiltrosAll}  icon={<DeleteOutlined />} />
-              <ButtonBG text="Agregar Filtro" type="outline" onClick={agregarFiltro} icon={<PlusOutlined />} />
-           </div>
-           <div> </div>
-            <div id="contenedorFiltro" className="flex colum contenedorFiltro"  >
-                 
-            </div>
-        </Modal>
-      </>
-    )
-  }
+
+    const onOk = (e:any)=>
+    { 
+      setOpen(false)
+      setBadge(e)
+    }
+
+    const onCancel = ()=>{
+      setOpen(false)
+    }
+
+    const onClearFiltro = ()=>{
+      setBadge(0)
+      setOpen(false)
+
+    }
     return (
       <div>
         <div className="acciones">          
@@ -149,10 +105,12 @@ const GridViewBG = (props:GridViewBGProps)=>{
           
         </Table>
         {
-          modal()
+          <ModalBG open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
         }
       </div>
     );
+
+        
 
   
 }
