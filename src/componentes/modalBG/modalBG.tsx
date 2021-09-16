@@ -18,26 +18,10 @@ interface ModalBGState {
     
 }
 
-interface catalogosCampos{
 
-}
 
-interface catalogosValues{
-
-}
-
-interface informacionFiltros{
-
-}
-
-interface filtroSeleccionado{
-    idContainer:number,
-    campoValue:number;
-
-}
 export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
 {
-    filtrosSeleccionados = new Array<filtroSeleccionado>()
 
     constructor(props:ModalBGProps){
         super(props)
