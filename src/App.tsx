@@ -222,7 +222,7 @@ function App() {
             height={325} 
             columns={columnsGroup} 
             rows={rows} 
-            pagesize={10}  
+            pagesize={6}  
             width={1200}
             filtroCatalogoValues = {filtroCatalogoValues}
             filtroCatalogoCampos = {CatalogoCampos}

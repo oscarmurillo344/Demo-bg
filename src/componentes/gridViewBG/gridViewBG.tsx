@@ -100,7 +100,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
         
         <Table
           className="components-table-demo-nested"
-          pagination  ={{pageSize : props.pagesize}}
+          
           style={{width:props.width}}
           scroll ={{y:340}}            
           expandable={{ expandedRowRender }}

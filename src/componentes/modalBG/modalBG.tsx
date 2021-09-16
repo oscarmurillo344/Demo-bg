@@ -94,7 +94,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                <ButtonBG text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />
             </div>
             <div> </div>
-             <div id="contenedorFiltro" className="flex row contenedorFiltro"  style={{overflowY:"scroll", height:"400px"}} >
+             <div id="contenedorFiltro" className="flex row contenedorFiltro"  style={{overflowY:"scroll", maxHeight:"400px"}} >
                   
              </div>
             </Modal>
