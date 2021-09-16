@@ -17,11 +17,29 @@ interface ModalBGState {
     filtros : Array<any>
     
 }
+
+interface catalogosCampos{
+
+}
+
+interface catalogosValues{
+
+}
+
+interface informacionFiltros{
+
+}
+
+interface filtroSeleccionado{
+    idContainer:number,
+    campoValue:number;
+
+}
 export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
 {
-    
+    filtrosSeleccionados = new Array<filtroSeleccionado>()
+
     constructor(props:ModalBGProps){
-    
         super(props)
         this.state = {
             open: this.props.open,
@@ -86,11 +104,12 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     }
       
     createElementoFiltro = (id:number)=>{
+        
         return (
           <> 
               <div className="flex row elementoFiltro" key={id}   >
-                <Select defaultValue="0" style={{ width: 150 }} >
-                  <option value="-1" selected>Seleccione</option>            
+                <Select key={`${id}-0`}  defaultValue="-1" style={{ width: 150 }} >
+                  <option value="-1">Campos</option>  
                   <option value="0">Opcion 1</option>            
                 </Select>
                 <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
@@ -101,6 +120,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
           </>
         )
       }
+
+     
       
       agregarFiltro =async ()=>{
         
@@ -113,11 +134,14 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             idAsignada = elementosOrdenados[elementosOrdenados.length - 1].id + 1;
         }
         
-        oldElements?.push({id:idAsignada, element: this.createElementoFiltro(idAsignada)})
+        oldElements?.push({id:idAsignada, element: this.createElementoFiltro(idAsignada), estado:true}, )
         await this.setElementosFiltro(oldElements)     
         console.log(this.ElementosFiltro())
         const elementos = React.createElement("div", {}, this.ElementosFiltro()?.map((recorre, index)=>{      
-        return <div key={index} > {recorre.element} </div>
+            if(recorre.estado)
+            {
+                return <div key={index} > {recorre.element} </div>
+            }        
         }))
         ReactDOM.render(elementos, document.getElementById("contenedorFiltro")) 
         
@@ -126,12 +150,25 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
       
     
       quitarFiltro = async (idIngreso:number)=>{
-        console.log(this.ElementosFiltro())
-        const retorno = this.ElementosFiltro().filter(x=>x.id !== idIngreso)
-        console.log(retorno)
-        await this.setElementosFiltro(retorno) 
-        const elementos = React.createElement("div", {}, this.ElementosFiltro()?.map((recorre, index)=>{      
-            return <div key={index} > {recorre.element} </div>
+        const retorno = this.ElementosFiltro().map(x=>{
+            if(x.estado)
+            {
+                if(x.id === idIngreso)
+                {
+                    x.estado = false;
+                }
+            }            
+            return x;
+        })
+        
+        await this.setElementosFiltro(retorno)         
+        const elementos = React.createElement("div", {}, this.ElementosFiltro()?.map((recorre, index)=>{   
+            if(recorre.estado)
+            {
+                return <div key={index} >  {recorre.element} </div>    
+            }
+            
+            
             }))
         ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))
                  
@@ -148,7 +185,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
       okModal = ()=>{
         if(this.props.onOk)
         {
-            this.props.onOk(this.ElementosFiltro().length)
+            this.props.onOk(this.ElementosFiltro().filter(x=>x.estado).length)
         }
           
       }
