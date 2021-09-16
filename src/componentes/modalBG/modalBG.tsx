@@ -1,7 +1,8 @@
 import { CloseOutlined, DeleteOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Modal, Select } from 'antd'
+import { DatePicker, Input, Modal, Select } from 'antd'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { catalogosCampos, catalogosFiltros, informacionFiltros } from '../../interfaces/filtros'
 import ButtonBG from '../buttonBG/buttonBG'
 const  {confirm} =  Modal;
 interface ModalBGProps {
@@ -9,13 +10,22 @@ interface ModalBGProps {
     onOk  :any;
     onCancel  :any;
     onClearFiltro :any;
+    filtroCatalogoCampos: catalogosCampos[];
+    filtroCatalogo: catalogosFiltros[];
+    filtroInformacion: informacionFiltros[]
     
 }
 
 interface ModalBGState {
     open:boolean;
     filtros : Array<any>
+    tipoCatalogo: Array<ModalBGStateCatalogo>
     
+}
+
+interface ModalBGStateCatalogo{
+    idContainer:number;
+    tipoDato:string
 }
 
 
@@ -27,12 +37,16 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         super(props)
         this.state = {
             open: this.props.open,
-            filtros : []
+            filtros : [],
+            tipoCatalogo: []            
+            
+            
         }
     }
     async componentDidUpdate(prevProps:ModalBGProps)
     {
-        console.log("si vengo pa aca")
+        
+
         if(prevProps !== this.props)
         {
             console.log("enrto")
@@ -87,15 +101,29 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         this.setOpen(true)
     }
       
-    createElementoFiltro = (id:number)=>{
-        
+    createElementoFiltro = (id:number)=>{        
         return (
           <> 
               <div className="flex row elementoFiltro" key={id}   >
-                <Select key={`${id}-0`}  defaultValue="-1" style={{ width: 150 }} >
+                <Select key={`${id}-campo`} onChange={(e)=>this.onChaneCampo({value:e, id:id})} defaultValue="-1" style={{ width: 150 }} >
                   <option value="-1">Campos</option>  
-                  <option value="0">Opcion 1</option>            
+                  {
+                      this.props.filtroCatalogoCampos.map((recorre, index)=>{
+                        return <option key={index} value={recorre.cammpo}>{recorre.cammpo}</option>                      
+                      })
+                  }                  
                 </Select>
+                
+                
+                <Select key={`${id}-clausula`} style={{ width: 150}} defaultValue="-1"  >
+                     <option value="-1">Clausula</option>  
+                    {
+                        this.props.filtroCatalogo.map((recorre, index)=>{
+                            return <option key={index} value={recorre.id}>{recorre.value}</option>                      
+                        })
+                    }               
+                </Select>    
+                <Input key={`${id}-valor`} placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "string").length > 0? "inline" : "none" }} />
                 <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
                   <CloseOutlined className="iconEliminar" onClick={()=>{this.quitarFiltro(id)}} />
                 </div>
@@ -104,8 +132,52 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
           </>
         )
       }
+ 
+     onChaneCampo = (e:any)=>{
+        const tipoDato = this.props.filtroInformacion.find(x=>x.campo === e.value)?.tipoDato
+       if(this.state.tipoCatalogo.length === 0)
+       {
+            this.setState({...this.state, tipoCatalogo:[{idContainer:e.id, tipoDato:tipoDato || ""}] }, ()=>{
+                const newFiltro = this.ElementosFiltro().map(recorre =>{
+                    if(recorre.id === e.id)
+                    {
+                        recorre.element = this.createElementoFiltro(e.id)
+                    }     
+                    return recorre       
+                })
+                this.setElementosFiltro(newFiltro).then(()=>{
+                    this.renderFiltro()
+                })
+            })
+       }else{
+        let tipoCatalogoAux = this.state.tipoCatalogo
+        if(this.state.tipoCatalogo.filter(x=>x.idContainer === e.id).length > 0)
+        {
+            tipoCatalogoAux.map(recorre =>{
+                if(recorre.tipoDato === e.id)
+                {
+                    recorre.tipoDato =  tipoDato || ""
+                }
+                
+            })
+        }else{
+            tipoCatalogoAux.push({idContainer:e.id, tipoDato:tipoDato || ""})
+        }
+        
+            const newFiltro = this.ElementosFiltro().map(recorre =>{
+                if(recorre.id === e.id)
+                {
+                    recorre.element = this.createElementoFiltro(e.id)
+                }     
+                return recorre       
+            })
+            this.setElementosFiltro(newFiltro).then(()=>{
+                this.renderFiltro()
+            })
 
-     
+       }
+
+     }
       
       agregarFiltro =async ()=>{
         
@@ -163,6 +235,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         
         ReactDOM.render(<> </>, document.getElementById("contenedorFiltro"))
         await this.setElementosFiltro([])     
+        await this.setState({...this.state, tipoCatalogo: []})
         this.props.onClearFiltro(0)      
         
       }
@@ -179,5 +252,15 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         {
             this.props.onCancel()
         }
+      }
+
+      renderFiltro = ()=>{
+        const elementos = React.createElement("div", {}, this.ElementosFiltro()?.map((recorre, index)=>{      
+            if(recorre.estado)
+            {
+                return <div key={index} > {recorre.element} </div>
+            }        
+        }))
+        ReactDOM.render(elementos, document.getElementById("contenedorFiltro")) 
       }
 }

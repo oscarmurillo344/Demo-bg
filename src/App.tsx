@@ -218,7 +218,21 @@ function App() {
             columns={columnsGroup} 
             rows={rows} 
             pagesize={10}  
-            width={1200}/>
+            width={1200}
+            filtroCatalogoCampos = {[{cammpo:"edad"}]}
+            filtroCatalogo = {[{
+              tipoDato:"string",
+              id:"=",
+              value:"igual a"
+            }]}
+            filtroInformacion = {[
+              {
+                campo : "edad",
+                tipoDato : "string",
+                esCatalogo: true
+              }
+            ]}
+            />
           </div>
         </MenuBG>        
       </>

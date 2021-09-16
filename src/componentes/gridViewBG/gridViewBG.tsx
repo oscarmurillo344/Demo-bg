@@ -12,6 +12,7 @@ import Column from 'rc-table/lib/sugar/Column';
 import ColumnasGrupo from '../../interfaces/columnasGrupos';
 import ReactDOM from 'react-dom';
 import ModalBG from '../modalBG/modalBG';
+import { catalogosCampos, catalogosFiltros, catalogosValues, informacionFiltros } from '../../interfaces/filtros';
 
 interface GridViewBGProps{
     width:number;
@@ -22,6 +23,10 @@ interface GridViewBGProps{
     onOpenDetalle : any;
     buttonDownload?:boolean;
     buttonFilter?:boolean;
+    filtroCatalogoCampos: catalogosCampos[];
+    filtroCatalogo: catalogosFiltros[];
+    filtroInformacion: informacionFiltros[];
+    
 }
 
 interface GridViewBGModalState {
@@ -105,7 +110,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
           
         </Table>
         {
-          <ModalBG open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
+          <ModalBG  filtroCatalogo = {props.filtroCatalogo} filtroCatalogoCampos = {props.filtroCatalogoCampos} filtroInformacion={props.filtroInformacion} open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
         }
       </div>
     );
