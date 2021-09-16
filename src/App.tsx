@@ -11,6 +11,9 @@ import { ColumnsType } from 'antd/lib/table';
 import menuBG from './menu'
 import ColumnasGrupo from './interfaces/columnasGrupos';
 import DataSet from './interfaces/cuentaAhorros';
+import filtroCatalogoValues from './data/catalogoValores';
+import filtroCatalogo from './data/catalogoClausula';
+import informacionFiltro from './data/informacionFiltro';
 function App() {
   const menu : MenuListBg[] = menuBG;
   const columnsGroup :ColumnasGrupo[] = [
@@ -219,40 +222,10 @@ function App() {
             rows={rows} 
             pagesize={10}  
             width={1200}
-            filtroCatalogoValues = {[
-              {
-                campo:"edad",
-                id: "0",
-                value: "23"
-              }
-            ]}
-            filtroCatalogoCampos = {[
-              {cammpo:"edad"},
-              {cammpo:"fecha"}              
-              
-            ]}
-            filtroCatalogo = {[{
-              tipoDato:"string",
-              id:"=",
-              value:"igual a"
-            },
-            
-          
-          ]}
-            filtroInformacion = {[
-              {
-                campo : "edad",
-                tipoDato : "string",
-                esCatalogo: true
-              
-            },
-            {
-              campo : "fecha",
-              tipoDato : "date",
-              esCatalogo: false
-            
-            }
-            ]}
+            filtroCatalogoValues = {filtroCatalogoValues}
+            filtroCatalogoCampos = {filtroCatalogoCampos}
+            filtroCatalogo = {filtroCatalogo}
+            filtroInformacion = {informacionFiltro}
             />
           </div>
         </MenuBG>        
