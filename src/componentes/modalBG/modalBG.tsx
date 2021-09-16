@@ -1,9 +1,9 @@
-import { CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons'
+import { CloseOutlined, DeleteOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Modal, Select } from 'antd'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ButtonBG from '../buttonBG/buttonBG'
-
+const  {confirm} =  Modal;
 interface ModalBGProps {
     open:boolean;
     onOk  :any;
@@ -65,7 +65,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         })
         
     }
-
+    
     Open = ()=>{
         return this.state.open
     }
@@ -88,7 +88,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         return (
             <Modal style={{height:"1000px"}}  title="Filtros" visible={this.state.open} onOk={this.okModal}  onCancel={this.cancelModla} >
             <div className="flex row accionesModal"  > 
-               <ButtonBG text="Limpiar" type="normal" onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
+               <ButtonBG text="Limpiar" type="normal" style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}}  onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
                <ButtonBG text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />
             </div>
             <div> </div>
@@ -164,7 +164,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         await this.setElementosFiltro(retorno)         
         const elementos = React.createElement("div", {}, this.ElementosFiltro()?.map((recorre, index)=>{   
             if(recorre.estado)
-            {
+            { 
                 return <div key={index} >  {recorre.element} </div>    
             }
             
