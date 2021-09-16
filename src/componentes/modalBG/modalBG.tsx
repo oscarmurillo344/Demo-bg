@@ -1,5 +1,6 @@
 import { CloseOutlined, DeleteOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { DatePicker, Input, Modal, Select } from 'antd'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { catalogosCampos, catalogosFiltros, informacionFiltros } from '../../interfaces/filtros'
@@ -84,13 +85,13 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     render()
     {
         return (
-            <Modal style={{height:"1000px"}}  title="Filtros" visible={this.state.open} onOk={this.okModal}  onCancel={this.cancelModla} >
+            <Modal style={{height:"1000px"}} width="850px" title="Filtros" visible={this.state.open} onOk={this.okModal}  onCancel={this.cancelModla} >
             <div className="flex row accionesModal"  > 
                <ButtonBG text="Limpiar" type="normal" style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}}  onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
                <ButtonBG text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />
             </div>
             <div> </div>
-             <div id="contenedorFiltro" className="flex colum contenedorFiltro"  >
+             <div id="contenedorFiltro" className="flex row contenedorFiltro"  style={{overflowY:"scroll", height:"400px"}} >
                   
              </div>
             </Modal>
@@ -104,7 +105,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     createElementoFiltro = (id:number)=>{        
         return (
           <> 
-              <div className="flex row elementoFiltro" key={id}   >
+              <div className="flex row elementoFiltro" key={id} style={{width:"600px"}}  >
                 <Select key={`${id}-campo`} onChange={(e)=>this.onChaneCampo({value:e, id:id})} defaultValue="-1" style={{ width: 150 }} >
                   <option value="-1">Campos</option>  
                   {
@@ -115,7 +116,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 </Select>
                 
                 
-                <Select key={`${id}-clausula`} style={{ width: 150}} defaultValue="-1"  >
+                <Select key={`${id}-clausula`} style={{ width: 170}} defaultValue="-1"  >
                      <option value="-1">Clausula</option>  
                     {
                         this.props.filtroCatalogo.map((recorre, index)=>{
@@ -123,8 +124,10 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                         })
                     }               
                 </Select>    
-                <Input key={`${id}-valor`} placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "string").length > 0? "inline" : "none" }} />
+                <Input key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "string").length > 0? "inline" : "none", width:"200px" }} />
+                <DatePicker style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "date").length > 0? "inline" : "none", width:"200px" }} />
                 <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
+                
                   <CloseOutlined className="iconEliminar" onClick={()=>{this.quitarFiltro(id)}} />
                 </div>
                 

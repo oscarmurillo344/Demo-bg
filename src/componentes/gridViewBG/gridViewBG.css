@@ -16,8 +16,10 @@
 }
 
 .contenedorFiltro .elementoFiltro{
-    justify-content: center;
+    justify-content: flex-start;
+    
     margin-bottom: 20px;
+    
 
 }
 

@@ -219,18 +219,32 @@ function App() {
             rows={rows} 
             pagesize={10}  
             width={1200}
-            filtroCatalogoCampos = {[{cammpo:"edad"}]}
+            filtroCatalogoCampos = {[
+              {cammpo:"edad"},
+              {cammpo:"fecha"}              
+              
+            ]}
             filtroCatalogo = {[{
               tipoDato:"string",
               id:"=",
               value:"igual a"
-            }]}
+            },
+            
+          
+          ]}
             filtroInformacion = {[
               {
                 campo : "edad",
                 tipoDato : "string",
                 esCatalogo: true
-              }
+              
+            },
+            {
+              campo : "fecha",
+              tipoDato : "date",
+              esCatalogo: false
+            
+            }
             ]}
             />
           </div>
