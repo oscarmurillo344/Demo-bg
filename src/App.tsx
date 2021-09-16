@@ -14,6 +14,8 @@ import DataSet from './interfaces/cuentaAhorros';
 import filtroCatalogoValues from './data/catalogoValores';
 import filtroCatalogo from './data/catalogoClausula';
 import informacionFiltro from './data/informacionFiltro';
+import CatalogoCampos from './data/catalogoCampo';
+
 function App() {
   const menu : MenuListBg[] = menuBG;
   const columnsGroup :ColumnasGrupo[] = [
@@ -223,7 +225,7 @@ function App() {
             pagesize={10}  
             width={1200}
             filtroCatalogoValues = {filtroCatalogoValues}
-            filtroCatalogoCampos = {filtroCatalogoCampos}
+            filtroCatalogoCampos = {CatalogoCampos}
             filtroCatalogo = {filtroCatalogo}
             filtroInformacion = {informacionFiltro}
             />

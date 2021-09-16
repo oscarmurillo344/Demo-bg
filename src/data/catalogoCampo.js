@@ -1,4 +1,4 @@
-const filtroCatalogoCampos = [
+const CatalogoCampos = [
     {
         cammpo:"edad"
     },
@@ -7,3 +7,5 @@ const filtroCatalogoCampos = [
     }              
     
   ]
+
+export default CatalogoCampos
