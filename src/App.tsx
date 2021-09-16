@@ -219,6 +219,13 @@ function App() {
             rows={rows} 
             pagesize={10}  
             width={1200}
+            filtroCatalogoValues = {[
+              {
+                campo:"edad",
+                id: "0",
+                value: "23"
+              }
+            ]}
             filtroCatalogoCampos = {[
               {cammpo:"edad"},
               {cammpo:"fecha"}              

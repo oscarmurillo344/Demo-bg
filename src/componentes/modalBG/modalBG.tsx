@@ -3,7 +3,7 @@ import { DatePicker, Input, Modal, Select } from 'antd'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { catalogosCampos, catalogosFiltros, informacionFiltros } from '../../interfaces/filtros'
+import { catalogosCampos, catalogosFiltros, catalogosValues, informacionFiltros } from '../../interfaces/filtros'
 import ButtonBG from '../buttonBG/buttonBG'
 const  {confirm} =  Modal;
 interface ModalBGProps {
@@ -14,6 +14,7 @@ interface ModalBGProps {
     filtroCatalogoCampos: catalogosCampos[];
     filtroCatalogo: catalogosFiltros[];
     filtroInformacion: informacionFiltros[]
+    catalogosValues : catalogosValues[]
     
 }
 
@@ -26,7 +27,9 @@ interface ModalBGState {
 
 interface ModalBGStateCatalogo{
     idContainer:number;
-    tipoDato:string
+    tipoDato:string;
+    isCatalogo: boolean
+    catalogoValue:catalogosValues[]
 }
 
 
@@ -124,8 +127,18 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                         })
                     }               
                 </Select>    
-                <Input key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "string").length > 0? "inline" : "none", width:"200px" }} />
-                <DatePicker style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "date").length > 0? "inline" : "none", width:"200px" }} />
+                <Input key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "string" &&  !x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} />
+                <DatePicker style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "date" && !x.isCatalogo ).length > 0? "inline" : "none", width:"200px" }} />
+                <Select   defaultValue="-1"  style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} >
+                 <option value="-1">Valores</option>  
+                 {
+                     this.state.tipoCatalogo.find(x=>x.idContainer === id)?.catalogoValue.map((recorre,index)=>{
+                        return <option key={index} value={recorre.id}>{recorre.value}</option>                      
+                     })
+                 }
+
+                </Select>
+
                 <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
                 
                   <CloseOutlined className="iconEliminar" onClick={()=>{this.quitarFiltro(id)}} />
@@ -138,9 +151,14 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
  
      onChaneCampo = (e:any)=>{
         const tipoDato = this.props.filtroInformacion.find(x=>x.campo === e.value)?.tipoDato
+        const esCatalogo =this.props.filtroInformacion.find(x=>x.campo === e.value)?.esCatalogo
+        const catalogoValue = this.props.catalogosValues.filter(x=>x.campo === e.value);
        if(this.state.tipoCatalogo.length === 0)
        {
-            this.setState({...this.state, tipoCatalogo:[{idContainer:e.id, tipoDato:tipoDato || ""}] }, ()=>{
+            this.setState({...this.state, tipoCatalogo:[{
+                
+                idContainer:e.id, tipoDato:tipoDato || "", isCatalogo: esCatalogo || false, catalogoValue:catalogoValue}
+            ] }, ()=>{
                 const newFiltro = this.ElementosFiltro().map(recorre =>{
                     if(recorre.id === e.id)
                     {
@@ -160,11 +178,13 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 if(recorre.idContainer === e.id)
                 {
                     recorre.tipoDato =  tipoDato || ""
+                    recorre.isCatalogo = esCatalogo || false
+                    recorre.catalogoValue = catalogoValue
                 }
                 return recorre
             })
         }else{
-            tipoCatalogoAux.push({idContainer:e.id, tipoDato:tipoDato || ""})
+            tipoCatalogoAux.push({idContainer:e.id, tipoDato:tipoDato || "", isCatalogo:esCatalogo || false, catalogoValue:catalogoValue})
         }
             this.setState({...this.state, tipoCatalogo: tipoCatalogoAux}, ()=>{
                 const newFiltro = this.ElementosFiltro().map(recorre =>{

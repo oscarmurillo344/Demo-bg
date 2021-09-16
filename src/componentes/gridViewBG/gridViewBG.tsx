@@ -25,6 +25,7 @@ interface GridViewBGProps{
     buttonFilter?:boolean;
     filtroCatalogoCampos: catalogosCampos[];
     filtroCatalogo: catalogosFiltros[];
+    filtroCatalogoValues : catalogosValues[]
     filtroInformacion: informacionFiltros[];
     
 }
@@ -110,7 +111,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
           
         </Table>
         {
-          <ModalBG  filtroCatalogo = {props.filtroCatalogo} filtroCatalogoCampos = {props.filtroCatalogoCampos} filtroInformacion={props.filtroInformacion} open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
+          <ModalBG catalogosValues={props.filtroCatalogoValues}   filtroCatalogo = {props.filtroCatalogo} filtroCatalogoCampos = {props.filtroCatalogoCampos} filtroInformacion={props.filtroInformacion} open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
         }
       </div>
     );
