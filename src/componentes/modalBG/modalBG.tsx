@@ -154,26 +154,28 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         if(this.state.tipoCatalogo.filter(x=>x.idContainer === e.id).length > 0)
         {
             tipoCatalogoAux.map(recorre =>{
-                if(recorre.tipoDato === e.id)
+                if(recorre.idContainer === e.id)
                 {
                     recorre.tipoDato =  tipoDato || ""
                 }
-                
+                return recorre
             })
         }else{
             tipoCatalogoAux.push({idContainer:e.id, tipoDato:tipoDato || ""})
         }
-        
-            const newFiltro = this.ElementosFiltro().map(recorre =>{
-                if(recorre.id === e.id)
-                {
-                    recorre.element = this.createElementoFiltro(e.id)
-                }     
-                return recorre       
+            this.setState({...this.state, tipoCatalogo: tipoCatalogoAux}, ()=>{
+                const newFiltro = this.ElementosFiltro().map(recorre =>{
+                    if(recorre.id === e.id)
+                    {
+                        recorre.element = this.createElementoFiltro(e.id)
+                    }     
+                    return recorre       
+                })
+                this.setElementosFiltro(newFiltro).then(()=>{
+                    this.renderFiltro()
+                })
             })
-            this.setElementosFiltro(newFiltro).then(()=>{
-                this.renderFiltro()
-            })
+            
 
        }
 
