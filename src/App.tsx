@@ -221,8 +221,7 @@ function App() {
             onOpenDetalle={onOpenDetalle} 
             height={325} 
             columns={columnsGroup} 
-            rows={rows} 
-            pagesize={6}  
+            rows={rows}               
             width={1200}
             filtroCatalogoValues = {filtroCatalogoValues}
             filtroCatalogoCampos = {CatalogoCampos}

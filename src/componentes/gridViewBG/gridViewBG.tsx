@@ -18,7 +18,7 @@ import * as XLSX from "xlsx";
 interface GridViewBGProps{
     width:number;
     height:number,
-    pagesize:number;
+    
     columns: ColumnasGrupo[];
     rows : Array<any>    
     onOpenDetalle : any;
