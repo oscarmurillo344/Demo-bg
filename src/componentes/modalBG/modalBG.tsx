@@ -113,7 +113,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                   <option value="-1">Campos</option>  
                   {
                       this.props.filtroCatalogoCampos.map((recorre, index)=>{
-                        return <option key={index} value={recorre.cammpo}>{recorre.cammpo}</option>                      
+                        return <option key={index} value={recorre.cammpo}>{ this.transformarToItem(recorre.cammpo)}</option>                      
                       })
                   }                  
                 </Select>
@@ -123,11 +123,11 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                      <option value="-1">Clausula</option>  
                     {
                         this.props.filtroCatalogo.map((recorre, index)=>{
-                            return <option key={index} value={recorre.id}>{recorre.value}</option>                      
+                            return <option key={index} value={recorre.id}>{ this.transformarToItem(recorre.value)  }</option>                      
                         })
                     }               
                 </Select>    
-                <Input key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "string" &&  !x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} />
+                <Input key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && (x.tipoDato === "string" || x.tipoDato === "number" )&&  !x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} />
                 <DatePicker style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "date" && !x.isCatalogo ).length > 0? "inline" : "none", width:"200px" }} />
                 <Select   defaultValue="-1"  style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} >
                  <option value="-1">Valores</option>  
@@ -287,5 +287,20 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             }        
         }))
         ReactDOM.render(elementos, document.getElementById("contenedorFiltro")) 
+      }
+
+      transformarToItem = (input:string)=>{
+          if(input)
+          {
+              if(input.length > 0)
+              {
+                const primerLetra = input.toUpperCase()[0];                
+                const restoInput = input.substr(1,input.length - 1).toLocaleLowerCase();
+                return primerLetra +  restoInput
+              }
+            
+          }
+          
+
       }
 }

@@ -13,7 +13,8 @@ import ColumnasGrupo from '../../interfaces/columnasGrupos';
 import ReactDOM from 'react-dom';
 import ModalBG from '../modalBG/modalBG';
 import { catalogosCampos, catalogosFiltros, catalogosValues, informacionFiltros } from '../../interfaces/filtros';
-
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 interface GridViewBGProps{
     width:number;
     height:number,
@@ -87,10 +88,22 @@ const GridViewBG = (props:GridViewBGProps)=>{
       setOpen(false)
 
     }
+
+    const fileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
+
+    const exportToCSV = (apiData:any, fileName:any) => {
+    const ws = XLSX.utils.json_to_sheet(apiData);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, fileName + fileExtension);
+  };
     return (
       <div>
         <div className="acciones">          
-        <ButtonBG style={{display: `${props.buttonDownload? "inline" : "none"}` }}   text="Exportar EXCEL" type="outline" icon={<DownloadOutlined />} /> 
+        <ButtonBG style={{display: `${props.buttonDownload? "inline" : "none"}` }}    text="Exportar EXCEL" type="outline" icon={<DownloadOutlined />} /> 
 
         <Badge count={badge} color="#bc157c" > 
           <ButtonBG style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
