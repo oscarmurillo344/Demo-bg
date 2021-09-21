@@ -206,7 +206,7 @@ function App() {
   return (
       <> 
         <MenuBG items={menu} tituloPagina="Detalle Cuentas Ahorros" >
-          <div className="flex" style={{justifyContent:"center"}}  >
+          <div className="flex column" style={{justifyContent:"center"}}  >
             <GridViewBG 
             buttonDownload={true} 
             buttonFilter={true}  
@@ -215,11 +215,12 @@ function App() {
             columns={columnsGroup} 
             rows={rows}               
             width={1200}
+            tipoColumna="grupo"
             filtroCatalogoValues = {filtroCatalogoValues}
             filtroCatalogoCampos = {CatalogoCampos}
             filtroCatalogo = {filtroCatalogo}
             filtroInformacion = {informacionFiltro}
-            />
+            />            
           </div>
         </MenuBG>        
       </>

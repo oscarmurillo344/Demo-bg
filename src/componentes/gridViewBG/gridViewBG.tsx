@@ -19,11 +19,12 @@ interface GridViewBGProps{
     width:number;
     height:number,
     
-    columns: ColumnasGrupo[];
+    columns: ColumnasGrupo[] | any[];
     rows : Array<any>    
     onOpenDetalle : any;
     buttonDownload?:boolean;
     buttonFilter?:boolean;
+    tipoColumna: "grupo" | "individual"
     filtroCatalogoCampos: catalogosCampos[];
     filtroCatalogo: catalogosFiltros[];
     filtroCatalogoValues : catalogosValues[]
@@ -40,28 +41,40 @@ const GridViewBG = (props:GridViewBGProps)=>{
   const [open, setOpen] = useState(false)
   const [badge, setBadge] = useState(0)
   const getColumnsGroup = (columns:any[])=>{
-    return columns.map((recorre, index) =>{
-      return (
-        <>
-          <ColumnGroup key={index} title={recorre.tituloGrupo} >
-            {recorre.items.map((recorreChildre:any, indexChildren:any)=>{
-              let render = undefined
-              if(recorreChildre.render)
-              {
-                render = recorreChildre.render
+    if(props.tipoColumna === "grupo")
+    {
+      return columns.map((recorre, index) =>{
+        return (
+          <>
+            <ColumnGroup key={index} title={recorre.tituloGrupo} >
+              {recorre.items.map((recorreChildre:any, indexChildren:any)=>{
+                let render = undefined
+                if(recorreChildre.render)
+                {
+                  render = recorreChildre.render
+                }
+                return (<> 
+                  <Column   title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
+                    width={recorreChildre.width} render={render}                            
+                  />
+                </>)
+              })
               }
-              return (<> 
-                <Column   title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
-                  width={recorreChildre.width} render={render}                            
-                />
-              </>)
-            })
-            }
-            
-          </ColumnGroup>                   
-        </>
-      )
-    })
+              
+            </ColumnGroup>                   
+          </>
+        )
+      })
+    }else{
+      return props.columns.map((recorre:any, index:any)=>{
+        return (<> 
+          <Column   title={recorre.title} dataIndex={recorre.dataIndex} key={recorre.key} 
+            width={recorre.width} render={recorre}                            
+          />
+        </>)
+      })
+    }
+    
   }
   const expandedRowRender = (e:any) => {
       const retorno = props.onOpenDetalle(e)
