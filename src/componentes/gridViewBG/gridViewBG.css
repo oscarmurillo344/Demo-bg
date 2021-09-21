@@ -46,3 +46,29 @@
 .tabContainer{
     width: 1200px;
 }
+
+.refreshIconCont
+{
+    padding-left: 10px;
+    padding-bottom: 10px;
+    width: 40px;
+    transition-duration: 0.5s;
+    
+}
+.refreshIconCont .refreshIcon
+{
+    font-size: 25px;
+}
+.refreshIconCont .refreshIcon:hover
+{
+    cursor: pointer;
+}
+
+
+.refreshIconCont:hover
+{
+    
+    transform: rotateZ(360deg);
+}
+
+
