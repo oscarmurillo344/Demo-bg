@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilte
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
 import { Badge, Dropdown, Modal, Space, Table, Select, Tabs } from 'antd';
-import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
+import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
 import { ColumnsType } from 'antd/lib/table';
@@ -134,54 +134,100 @@ const GridViewBG = (props:GridViewBGProps)=>{
       <div>
         <div className="acciones">          
           <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} /> 
-
-        <Badge count={badge} color="#bc157c" > 
-          <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
-        </Badge>
+          <ButtonBG shape="round" text="Recargar" type="outline" icon={<ReloadOutlined />} /> 
+          <ButtonBG shape="round" text="Columnas" type="outline" icon={<RotateRightOutlined />} /> 
+          <Badge count={badge} color="#bc157c" > 
+            <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
+          </Badge>
         
         </div>
         <Tabs defaultActiveKey="1" >
-          <TabPane tab="Resumen" key="1">
+          <TabPane tab="Resumen" key="1">          
             <div className="tabContainer"> 
-            
-            <Table
-            className="components-table-demo-nested"
-            
-            style={{width:props.width}}
-            scroll ={{y:340}}                      
-            dataSource={props.rowsResumen}>
-            {
-              getColumnsGroup(props.columnsResumen)
-            }
-            
-          </Table>  
+              <Tabs defaultActiveKey="1" centered>
+                <TabPane tab="Totales" key="1">
+                <div className="tabContainer"> 
+                  <Table
+                    className="components-table-demo-nested"
+                    pagination={false}
+                    style={{width:props.width, marginBottom:"60px"}}
+                                      
+                    dataSource={props.rowsResumen}>
+                    {
+                      getColumnsGroup(props.columnsResumen)
+                    }
+                    
+                  </Table>  
+               
+                </div>
+                </TabPane>
+                <TabPane tab="Cuentas" key="2">
+                <div className="tabContainer"> 
+                    <Table
+                      className="components-table-demo-nested"
+                      
+                      style={{width:props.width}}
+                      scroll ={{y:250}}            
+                      expandable={{ expandedRowRender }}
+                      dataSource={props.rows}>
+                      {
+                        getColumnsGroup(props.columns)
+                      }                        
+                    </Table>
+                </div>                      
+                </TabPane>
+                <TabPane tab="Graficos" key="3">
+                <div className="tabContainer"> 
+                </div>
+                </TabPane>            
+              </Tabs>     
             </div>
           
           </TabPane>
           <TabPane tab="Detalle" key="2">
-              <div className="tabContainer" >
-                <Table
-                className="components-table-demo-nested"
-                
-                style={{width:props.width}}
-                scroll ={{y:300}}            
-                expandable={{ expandedRowRender }}
-                dataSource={props.rows}>
-                {
-                  getColumnsGroup(props.columns)
-                }
-                
-                </Table>
-              </div>
-            
-          </TabPane>
-          <TabPane tab="Graficos" key="3" style={{width:"100%"}} >
-            <div style={{height:"340px"}} className="flex tabContainer" > 
 
-                <p>Aqui iria un grafico</p>
+          <div className="tabContainer"> 
+              <Tabs defaultActiveKey="1" centered>
+                <TabPane tab="Totales" key="1">
+                <div className="tabContainer"> 
+                  <Table
+                    className="components-table-demo-nested"
+                    pagination={false}
+                    style={{width:props.width, marginBottom:"60px"}}
+                                      
+                    dataSource={props.rowsResumen}>
+                    {
+                      getColumnsGroup(props.columnsResumen)
+                    }
+                    
+                  </Table>  
+               
+                </div>
+                </TabPane>
+                <TabPane tab="Cuentas" key="2">
+                <div className="tabContainer"> 
+                    <Table
+                      className="components-table-demo-nested"
+                      
+                      style={{width:props.width}}
+                      scroll ={{y:250}}            
+                      expandable={{ expandedRowRender }}
+                      dataSource={props.rows}>
+                      {
+                        getColumnsGroup(props.columns)
+                      }                        
+                    </Table>
+                </div>                      
+                </TabPane>
+                <TabPane tab="Graficos" key="3">
+                <div className="tabContainer"> 
+                </div>
+                </TabPane>            
+              </Tabs>     
             </div>
             
           </TabPane>
+         
          
           </Tabs>
     
