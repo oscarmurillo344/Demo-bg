@@ -2,7 +2,7 @@ import React, { CSSProperties, useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilterItem, GridFilterModel, GridLinkOperator, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@material-ui/data-grid';
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
-import { Badge, Dropdown, Modal, Space, Table, Select } from 'antd';
+import { Badge, Dropdown, Modal, Space, Table, Select, Tabs } from 'antd';
 import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
@@ -16,12 +16,16 @@ import { catalogosCampos, catalogosFiltros, catalogosValues, informacionFiltros 
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import ModalContentBG from '../modalContentBG/modalContentBG';
+const { TabPane } = Tabs;
+
 interface GridViewBGProps{
     width:number;
     height:number,
     
     columns: ColumnasGrupo[] | any[];
     rows : Array<any>    
+    columnsResumen: ColumnasGrupo[] | any[];
+    rowsResumen : Array<any>    
     onOpenDetalle : any;
     buttonDownload?:boolean;
     buttonFilter?:boolean;
@@ -136,8 +140,22 @@ const GridViewBG = (props:GridViewBGProps)=>{
         </Badge>
         
         </div>
-        
-        <Table
+        <Tabs defaultActiveKey="1" >
+          <TabPane tab="Resumen" key="1">
+          <Table
+          className="components-table-demo-nested"
+          
+          style={{width:props.width}}
+          scroll ={{y:340}}                      
+          dataSource={props.rowsResumen}>
+          {
+            getColumnsGroup(props.columnsResumen)
+          }
+          
+        </Table>
+          </TabPane>
+          <TabPane tab="Detalle" key="2">
+          <Table
           className="components-table-demo-nested"
           
           style={{width:props.width}}
@@ -149,9 +167,14 @@ const GridViewBG = (props:GridViewBGProps)=>{
           }
           
         </Table>
+          </TabPane>
+         
+          </Tabs>
+    
         {
           <>
           <ModalBG catalogosValues={props.filtroCatalogoValues}   filtroCatalogo = {props.filtroCatalogo} filtroCatalogoCampos = {props.filtroCatalogoCampos} filtroInformacion={props.filtroInformacion} open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
+         
           <ModalContentBG 
            width={340}
            onOk={onOkModalDownload} 

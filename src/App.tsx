@@ -18,6 +18,89 @@ import CatalogoCampos from './data/catalogoCampo';
 
 function App() {
   const menu : MenuListBg[] = menuBG;
+  const columnsGroupResumen :ColumnasGrupo[] = [
+    {
+      tituloGrupo: "",
+      items : [{
+        dataIndex: 'titulo', 
+        key:'titulo', 
+        title: '', 
+        width: 100,
+      }
+    ]
+    },
+    {
+    tituloGrupo:"ANTERIOR",
+    items: [
+        {
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Cuentas', 
+          width: 100,
+          render: (objeto:any) =>  objeto.cuenta
+        },
+        {
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Saldos', 
+          width: 100,
+          render: (objeto:any) =>  objeto.saldo
+        },
+        {
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Tasa', 
+          width: 100,
+          render: (objeto:any) =>  objeto.tasa
+        }
+      ]
+    },
+    {
+    tituloGrupo:"ACTUAL",
+    items: [
+      {
+        dataIndex: 'actual', 
+        key:'actual', 
+        title: 'Cuentas', 
+        width: 100,
+        render: (objeto:any) =>  objeto.cuenta
+      },
+      {
+        dataIndex: 'actual', 
+        key:'actual', 
+        title: 'Saldos', 
+        width: 100,
+        render: (objeto:any) =>  objeto.saldo
+      },
+      {
+        dataIndex: 'actual', 
+        key:'actual', 
+        title: 'Tasa', 
+        width: 100,
+        render: (objeto:any) =>  objeto.tasa
+      }
+    ]
+    },
+    {
+      tituloGrupo:"VARIACION",
+      items: [      
+        {
+          dataIndex: 'variacion', 
+          key:'variacion', 
+          title: 'Saldos', 
+          width: 100,
+          render: (objeto:any) =>  objeto.saldo
+        },
+        {
+          dataIndex: 'actual', 
+          key:'actual', 
+          title: 'Tasa', 
+          width: 100,
+          render: (objeto:any) =>  objeto.tasa
+        }
+      ]
+    }  
+  ]
   const columnsGroup :ColumnasGrupo[] = [
     {
       tituloGrupo: "",
@@ -213,7 +296,17 @@ function App() {
             onOpenDetalle={onOpenDetalle} 
             height={325} 
             columns={columnsGroup} 
-            rows={rows}               
+            rows={rows}          
+            columnsResumen ={columnsGroupResumen}
+            rowsResumen={[{
+              
+              codigo : 1,
+              titulo:"Total",
+              descripcion: "descripcion",
+              anterior: {cuenta:1, saldo : 2, tasa:3},
+              actual: {cuenta:1, saldo : 2, tasa:3},
+              variacion: {cuenta:1, saldo : 2, tasa:3}  
+            }]}     
             width={1200}
             tipoColumna="grupo"
             filtroCatalogoValues = {filtroCatalogoValues}
