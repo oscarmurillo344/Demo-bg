@@ -145,6 +145,8 @@ const GridViewBG = (props:GridViewBGProps)=>{
         <Tabs defaultActiveKey="1" centered>
                 <TabPane tab="Totales" key="1">
                 <div className="tabContainer"> 
+                  <div className="refreshIconCont" > <ReloadOutlined className="refreshIcon" /> </div>
+                  
                   <Table
                     className="components-table-demo-nested"
                     pagination={false}
@@ -161,6 +163,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                 </TabPane>
                 <TabPane tab="Cuentas" key="2">
                 <div className="tabContainer"> 
+                     <div className="refreshIconCont" > <ReloadOutlined className="refreshIcon" /> </div>
                     <Table
                       className="components-table-demo-nested"
                       
