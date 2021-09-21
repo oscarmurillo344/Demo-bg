@@ -5,7 +5,8 @@ import './buttonBG.css'
 interface ButtonBGProps
 {
     
-    type : "outline" | "normal"
+    type : "outline" | "normal" 
+    shape :"round" | "circle";
     text:string;
     icon?:any;
     style?:CSSProperties;
@@ -16,14 +17,20 @@ const ButtonBG = (props:ButtonBGProps)=>
 {
     let type:ButtonType = "primary"
     let classe = "normal"
-    if(props.type === "normal")
+    switch(props.type)
     {
-        type = "primary"
-        classe = "normal"
-    }else{
-        classe = "outline"
-        type = "ghost"
+        case 'outline':
+            
+            classe = "outline"
+            type = "ghost"
+            break;
+        case 'normal':
+            type = "primary"
+            classe = "normal"
+            break;     
     }
+       
+    
     const onClick = ()=>{
         if(props.onClick)
         {
@@ -31,7 +38,7 @@ const ButtonBG = (props:ButtonBGProps)=>
         }        
     }
     return (<> 
-        <Button shape="round" onClick={onClick} style={props.style} className={classe} type={type} icon={props.icon}> {props.text}</Button>        
+        <Button shape={props.shape} onClick={onClick} style={props.style} className={classe} type={type} icon={props.icon}> {props.text}</Button>        
     </>)
 }
 

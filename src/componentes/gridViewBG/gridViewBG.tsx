@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilte
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
 import { Badge, Dropdown, Modal, Space, Table, Select } from 'antd';
-import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FunnelPlotOutlined, PlusOutlined, SelectOutlined } from '@ant-design/icons';
+import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
 import { ColumnsType } from 'antd/lib/table';
@@ -129,10 +129,10 @@ const GridViewBG = (props:GridViewBGProps)=>{
     return (
       <div>
         <div className="acciones">          
-        <ButtonBG style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} /> 
+          <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} /> 
 
         <Badge count={badge} color="#bc157c" > 
-          <ButtonBG style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
+          <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
         </Badge>
         
         </div>
@@ -152,7 +152,20 @@ const GridViewBG = (props:GridViewBGProps)=>{
         {
           <>
           <ModalBG catalogosValues={props.filtroCatalogoValues}   filtroCatalogo = {props.filtroCatalogo} filtroCatalogoCampos = {props.filtroCatalogoCampos} filtroInformacion={props.filtroInformacion} open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
-          <ModalContentBG width={340} onOk={onOkModalDownload} onCancel={onCancelModalDownload} titulo={'Descargar'} content={<p>Hola</p>} visible={openModalContent}></ModalContentBG>
+          <ModalContentBG 
+           width={340}
+           onOk={onOkModalDownload} 
+           onCancel={onCancelModalDownload} 
+           titulo={'Descargar'} 
+           content={ <> 
+              <div className="flex" style={{width:"100%", justifyContent:"space-around"}} >
+              <ButtonBG shape="round" text="Excel" type="outline" icon={<FileExcelOutlined />} /> 
+              <ButtonBG shape="round" text="PDF" type="outline" icon={<FilePdfOutlined />} /> 
+              </div>
+              
+
+           </> }
+           visible={openModalContent}></ModalContentBG>
           </>
           
         }

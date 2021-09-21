@@ -92,8 +92,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         return (
             <Modal style={{height:"1000px"}} width="850px" title="Filtros" visible={this.state.open} onOk={this.okModal}  onCancel={this.cancelModla} >
             <div className="flex row accionesModal"  > 
-               <ButtonBG text="Limpiar" type="normal" style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}}  onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
-               <ButtonBG text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />
+               <ButtonBG shape="round" text="Limpiar" type="normal" style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}}  onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
+               <ButtonBG shape="round" text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />
             </div>
             <div> </div>
              <div id="contenedorFiltro" className="flex row contenedorFiltro"  style={{overflowY:"scroll", maxHeight:"400px"}} >
