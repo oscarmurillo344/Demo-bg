@@ -294,7 +294,7 @@ function App() {
             buttonDownload={true} 
             buttonFilter={true}  
             onOpenDetalle={onOpenDetalle} 
-            height={325} 
+            height={100} 
             columns={columnsGroup} 
             rows={rows}          
             columnsResumen ={columnsGroupResumen}

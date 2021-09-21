@@ -142,31 +142,45 @@ const GridViewBG = (props:GridViewBGProps)=>{
         </div>
         <Tabs defaultActiveKey="1" >
           <TabPane tab="Resumen" key="1">
-          <Table
-          className="components-table-demo-nested"
+            <div className="tabContainer"> 
+            
+            <Table
+            className="components-table-demo-nested"
+            
+            style={{width:props.width}}
+            scroll ={{y:340}}                      
+            dataSource={props.rowsResumen}>
+            {
+              getColumnsGroup(props.columnsResumen)
+            }
+            
+          </Table>  
+            </div>
           
-          style={{width:props.width}}
-          scroll ={{y:340}}                      
-          dataSource={props.rowsResumen}>
-          {
-            getColumnsGroup(props.columnsResumen)
-          }
-          
-        </Table>
           </TabPane>
           <TabPane tab="Detalle" key="2">
-          <Table
-          className="components-table-demo-nested"
-          
-          style={{width:props.width}}
-          scroll ={{y:340}}            
-          expandable={{ expandedRowRender }}
-          dataSource={props.rows}>
-          {
-            getColumnsGroup(props.columns)
-          }
-          
-        </Table>
+              <div className="tabContainer" >
+                <Table
+                className="components-table-demo-nested"
+                
+                style={{width:props.width}}
+                scroll ={{y:300}}            
+                expandable={{ expandedRowRender }}
+                dataSource={props.rows}>
+                {
+                  getColumnsGroup(props.columns)
+                }
+                
+                </Table>
+              </div>
+            
+          </TabPane>
+          <TabPane tab="Graficos" key="3" style={{width:"100%"}} >
+            <div style={{height:"340px"}} className="flex tabContainer" > 
+
+                <p>Aqui iria un grafico</p>
+            </div>
+            
           </TabPane>
          
           </Tabs>
