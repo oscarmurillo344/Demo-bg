@@ -183,6 +183,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                     recorre.tipoDato =  tipoDato || ""
                     recorre.isCatalogo = esCatalogo || false
                     recorre.catalogoValue = catalogoValue
+                    recorre.catalogoClausula = catalogoClausula
                 }
                 return recorre
             })

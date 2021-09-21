@@ -65,7 +65,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
   }
   const expandedRowRender = (e:any) => {
       const retorno = props.onOpenDetalle(e)
-      return <Table scroll={{y:340}} dataSource={retorno.rows} pagination={false}>  {getColumnsGroup(retorno.columns)}  </Table>;
+      return <Table scroll={{y:340}} dataSource={retorno.rows} pagination={false} columns={retorno.columns} >    </Table>;
     };
     const onOpenModal = ()=>{
       console.log("entro")

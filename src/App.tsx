@@ -20,6 +20,22 @@ function App() {
   const menu : MenuListBg[] = menuBG;
   const columnsGroup :ColumnasGrupo[] = [
     {
+      tituloGrupo: "",
+      items : [{
+        dataIndex: 'codigo', 
+        key:'codigo', 
+        title: 'Codigo', 
+        width: 100,
+      },
+      {
+        dataIndex: 'descripcion', 
+        key:'descripcion', 
+        title: 'Descripcion', 
+        width: 100,
+      }
+    ]
+    },
+    {
     tituloGrupo:"ANTERIOR",
     items: [
         {
@@ -89,8 +105,8 @@ function App() {
           render: (objeto:any) =>  objeto.tasa
         }
       ]
-      },
-]
+    }  
+  ]
 
   let rows = new Array<DataSet>();
   for(let recorre = 0; recorre<300000; recorre++)
@@ -98,7 +114,7 @@ function App() {
     rows.push({
       key: recorre+1,
       codigo : (recorre +1).toString(),
-      descripcion: "",
+      descripcion: "descripcion",
       anterior: {cuenta:1, saldo : 2, tasa:3},
       actual: {cuenta:1, saldo : 2, tasa:3},
       variacion: {cuenta:1, saldo : 2, tasa:3}    
@@ -107,52 +123,28 @@ function App() {
   const onOpenDetalle = (e:any) : any =>
   {
     console.log(e) //objeto obtenido cuando se abre el detalle
-    const columns :ColumnasGrupo[] = [
-      {
-        tituloGrupo: "",
-        items : [{
-          dataIndex: 'codigo', 
-          key:'codigo', 
-          title: 'Codigo', 
+    const columns :any[] = [
+        {
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Cuentas', 
           width: 100,
+          render: (objeto:any) =>  objeto.cuenta
         },
         {
-          dataIndex: 'descripcion', 
-          key:'descripcion', 
-          title: 'Descripcion', 
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Saldos', 
           width: 100,
-        }
-      ]
-      },
-      {
-      tituloGrupo:"ANTERIOR",
-      items: [
-          {
-            dataIndex: 'anterior', 
-            key:'anterior', 
-            title: 'Cuentas', 
-            width: 100,
-            render: (objeto:any) =>  objeto.cuenta
-          },
-          {
-            dataIndex: 'anterior', 
-            key:'anterior', 
-            title: 'Saldos', 
-            width: 100,
-            render: (objeto:any) =>  objeto.saldo
-          },
-          {
-            dataIndex: 'anterior', 
-            key:'anterior', 
-            title: 'Tasa', 
-            width: 100,
-            render: (objeto:any) =>  objeto.tasa
-          }
-        ]
-      },
-      {
-      tituloGrupo:"ACTUAL",
-      items: [
+          render: (objeto:any) =>  objeto.saldo
+        },
+        {
+          dataIndex: 'anterior', 
+          key:'anterior', 
+          title: 'Tasa', 
+          width: 100,
+          render: (objeto:any) =>  objeto.tasa
+        },
         {
           dataIndex: 'actual', 
           key:'actual', 
@@ -173,29 +165,29 @@ function App() {
           title: 'Tasa', 
           width: 100,
           render: (objeto:any) =>  objeto.tasa
+        },
+        {
+          dataIndex: 'variacion', 
+          key:'variacion', 
+          title: 'Cuentas', 
+          width: 100,
+          render: (objeto:any) =>  objeto.cuenta
+        },
+        {
+          dataIndex: 'variacion', 
+          key:'variacion', 
+          title: 'Saldos', 
+          width: 100,
+          render: (objeto:any) =>  objeto.saldo
+        },
+        {
+          dataIndex: 'variacion', 
+          key:'variacion', 
+          title: 'Tasa', 
+          width: 100,
+          render: (objeto:any) =>  objeto.tasa
         }
-      ]
-      },
-      {
-        tituloGrupo:"VARIACION",
-        items: [      
-          {
-            dataIndex: 'variacion', 
-            key:'variacion', 
-            title: 'Saldos', 
-            width: 100,
-            render: (objeto:any) =>  objeto.saldo
-          },
-          {
-            dataIndex: 'actual', 
-            key:'actual', 
-            title: 'Tasa', 
-            width: 100,
-            render: (objeto:any) =>  objeto.tasa
-          }
-        ]
-      }  
-    ]
+    ] 
 
     let rows = new Array<DataSet>();
     for(let recorre = 0; recorre<10; recorre++)
