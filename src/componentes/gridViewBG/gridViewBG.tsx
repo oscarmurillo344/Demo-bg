@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilte
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
 import { Badge, Dropdown, Modal, Space, Table, Select, Tabs } from 'antd';
-import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
+import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
 import { ColumnsType } from 'antd/lib/table';
@@ -136,6 +136,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
           <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} /> 
           <ButtonBG shape="round" text="Recargar" type="outline" icon={<ReloadOutlined />} /> 
           <ButtonBG shape="round" text="Columnas" type="outline" icon={<RotateRightOutlined />} /> 
+          <ButtonBG shape="round" text="Variaciones" type="outline" icon={<FileOutlined />} /> 
           <Badge count={badge} color="#bc157c" > 
             <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
           </Badge>
