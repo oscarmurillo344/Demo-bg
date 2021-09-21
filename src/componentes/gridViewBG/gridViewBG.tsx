@@ -15,6 +15,7 @@ import ModalBG from '../modalBG/modalBG';
 import { catalogosCampos, catalogosFiltros, catalogosValues, informacionFiltros } from '../../interfaces/filtros';
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
+import ModalContentBG from '../modalContentBG/modalContentBG';
 interface GridViewBGProps{
     width:number;
     height:number,
@@ -40,6 +41,7 @@ let validarRefencia = 0;
 const GridViewBG = (props:GridViewBGProps)=>{
   const [open, setOpen] = useState(false)
   const [badge, setBadge] = useState(0)
+  const [openModalContent, setOpenModalContent] = useState(false)
   const getColumnsGroup = (columns:any[])=>{
     if(props.tipoColumna === "grupo")
     {
@@ -85,7 +87,15 @@ const GridViewBG = (props:GridViewBGProps)=>{
       setOpen(true)
       
     }
+    const onOkModalDownload = ()=>{
+      console.log("actualizo el state")
+      setOpenModalContent(false)
 
+    } 
+    const onCancelModalDownload = ()=>{
+      setOpenModalContent(false)
+
+    }
     const onOk = (e:any)=>
     { 
       setOpen(false)
@@ -101,7 +111,10 @@ const GridViewBG = (props:GridViewBGProps)=>{
       setOpen(false)
 
     }
-
+    const onDowload =()=>
+    {
+      setOpenModalContent(true)
+    }
     const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
@@ -116,7 +129,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
     return (
       <div>
         <div className="acciones">          
-        <ButtonBG style={{display: `${props.buttonDownload? "inline" : "none"}` }}    text="Exportar EXCEL" type="outline" icon={<DownloadOutlined />} /> 
+        <ButtonBG style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} /> 
 
         <Badge count={badge} color="#bc157c" > 
           <ButtonBG style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
@@ -137,7 +150,11 @@ const GridViewBG = (props:GridViewBGProps)=>{
           
         </Table>
         {
+          <>
           <ModalBG catalogosValues={props.filtroCatalogoValues}   filtroCatalogo = {props.filtroCatalogo} filtroCatalogoCampos = {props.filtroCatalogoCampos} filtroInformacion={props.filtroInformacion} open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
+          <ModalContentBG width={340} onOk={onOkModalDownload} onCancel={onCancelModalDownload} titulo={'Descargar'} content={<p>Hola</p>} visible={openModalContent}></ModalContentBG>
+          </>
+          
         }
       </div>
     );
@@ -149,3 +166,4 @@ const GridViewBG = (props:GridViewBGProps)=>{
 
 
 export default GridViewBG;
+
