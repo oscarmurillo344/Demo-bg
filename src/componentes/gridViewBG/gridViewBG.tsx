@@ -142,10 +142,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
           </Badge>
         
         </div>
-        <Tabs defaultActiveKey="1" >
-          <TabPane tab="Resumen" key="1">          
-            <div className="tabContainer"> 
-              <Tabs defaultActiveKey="1" centered>
+        <Tabs defaultActiveKey="1" centered>
                 <TabPane tab="Totales" key="1">
                 <div className="tabContainer"> 
                   <Table
@@ -181,56 +178,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                 <div className="tabContainer"> 
                 </div>
                 </TabPane>            
-              </Tabs>     
-            </div>
-          
-          </TabPane>
-          <TabPane tab="Detalle" key="2">
-
-          <div className="tabContainer"> 
-              <Tabs defaultActiveKey="1" centered>
-                <TabPane tab="Totales" key="1">
-                <div className="tabContainer"> 
-                  <Table
-                    className="components-table-demo-nested"
-                    pagination={false}
-                    style={{width:props.width, marginBottom:"60px"}}
-                                      
-                    dataSource={props.rowsResumen}>
-                    {
-                      getColumnsGroup(props.columnsResumen)
-                    }
-                    
-                  </Table>  
-               
-                </div>
-                </TabPane>
-                <TabPane tab="Cuentas" key="2">
-                <div className="tabContainer"> 
-                    <Table
-                      className="components-table-demo-nested"
-                      
-                      style={{width:props.width}}
-                      scroll ={{y:250}}            
-                      expandable={{ expandedRowRender }}
-                      dataSource={props.rows}>
-                      {
-                        getColumnsGroup(props.columns)
-                      }                        
-                    </Table>
-                </div>                      
-                </TabPane>
-                <TabPane tab="Graficos" key="3">
-                <div className="tabContainer"> 
-                </div>
-                </TabPane>            
-              </Tabs>     
-            </div>
-            
-          </TabPane>
-         
-         
-          </Tabs>
+        </Tabs> 
     
         {
           <>
