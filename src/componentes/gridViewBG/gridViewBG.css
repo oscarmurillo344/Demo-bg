@@ -2,11 +2,13 @@
 {
     
     margin-bottom: 10px;
+    align-items: center;
+    justify-content: start;
 }
 
 .acciones >*
 {
-    margin-right: 10px;
+    margin-right: 15px;
 }
 
 .contenedorFiltro{
@@ -49,26 +51,31 @@
 
 .refreshIconCont
 {
-    padding-left: 10px;
-    padding-bottom: 10px;
+    
+    
     width: 40px;
+    
+    background: red;
     transition-duration: 0.5s;
     
 }
-.refreshIconCont .refreshIcon
-{
-    font-size: 25px;
-}
-.refreshIconCont .refreshIcon:hover
-{
-    cursor: pointer;
-}
-
-
-.refreshIconCont:hover
+.refreshIcon
 {
     
-    transform: rotateZ(360deg);
+    font-size: 25px;
+    transition: 0.5s;
+}
+.refreshIcon:hover
+{
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td {
+    padding: 6px 20px;
+    text-align: center;
 }
 
 

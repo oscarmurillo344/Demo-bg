@@ -132,25 +132,25 @@ const GridViewBG = (props:GridViewBGProps)=>{
   };
     return (
       <div>
-        <div className="acciones">          
-          <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} /> 
-          <ButtonBG shape="round" text="Recargar" type="outline" icon={<ReloadOutlined />} /> 
-          <ButtonBG shape="round" text="Columnas" type="outline" icon={<RotateRightOutlined />} /> 
+        <div className="acciones flex">          
+          <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} />           
           <ButtonBG shape="round" text="Variaciones" type="outline" icon={<FileOutlined />} /> 
+          <ButtonBG shape="round" text="Columnas" type="outline" icon={<RotateRightOutlined />} /> 
           <Badge count={badge} color="#bc157c" > 
             <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
           </Badge>
-        
+          <ReloadOutlined className="refreshIcon" style={{color:"#bc157c"}} />    
         </div>
         <Tabs defaultActiveKey="1" centered>
+                
                 <TabPane tab="Totales" key="1">
                 <div className="tabContainer"> 
-                  <div className="refreshIconCont" > <ReloadOutlined className="refreshIcon" /> </div>
+                
                   
                   <Table
-                    className="components-table-demo-nested"
+                    className="totales"
                     pagination={false}
-                    style={{width:props.width, marginBottom:"60px"}}
+                    style={{width:props.width, marginBottom:"10px"}}
                                       
                     dataSource={props.rowsResumen}>
                     {
@@ -158,29 +158,24 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     }
                     
                   </Table>  
-               
-                </div>
-                </TabPane>
-                <TabPane tab="Cuentas" key="2">
-                <div className="tabContainer"> 
-                     <div className="refreshIconCont" > <ReloadOutlined className="refreshIcon" /> </div>
-                    <Table
+                  <Table
                       className="components-table-demo-nested"
                       
                       style={{width:props.width}}
-                      scroll ={{y:250}}            
+                      scroll ={{y:210}}            
                       expandable={{ expandedRowRender }}
                       dataSource={props.rows}>
                       {
                         getColumnsGroup(props.columns)
                       }                        
                     </Table>
-                </div>                      
+                </div>
                 </TabPane>
+              
                 <TabPane tab="Graficos" key="3">
                 <div className="tabContainer"> 
                 </div>
-                </TabPane>            
+                </TabPane>
         </Tabs> 
     
         {
