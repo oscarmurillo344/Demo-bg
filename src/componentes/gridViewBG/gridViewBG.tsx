@@ -2,7 +2,7 @@ import React, { CSSProperties, useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilterItem, GridFilterModel, GridLinkOperator, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@material-ui/data-grid';
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
-import { Badge, Dropdown, Modal, Space, Table, Select, Tabs, Tree } from 'antd';
+import { Badge, Dropdown, Modal, Space, Table, Select, Tabs, Tree, DatePicker } from 'antd';
 import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
@@ -132,17 +132,22 @@ const GridViewBG = (props:GridViewBGProps)=>{
     const onCancelColumns = ()=>{
       setOpenModalColumn(false)
     }
-    const fileType =
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-    const fileExtension = ".xlsx";
-
-    const exportToCSV = (apiData:any, fileName:any) => {
-    const ws = XLSX.utils.json_to_sheet(apiData);
-    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-    const data = new Blob([excelBuffer], { type: fileType });
-    FileSaver.saveAs(data, fileName + fileExtension);
-  };
+    const fechas = ()=>{
+      return <>
+          <div className="flex" style={{ alignItems:"end"}}  >
+              <div className="flex colum" style={{alignItems:"start", justifyContent:"center"}} >
+                <div>Fecha Anterior</div>
+                <DatePicker format="DD/mm/yyyy"  style={{ width:"200px"}} />
+              </div>
+              <div className="flex colum" style={{alignItems:"start", marginLeft:"20px"}}  >
+              <div>Fecha Anterior</div>
+                <DatePicker format="DD/mm/yyyy"  style={{ width:"200px"}} />
+              </div>
+              <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}`, marginLeft:"20px" }}  text="Buscar" type="normal" icon={<ReloadOutlined />} /> 
+              
+          </div>
+       </> 
+    }
     return (
       <div style={{justifyContent:"end", width:"100%", marginRight:"30px"}} className="flex" >
         
@@ -151,12 +156,14 @@ const GridViewBG = (props:GridViewBGProps)=>{
                 <TabPane tab="Informacion" key="1">
                 <div className="tabContainer"> 
                 
-                <div className="acciones flex" style={{justifyContent:"end", marginTop:"20px"}}>          
-        
+                <div className="acciones flex" style={{justifyContent:"space-between", alignItems:"end", marginBottom:"20px"}}>          
+                  {
+                    fechas()
+                  }
                   <Badge count={badge} color="#bc157c" > 
                     <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
                   </Badge>
-                  {/* <ReloadOutlined className="refreshIcon" style={{color:"#bc157c"}} />     */}
+                  
                 </div>
                   <Table
                     className="totales"
@@ -300,7 +307,8 @@ const GridViewBG = (props:GridViewBGProps)=>{
         }
       </div>
     );
-
+    
+    
         
 
   
