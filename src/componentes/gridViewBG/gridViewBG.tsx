@@ -2,7 +2,7 @@ import React, { CSSProperties, useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilterItem, GridFilterModel, GridLinkOperator, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@material-ui/data-grid';
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
-import { Badge, Dropdown, Modal, Space, Table, Select, Tabs } from 'antd';
+import { Badge, Dropdown, Modal, Space, Table, Select, Tabs, Tree } from 'antd';
 import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
@@ -46,6 +46,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
   const [open, setOpen] = useState(false)
   const [badge, setBadge] = useState(0)
   const [openModalContent, setOpenModalContent] = useState(false)
+  const [openModalColumn, setOpenModalColumn] = useState(false)
   const getColumnsGroup = (columns:any[])=>{
     if(props.tipoColumna === "grupo")
     {
@@ -119,6 +120,18 @@ const GridViewBG = (props:GridViewBGProps)=>{
     {
       setOpenModalContent(true)
     }
+
+    const onColumnas =()=>{
+      setOpenModalColumn(true)
+    }
+
+    const onOkColumns = ()=>{
+      setOpenModalColumn(false)
+    }
+
+    const onCancelColumns = ()=>{
+      setOpenModalColumn(false)
+    }
     const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
@@ -131,22 +144,20 @@ const GridViewBG = (props:GridViewBGProps)=>{
     FileSaver.saveAs(data, fileName + fileExtension);
   };
     return (
-      <div>
-        <div className="acciones flex">          
-          <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} />           
-          <ButtonBG shape="round" text="Variaciones" type="outline" icon={<FileOutlined />} /> 
-          <ButtonBG shape="round" text="Columnas" type="outline" icon={<RotateRightOutlined />} /> 
-          <Badge count={badge} color="#bc157c" > 
-            <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
-          </Badge>
-          <ReloadOutlined className="refreshIcon" style={{color:"#bc157c"}} />    
-        </div>
-        <Tabs defaultActiveKey="1" centered>
+      <div style={{justifyContent:"end", width:"100%", marginRight:"30px"}} className="flex" >
+        
+        <Tabs defaultActiveKey="1" tabPosition="right" >
                 
-                <TabPane tab="Totales" key="1">
+                <TabPane tab="Informacion" key="1">
                 <div className="tabContainer"> 
                 
-                  
+                <div className="acciones flex" style={{justifyContent:"end", marginTop:"20px"}}>          
+        
+                  <Badge count={badge} color="#bc157c" > 
+                    <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
+                  </Badge>
+                  {/* <ReloadOutlined className="refreshIcon" style={{color:"#bc157c"}} />     */}
+                </div>
                   <Table
                     className="totales"
                     pagination={false}
@@ -169,6 +180,11 @@ const GridViewBG = (props:GridViewBGProps)=>{
                         getColumnsGroup(props.columns)
                       }                        
                     </Table>
+                    <div className="flex acciones" >
+                    <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} />           
+                    <ButtonBG shape="round" text="Variaciones" type="outline" icon={<FileOutlined />} /> 
+                    <ButtonBG shape="round" text="Columnas" onClick={onColumnas}  type="outline" icon={<RotateRightOutlined />} /> 
+                    </div>
                 </div>
                 </TabPane>
               
@@ -177,11 +193,94 @@ const GridViewBG = (props:GridViewBGProps)=>{
                 </div>
                 </TabPane>
         </Tabs> 
-    
+      
         {
           <>
           <ModalBG catalogosValues={props.filtroCatalogoValues}   filtroCatalogo = {props.filtroCatalogo} filtroCatalogoCampos = {props.filtroCatalogoCampos} filtroInformacion={props.filtroInformacion} open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
-         
+          <ModalContentBG 
+           width={500}
+           onOk={onOkColumns} 
+           onCancel={onCancelColumns} 
+           titulo={'Columnas'} 
+           content={ <> 
+            <Tree
+            checkable
+        
+            treeData={[
+              {
+                title: '0-0',
+                key: '0-0',
+                children: [
+                  {
+                    title: '0-0-0',
+                    key: '0-0-0',
+                    children: [
+                      {
+                        title: '0-0-0-0',
+                        key: '0-0-0-0',
+                      },
+                      {
+                        title: '0-0-0-1',
+                        key: '0-0-0-1',
+                      },
+                      {
+                        title: '0-0-0-2',
+                        key: '0-0-0-2',
+                      },
+                    ],
+                  },
+                  {
+                    title: '0-0-1',
+                    key: '0-0-1',
+                    children: [
+                      {
+                        title: '0-0-1-0',
+                        key: '0-0-1-0',
+                      },
+                      {
+                        title: '0-0-1-1',
+                        key: '0-0-1-1',
+                      },
+                      {
+                        title: '0-0-1-2',
+                        key: '0-0-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    title: '0-0-2',
+                    key: '0-0-2',
+                  },
+                ],
+              },
+              {
+                title: '0-1',
+                key: '0-1',
+                children: [
+                  {
+                    title: '0-1-0-0',
+                    key: '0-1-0-0',
+                  },
+                  {
+                    title: '0-1-0-1',
+                    key: '0-1-0-1',
+                  },
+                  {
+                    title: '0-1-0-2',
+                    key: '0-1-0-2',
+                  },
+                ],
+              },
+              {
+                title: '0-2',
+                key: '0-2',
+              },
+            ]}
+          />
+           </> }
+           visible={openModalColumn}></ModalContentBG>
+
+           
           <ModalContentBG 
            width={340}
            onOk={onOkModalDownload} 
