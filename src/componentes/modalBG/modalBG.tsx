@@ -12,7 +12,7 @@ interface ModalBGProps {
     onCancel  :any;
     onClearFiltro :any;
     filtroCatalogoCampos: catalogosCampos[];
-    filtroCatalogo: catalogosFiltros[];
+    
     filtroInformacion: informacionFiltros[]
     catalogosValues : catalogosValues[]
     
@@ -29,8 +29,7 @@ interface ModalBGStateCatalogo{
     idContainer:number;
     tipoDato:string;
     isCatalogo: boolean
-    catalogoValue:catalogosValues[]
-    catalogoClausula: catalogosFiltros[] 
+    catalogoValue:catalogosValues[]    
 
 }
 
@@ -121,14 +120,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 </Select>
                 
                 
-                <Select key={`${id}-clausula`} style={{ width: 170}} defaultValue="-1"  >
-                     <option value="-1">Clausula</option>  
-                    {
-                        this.state.tipoCatalogo.find(x=>x.idContainer === id)?.catalogoClausula.map((recorre, index)=>{
-                            return <option key={index} value={recorre.id}>{ this.transformarToItem(recorre.value)  }</option>                      
-                        })
-                    }               
-                </Select>    
+                  
                 <Input key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && (x.tipoDato === "string" || x.tipoDato === "number" )&&  !x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} />
                 <DatePicker format="DD/mm/yyyy"  style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "date" && !x.isCatalogo ).length > 0? "inline" : "none", width:"200px" }} />
                 <Select   defaultValue="-1"  style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} >
@@ -155,12 +147,12 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         const tipoDato = this.props.filtroInformacion.find(x=>x.campo === e.value)?.tipoDato
         const esCatalogo =this.props.filtroInformacion.find(x=>x.campo === e.value)?.esCatalogo
         const catalogoValue = this.props.catalogosValues.filter(x=>x.campo === e.value);
-        const catalogoClausula = this.props.filtroCatalogo.filter(x=>x.tipoDato === tipoDato || x.tipoDato === "any");
+        
        if(this.state.tipoCatalogo.length === 0)
        {
             this.setState({...this.state, tipoCatalogo:[{
                 
-                idContainer:e.id, tipoDato:tipoDato || "", isCatalogo: esCatalogo || false, catalogoValue:catalogoValue, catalogoClausula : catalogoClausula}
+                idContainer:e.id, tipoDato:tipoDato || "", isCatalogo: esCatalogo || false, catalogoValue:catalogoValue}
             ] }, ()=>{
                 const newFiltro = this.ElementosFiltro().map(recorre =>{
                     if(recorre.id === e.id)
@@ -182,13 +174,12 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 {
                     recorre.tipoDato =  tipoDato || ""
                     recorre.isCatalogo = esCatalogo || false
-                    recorre.catalogoValue = catalogoValue
-                    recorre.catalogoClausula = catalogoClausula
+                    recorre.catalogoValue = catalogoValue                    
                 }
                 return recorre
             })
         }else{
-            tipoCatalogoAux.push({idContainer:e.id, tipoDato:tipoDato || "", isCatalogo:esCatalogo || false, catalogoValue:catalogoValue, catalogoClausula : catalogoClausula})
+            tipoCatalogoAux.push({idContainer:e.id, tipoDato:tipoDato || "", isCatalogo:esCatalogo || false, catalogoValue:catalogoValue})
         }
             this.setState({...this.state, tipoCatalogo: tipoCatalogoAux}, ()=>{
                 const newFiltro = this.ElementosFiltro().map(recorre =>{
