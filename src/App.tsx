@@ -12,7 +12,7 @@ import menuBG from './menu'
 import ColumnasGrupo from './interfaces/columnasGrupos';
 import DataSet from './interfaces/cuentaAhorros';
 import filtroCatalogoValues from './data/catalogoValores';
-import filtroCatalogo from './data/catalogoClausula';
+
 import informacionFiltro from './data/informacionFiltro';
 import CatalogoCampos from './data/catalogoCampo';
 
@@ -310,8 +310,7 @@ function App() {
             width={1200}
             tipoColumna="grupo"
             filtroCatalogoValues = {filtroCatalogoValues}
-            filtroCatalogoCampos = {CatalogoCampos}
-            filtroCatalogo = {filtroCatalogo}
+            filtroCatalogoCampos = {CatalogoCampos}             
             filtroInformacion = {informacionFiltro}
             />            
           </div>
