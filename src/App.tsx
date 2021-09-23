@@ -288,7 +288,7 @@ function App() {
   }
 
   const onAplicaFiltro = (e:any)=>{
-
+    console.log(e)
   }
   
   return (

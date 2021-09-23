@@ -145,7 +145,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             this.retornoFiltrosAplicados.push({campo:this.state.tipoCatalogo.find(x=>x.idContainer === e.campo)?.campo, value:e.value, id:e.campo})
         }
         
-        console.log(this.retornoFiltrosAplicados)
+        
     }
     createElementoFiltro = (id:number)=>{        
         return (

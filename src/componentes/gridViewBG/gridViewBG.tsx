@@ -107,7 +107,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
       setBadge(e.longitud)
       if(props.onAplicarFiltro)
       {
-        props.onAplicarFiltro();
+        props.onAplicarFiltro(e);
       }
     }
 
