@@ -286,6 +286,11 @@ function App() {
   }
     return {columns: columns, rows: rows}
   }
+
+  const onAplicaFiltro = (e:any)=>{
+
+  }
+  
   return (
       <> 
         <MenuBG items={menu} tituloPagina="RESUMEN CUENTAS DE AHORROS" >
@@ -312,6 +317,7 @@ function App() {
             filtroCatalogoValues = {filtroCatalogoValues}
             filtroCatalogoCampos = {CatalogoCampos}             
             filtroInformacion = {informacionFiltro}
+            onAplicarFiltro = {onAplicaFiltro}
             />            
           </div>
         </MenuBG>        

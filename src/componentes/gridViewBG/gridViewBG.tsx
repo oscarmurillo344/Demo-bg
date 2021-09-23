@@ -31,7 +31,7 @@ interface GridViewBGProps{
     buttonFilter?:boolean;
     tipoColumna: "grupo" | "individual"
     filtroCatalogoCampos: catalogosCampos[];
-
+    onAplicarFiltro?:any;
     filtroCatalogoValues : catalogosValues[]
     filtroInformacion: informacionFiltros[];
     
@@ -105,6 +105,10 @@ const GridViewBG = (props:GridViewBGProps)=>{
     { 
       setOpen(false)
       setBadge(e)
+      if(props.onAplicarFiltro)
+      {
+        props.onAplicarFiltro();
+      }
     }
 
     const onCancel = ()=>{
