@@ -2,7 +2,7 @@ import React, { CSSProperties, useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilterItem, GridFilterModel, GridLinkOperator, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@material-ui/data-grid';
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
-import { Badge, Dropdown, Modal, Space, Table, Select, Tabs, Tree, DatePicker } from 'antd';
+import { Badge, Dropdown, Modal, Space, Table, Select, Tabs, Tree, DatePicker, Checkbox } from 'antd';
 import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import ButtonBG from '../buttonBG/buttonBG';
@@ -214,80 +214,90 @@ const GridViewBG = (props:GridViewBGProps)=>{
            onCancel={onCancelColumns} 
            titulo={'Columnas'} 
            content={ <> 
+           <div className="flex row" style={{justifyContent:"space-around", marginBottom:"20px"}} >
+            <Checkbox >Total</Checkbox>
+            <Checkbox >Resumen</Checkbox>
+           </div>
+           <div className="flex row" style={{justifyContent:"space-around"}} >             
             <Tree
-            checkable
-        
-            treeData={[
+              checkable
+          
+              treeData={[
               {
-                title: '0-0',
+                title: 'Anterior',
                 key: '0-0',
                 children: [
                   {
-                    title: '0-0-0',
-                    key: '0-0-0',
-                    children: [
-                      {
-                        title: '0-0-0-0',
-                        key: '0-0-0-0',
-                      },
-                      {
-                        title: '0-0-0-1',
-                        key: '0-0-0-1',
-                      },
-                      {
-                        title: '0-0-0-2',
-                        key: '0-0-0-2',
-                      },
-                    ],
+                    title: 'Cuenta',
+                    key: '0-0-0'        
                   },
                   {
-                    title: '0-0-1',
-                    key: '0-0-1',
-                    children: [
-                      {
-                        title: '0-0-1-0',
-                        key: '0-0-1-0',
-                      },
-                      {
-                        title: '0-0-1-1',
-                        key: '0-0-1-1',
-                      },
-                      {
-                        title: '0-0-1-2',
-                        key: '0-0-1-2',
-                      },
-                    ],
+                    title: 'Saldo',
+                    key: '0-0-1'        
                   },
                   {
-                    title: '0-0-2',
-                    key: '0-0-2',
-                  },
+                    title: 'Tasa',
+                    key: '0-0-2'        
+                  }
+
                 ],
-              },
-              {
-                title: '0-1',
-                key: '0-1',
-                children: [
-                  {
-                    title: '0-1-0-0',
-                    key: '0-1-0-0',
-                  },
-                  {
-                    title: '0-1-0-1',
-                    key: '0-1-0-1',
-                  },
-                  {
-                    title: '0-1-0-2',
-                    key: '0-1-0-2',
-                  },
-                ],
-              },
-              {
-                title: '0-2',
-                key: '0-2',
               },
             ]}
           />
+
+          <Tree
+              checkable
+          
+              treeData={[
+              {
+                title: 'Actual',
+                key: '0-0',
+                children: [
+                  {
+                    title: 'Cuenta',
+                    key: '0-0-0'        
+                  },
+                  {
+                    title: 'Saldo',
+                    key: '0-0-1'        
+                  },
+                  {
+                    title: 'Tasa',
+                    key: '0-0-2'        
+                  }
+
+                ],
+              },
+            ]}
+          />
+
+          <Tree
+              checkable
+          
+              treeData={[
+              {
+                title: 'Variacion',
+                key: '0-0',
+                children: [
+                  {
+                    title: 'Cuenta',
+                    key: '0-0-0'        
+                  },
+                  {
+                    title: 'Saldo',
+                    key: '0-0-1'        
+                  },
+                  {
+                    title: 'Tasa',
+                    key: '0-0-2'        
+                  }
+
+                ],
+              },
+            ]}
+          />
+           </div>
+           
            </> }
            visible={openModalColumn}></ModalContentBG>
 
