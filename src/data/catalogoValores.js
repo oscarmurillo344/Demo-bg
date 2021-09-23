@@ -1,8 +1,8 @@
 const filtroCatalogoValues = [
     {
-      campo:"edad",
+      campo:"empresa",
       id: "0",
-      value: "23"
+      value: "Banco Bg"
     }
   ]
 

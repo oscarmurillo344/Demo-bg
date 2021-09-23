@@ -5,6 +5,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { catalogosCampos, catalogosFiltros, catalogosValues, informacionFiltros } from '../../interfaces/filtros'
 import ButtonBG from '../buttonBG/buttonBG'
+import SelectMultipleBG from '../selectMultipleBG/selectMultipleBG'
 const  {confirm} =  Modal;
 interface ModalBGProps {
     open:boolean;
@@ -22,6 +23,7 @@ interface ModalBGState {
     open:boolean;
     filtros : Array<any>
     tipoCatalogo: Array<ModalBGStateCatalogo>
+    values: any;
     
 }
 
@@ -43,8 +45,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         this.state = {
             open: this.props.open,
             filtros : [],
-            tipoCatalogo: []            
-            
+            tipoCatalogo: [],            
+            values: ["1"]
             
         }
     }
@@ -89,7 +91,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     render()
     {
         return (
-            <Modal style={{height:"1000px"}} width="550px" title="Filtros" visible={this.state.open} onOk={this.okModal}  onCancel={this.cancelModla} >
+            <Modal style={{height:"1000px"}} width="550px" title="Filtros" visible={this.state.open} onOk={this.okModal} okText="Aplicar Filtro" onCancel={this.cancelModla} >
             <div className="flex row accionesModal"  > 
                <ButtonBG shape="round" text="Limpiar" type="normal" style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}}  onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
                <ButtonBG shape="round" text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />
@@ -105,7 +107,27 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     onOpenModal = ()=>{
         this.setOpen(true)
     }
-      
+    
+    onChangeInputValue =async (e:any)=>{
+
+        await this.setValues(e)
+        
+    }
+    setValues =(valor:any)=>{
+        return new Promise((resolve, reject)=>{
+            const valores = this.state.values;
+            valores.push(valor)
+            this.setState({...this.state, values:valores}, ()=>resolve(1))
+        })
+    }
+
+    optenerCatalogosValues = (id:any): any[]=>{
+        let opciones:any[] = []
+        this.state.tipoCatalogo.find(x=>x.idContainer === id)?.catalogoValue.map(x=>{
+            opciones.push({label:x.value, value:x.id})
+        })
+        return opciones
+    }
     createElementoFiltro = (id:number)=>{        
         return (
           <> 
@@ -121,17 +143,9 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 
                 
                   
-                <Input key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && (x.tipoDato === "string" || x.tipoDato === "number" )&&  !x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} />
-                <DatePicker format="DD/mm/yyyy"  style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "date" && !x.isCatalogo ).length > 0? "inline" : "none", width:"200px" }} />
-                <Select   defaultValue="-1"  style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.isCatalogo).length > 0? "inline" : "none", width:"200px" }} >
-                 <option value="-1">Valores</option>  
-                 {
-                     this.state.tipoCatalogo.find(x=>x.idContainer === id)?.catalogoValue.map((recorre,index)=>{
-                        return <option key={index} value={recorre.id}>{this.transformarToItem(recorre.value)}</option>                      
-                     })
-                 }
-
-                </Select>
+                <Input key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && (x.tipoDato === "string" || x.tipoDato === "number" )&&  !x.isCatalogo).length > 0? "inline" : "none", width:"240px" }} />
+                <DatePicker format="DD/mm/yyyy"  style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "date" && !x.isCatalogo ).length > 0? "inline" : "none", width:"240px" }} />
+                <SelectMultipleBG  show={this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.isCatalogo).length > 0? true:false } opciones={this.optenerCatalogosValues(id)} />
 
                 <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
                 
