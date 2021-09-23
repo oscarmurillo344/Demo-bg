@@ -288,7 +288,7 @@ function App() {
   }
   return (
       <> 
-        <MenuBG items={menu} tituloPagina="CUENTAS DE AHORROS" >
+        <MenuBG items={menu} tituloPagina="RESUMEN CUENTAS DE AHORROS" >
           <div className="flex column" style={{justifyContent:"center"}}  >
             <GridViewBG 
             buttonDownload={true} 

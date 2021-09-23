@@ -137,11 +137,11 @@ const GridViewBG = (props:GridViewBGProps)=>{
           <div className="flex" style={{ alignItems:"end"}}  >
               <div className="flex colum" style={{alignItems:"start", justifyContent:"center"}} >
                 <div>Fecha Anterior</div>
-                <DatePicker format="DD/mm/yyyy"  style={{ width:"200px"}} />
+                <DatePicker format="DD/MM/yyyy"  style={{ width:"200px"}} />
               </div>
               <div className="flex colum" style={{alignItems:"start", marginLeft:"20px"}}  >
-              <div>Fecha Anterior</div>
-                <DatePicker format="DD/mm/yyyy"  style={{ width:"200px"}} />
+              <div>Fecha Actual</div>
+                <DatePicker format="DD/MM/yyyy"  style={{ width:"200px"}} />
               </div>
               <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}`, marginLeft:"20px" }}  text="Buscar" type="normal" icon={<ReloadOutlined />} /> 
               
