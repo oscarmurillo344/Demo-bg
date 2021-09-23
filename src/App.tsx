@@ -297,8 +297,8 @@ function App() {
             height={100} 
             columns={columnsGroup} 
             rows={rows}          
-            columnsResumen ={columnsGroupResumen}
-            rowsResumen={[{
+            columnsTotal ={columnsGroupResumen}
+            rowsTotal={[{
               
               codigo : 1,
               titulo:"Total",

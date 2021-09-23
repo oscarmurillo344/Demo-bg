@@ -24,8 +24,8 @@ interface GridViewBGProps{
     
     columns: ColumnasGrupo[] | any[];
     rows : Array<any>    
-    columnsResumen: ColumnasGrupo[] | any[];
-    rowsResumen : Array<any>    
+    columnsTotal: ColumnasGrupo[] | any[];
+    rowsTotal : Array<any>    
     onOpenDetalle : any;
     buttonDownload?:boolean;
     buttonFilter?:boolean;
@@ -170,9 +170,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     pagination={false}
                     style={{width:props.width, marginBottom:"10px"}}
                                       
-                    dataSource={props.rowsResumen}>
+                    dataSource={props.rowsTotal}>
                     {
-                      getColumnsGroup(props.columnsResumen)
+                      getColumnsGroup(props.columnsTotal)
                     }
                     
                   </Table>  
