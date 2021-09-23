@@ -1,0 +1,34 @@
+.contenedorFiltro{
+    
+    align-items: center;
+    justify-content: center;    
+    
+}
+
+.contenedorFiltro .elementoFiltro{
+    justify-content: start;
+    
+    margin-bottom: 20px;
+    
+
+}
+
+.contenedorFiltro .elementoFiltro > *{
+    margin-left: 10px;
+    
+}
+
+.accionesModal {
+    justify-content: end;
+    margin-bottom: 20px;
+}
+
+.accionesModal > *
+{
+    margin-left: 10px;
+}
+
+.elementoFiltro .iconEliminar:hover
+{
+    cursor: pointer;
+}
