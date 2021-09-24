@@ -282,13 +282,25 @@ const GridViewBG = (props:GridViewBGProps)=>{
            onCancel={onCancelColumns} 
            titulo={'Columnas'} 
            content={ <> 
-           <div className="flex row" style={{justifyContent:"space-around", marginBottom:"20px"}} >
-            <Checkbox >Total</Checkbox>
-            <Checkbox >Resumen</Checkbox>
+           <div  >
+              <Tabs defaultActiveKey="0" centered >
+                  <TabPane tab="total" key="0">
+                  {
+                     obtenerTreeColumnas(columnsGrupo)
+                  }
+                  </TabPane>
+                  <TabPane tab="grupo" key="1">
+                  {
+                     obtenerTreeColumnas(columnsGrupo)
+                  }
+                  </TabPane>
+
+
+              </Tabs>
+           
+              
            </div>
-            {
-              obtenerTreeColumnas(columnsGrupo)
-            }
+            
            
            </> }
            visible={openModalColumn}></ModalContentBG>
