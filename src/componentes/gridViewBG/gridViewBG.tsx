@@ -2,6 +2,7 @@ import React, { CSSProperties, useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilterItem, GridFilterModel, GridLinkOperator, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@material-ui/data-grid';
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
+import {Line} from 'react-chartjs-2'
 import { Badge, Dropdown, Modal, Space, Table, Select, Tabs, Tree, DatePicker, Checkbox } from 'antd';
 import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
@@ -275,6 +276,16 @@ const GridViewBG = (props:GridViewBGProps)=>{
        </> 
     }
     
+    const datMes = {
+      labels: [65, 59, 80, 81, 56, 55, 40],
+      datasets: [{
+        label: 'Grafico 1',
+        data: [65, 59, 80, 81, 56, 55, 40],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }]
+    };
     return (
       <div style={{justifyContent:"end", width:"100%", marginRight:"30px"}} className="flex" >
         
@@ -323,7 +334,22 @@ const GridViewBG = (props:GridViewBGProps)=>{
                 </TabPane>
               
                 <TabPane tab="Graficos" key="3">
-                <div className="tabContainer"> 
+                <div className="tabContainer flex" style={{justifyContent:"center"}}  >
+                      <Tabs  defaultActiveKey="0" centered> 
+
+                        <TabPane tab="Anual" key="0" >
+                        <div className="flex"  style={{width:"1000px",justifyContent:"center", height:"500px"}}> 
+                          <Line data={datMes}  />
+                        </div>
+                        </TabPane>
+
+                        <TabPane tab="Mensual" key="1" >
+
+                        </TabPane>
+
+                      </Tabs>
+                      
+                      
                 </div>
                 </TabPane>
         </Tabs> 
