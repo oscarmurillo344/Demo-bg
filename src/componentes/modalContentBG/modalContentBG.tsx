@@ -32,7 +32,7 @@ const ModalContentBG = (props:ModalContentBGProps)=>{
             props.onCancel()
         }   
         return (<>                 
-        <Modal title={props.titulo}  width={props.width} visible={visible} onOk={onOk}  onCancel={onCancel} >
+        <Modal  title={props.titulo}  width={props.width} visible={visible} onOk={onOk}  onCancel={onCancel} >
                 {props.content}
         </Modal>
         </>)

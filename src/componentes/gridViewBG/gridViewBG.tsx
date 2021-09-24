@@ -47,6 +47,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
   const [badge, setBadge] = useState(0)
   const [openModalContent, setOpenModalContent] = useState(false)
   const [openModalColumn, setOpenModalColumn] = useState(false)
+  const [columnsTotales, setColumnsTotales] = useState(props.columnsTotal)
+  const [columnsGrupo, setColumnsGrupos] = useState(props.columns)
+
   const getColumnsGroup = (columns:any[])=>{
     if(props.tipoColumna === "grupo")
     {
@@ -136,6 +139,70 @@ const GridViewBG = (props:GridViewBGProps)=>{
     const onCancelColumns = ()=>{
       setOpenModalColumn(false)
     }
+
+    const obtenerTreeColumnas = (columns:any[])=>{
+      if(props.tipoColumna === "grupo")
+      {
+          const data = obtenerTreeData(columns)
+          
+          
+          if(data)
+          {
+            
+            return  (<>          
+              <div className="flex row" style={{justifyContent:"space-around"}} >
+                  {
+                    
+                    columns.map((recorre:any, index:any)=>{
+                        if(recorre.tituloGrupo.trim() !== "")
+                        {
+                          console.log("tree")
+                          console.log(data[index].children)
+                          return (<> 
+  
+                            <Tree 
+                            defaultCheckedKeys={data[index].children.map((recorre:any)=> {
+                              return recorre.key
+                            })}
+                            key={index}
+                            treeData={[data[index]]}                        
+                            checkable/>                      
+                            </>)
+                        }   
+                      
+                    })
+                  }
+                  
+  
+              </div>
+             </>)
+          }
+         
+      }
+        
+    }
+
+    const obtenerTreeData = (columns:any[])=>
+    { 
+      let data = new Array<any>();
+      if(props.tipoColumna === "grupo" )
+      {
+          columns.forEach((recorre:any, index:any) =>{
+            
+              const childrenTree = recorre.items.map((recorreItem:any, indexItem:any)=>{
+                return {title:recorreItem.title.toLowerCase(), key: `0-0-${indexItem}` }
+              })
+              data.push({title: recorre.tituloGrupo.toLowerCase(), key:`0-0`, children:childrenTree} )
+            
+            
+          })
+      return data;
+      }
+      
+    }
+
+    
+
     const fechas = ()=>{
       return <>
           <div className="flex" style={{ alignItems:"end"}}  >
@@ -152,6 +219,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
           </div>
        </> 
     }
+    
     return (
       <div style={{justifyContent:"end", width:"100%", marginRight:"30px"}} className="flex" >
         
@@ -218,85 +286,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
             <Checkbox >Total</Checkbox>
             <Checkbox >Resumen</Checkbox>
            </div>
-           <div className="flex row" style={{justifyContent:"space-around"}} >             
-            <Tree
-              checkable
-          
-              treeData={[
-              {
-                title: 'Anterior',
-                key: '0-0',
-                children: [
-                  {
-                    title: 'Cuenta',
-                    key: '0-0-0'        
-                  },
-                  {
-                    title: 'Saldo',
-                    key: '0-0-1'        
-                  },
-                  {
-                    title: 'Tasa',
-                    key: '0-0-2'        
-                  }
-
-                ],
-              },
-            ]}
-          />
-
-          <Tree
-              checkable
-          
-              treeData={[
-              {
-                title: 'Actual',
-                key: '0-0',
-                children: [
-                  {
-                    title: 'Cuenta',
-                    key: '0-0-0'        
-                  },
-                  {
-                    title: 'Saldo',
-                    key: '0-0-1'        
-                  },
-                  {
-                    title: 'Tasa',
-                    key: '0-0-2'        
-                  }
-
-                ],
-              },
-            ]}
-          />
-
-          <Tree
-              checkable
-          
-              treeData={[
-              {
-                title: 'Variacion',
-                key: '0-0',
-                children: [
-                  {
-                    title: 'Cuenta',
-                    key: '0-0-0'        
-                  },
-                  {
-                    title: 'Saldo',
-                    key: '0-0-1'        
-                  },
-                  {
-                    title: 'Tasa',
-                    key: '0-0-2'        
-                  }
-
-                ],
-              },
-            ]}
-          />
-           </div>
+            {
+              obtenerTreeColumnas(columnsGrupo)
+            }
            
            </> }
            visible={openModalColumn}></ModalContentBG>

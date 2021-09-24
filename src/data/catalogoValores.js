@@ -9,6 +9,7 @@ const filtroCatalogoValues = [
       id: "1",
       value: "Banco Machala"
     },
+    
     {
       campo:"empresa",
       id: "2",
