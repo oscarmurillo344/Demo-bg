@@ -54,31 +54,35 @@ const GridViewBG = (props:GridViewBGProps)=>{
     if(props.tipoColumna === "grupo")
     {
       return columns.map((recorre, index) =>{
-        return (
-          <>
-            <ColumnGroup key={index} title={recorre.tituloGrupo} >
-              {recorre.items.map((recorreChildre:any, indexChildren:any)=>{
-                let render = undefined
-                let show = recorreChildre.show;
-                if(recorreChildre.render)
-                {
-                  render = recorreChildre.render
-                }
-                if(show)
-                {
-                  return (<> 
-                    <Column   title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
-                      width={recorreChildre.width} render={render}                            
-                    />
-                  </>)
+        if(recorre.items.filter((x:any)=>x.show).length > 0)
+        {
+          return (
+            <>
+              <ColumnGroup key={index} title={recorre.tituloGrupo} >
+                {recorre.items.map((recorreChildre:any, indexChildren:any)=>{
+                  let render = undefined
+                  let show = recorreChildre.show;
+                  if(recorreChildre.render)
+                  {
+                    render = recorreChildre.render
+                  }
+                  if(show)
+                  {
+                    return (<> 
+                      <Column   title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
+                        width={recorreChildre.width} render={render}                            
+                      />
+                    </>)
+                  }
+                  
+                })
                 }
                 
-              })
-              }
-              
-            </ColumnGroup>                   
-          </>
-        )
+              </ColumnGroup>                   
+            </>
+          )
+        }
+       
       })
     }else{
       return props.columns.map((recorre:any, index:any)=>{
@@ -145,9 +149,52 @@ const GridViewBG = (props:GridViewBGProps)=>{
       setOpenModalColumn(false)
     }
     const onCheked =(e:any)=>{
+      console.log("est es lo que retorna el check")
       console.log(e)
+      if(props.tipoColumna === "grupo")
+      { 
+          e.columns.map((x:any)=>
+          {
+            if(x.tituloGrupo.toLowerCase() === e.columnGroupTitle.toLowerCase())
+            {
+                x.items.forEach((element:any, index:any) => {
+                  if(e.keys.length > 0)
+                  {
+                    let seleccionado = false;
+                    e.keys.forEach((elementKey:any) => {
+                      if(elementKey === `0-${index}`)
+                      {
+                        seleccionado = true
+                      }
+                    });
+                    if(seleccionado)
+                    {
+                      element.show = true
+                    }else{
+                      element.show = false;
+                    }
+                  }else{
+                    element.show = false
+                  }
+                    
+                });
+                
+            }                      
+          }
+          )
+          if(e.tipo === "grupo")
+          {
+            console.log(e.columns)
+            setColumnsGrupos(e.columns)
+          }else{
+            console.log(e.columns)
+            setColumnsTotales(e.columns)
+          }
+
+      }
+      
     }
-    const obtenerTreeColumnas = (columns:any[])=>{
+    const obtenerTreeColumnas = (columns:any[], tipoGrid: "totales" | "grupo")=>{
       if(props.tipoColumna === "grupo")
       {
           const data = obtenerTreeData(columns)
@@ -168,7 +215,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                           return (<> 
   
                             <Tree 
-                            onCheck={(checkedKeys)=>onCheked({keys:checkedKeys, columnGroupTitle:recorre.tituloGrupo })}
+                            onCheck={(checkedKeys)=>onCheked({keys:checkedKeys, columnGroupTitle:recorre.tituloGrupo, columns: columns, tipo:tipoGrid })}
                             defaultCheckedKeys={data[index].children.map((recorre:any)=> {
                               return recorre.key
                             })}
@@ -294,12 +341,12 @@ const GridViewBG = (props:GridViewBGProps)=>{
               <Tabs defaultActiveKey="0" centered >
                   <TabPane tab="total" key="0">
                   {
-                     obtenerTreeColumnas(columnsGrupo)
+                     obtenerTreeColumnas(columnsTotales, "totales")
                   }
                   </TabPane>
                   <TabPane tab="grupo" key="1">
                   {
-                     obtenerTreeColumnas(columnsGrupo)
+                     obtenerTreeColumnas(columnsGrupo, "grupo")
                   }
                   </TabPane>
 
