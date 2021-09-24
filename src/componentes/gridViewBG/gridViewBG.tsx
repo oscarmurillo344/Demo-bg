@@ -59,15 +59,20 @@ const GridViewBG = (props:GridViewBGProps)=>{
             <ColumnGroup key={index} title={recorre.tituloGrupo} >
               {recorre.items.map((recorreChildre:any, indexChildren:any)=>{
                 let render = undefined
+                let show = recorreChildre.show;
                 if(recorreChildre.render)
                 {
                   render = recorreChildre.render
                 }
-                return (<> 
-                  <Column   title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
-                    width={recorreChildre.width} render={render}                            
-                  />
-                </>)
+                if(show)
+                {
+                  return (<> 
+                    <Column   title={recorreChildre.title} dataIndex={recorreChildre.dataIndex} key={recorreChildre.key} 
+                      width={recorreChildre.width} render={render}                            
+                    />
+                  </>)
+                }
+                
               })
               }
               
@@ -139,7 +144,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
     const onCancelColumns = ()=>{
       setOpenModalColumn(false)
     }
-
+    const onCheked =(e:any)=>{
+      console.log(e)
+    }
     const obtenerTreeColumnas = (columns:any[])=>{
       if(props.tipoColumna === "grupo")
       {
@@ -161,6 +168,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                           return (<> 
   
                             <Tree 
+                            onCheck={(checkedKeys)=>onCheked({keys:checkedKeys, columnGroupTitle:recorre.tituloGrupo })}
                             defaultCheckedKeys={data[index].children.map((recorre:any)=> {
                               return recorre.key
                             })}
@@ -190,9 +198,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
           columns.forEach((recorre:any, index:any) =>{
             
               const childrenTree = recorre.items.map((recorreItem:any, indexItem:any)=>{
-                return {title:recorreItem.title.toLowerCase(), key: `0-0-${indexItem}` }
+                return {title:recorreItem.title.toLowerCase(), key: `0-${indexItem}` }
               })
-              data.push({title: recorre.tituloGrupo.toLowerCase(), key:`0-0`, children:childrenTree} )
+              data.push({title: recorre.tituloGrupo.toLowerCase(), key:`0`, children:childrenTree} )
             
             
           })
@@ -244,7 +252,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                                       
                     dataSource={props.rowsTotal}>
                     {
-                      getColumnsGroup(props.columnsTotal)
+                      getColumnsGroup(columnsTotales)
                     }
                     
                   </Table>  
@@ -256,7 +264,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                       expandable={{ expandedRowRender }}
                       dataSource={props.rows}>
                       {
-                        getColumnsGroup(props.columns)
+                        getColumnsGroup(columnsGrupo)
                       }                        
                     </Table>
                     <div className="flex acciones" >

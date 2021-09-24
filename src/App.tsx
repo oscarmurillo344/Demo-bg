@@ -24,6 +24,7 @@ function App() {
       items : [{
         dataIndex: 'titulo', 
         key:'titulo', 
+        show:true,
         title: '', 
         width: 100,
       }
@@ -37,12 +38,14 @@ function App() {
           key:'anterior', 
           title: 'Cuentas', 
           width: 100,
+          show:true,
           render: (objeto:any) =>  objeto.cuenta
         },
         {
           dataIndex: 'anterior', 
           key:'anterior', 
           title: 'Saldos', 
+          show:true,
           width: 100,
           render: (objeto:any) =>  objeto.saldo
         },
@@ -50,6 +53,7 @@ function App() {
           dataIndex: 'anterior', 
           key:'anterior', 
           title: 'Tasa', 
+          show:true,
           width: 100,
           render: (objeto:any) =>  objeto.tasa
         }
@@ -62,6 +66,7 @@ function App() {
         dataIndex: 'actual', 
         key:'actual', 
         title: 'Cuentas', 
+        show:true,
         width: 100,
         render: (objeto:any) =>  objeto.cuenta
       },
@@ -69,6 +74,7 @@ function App() {
         dataIndex: 'actual', 
         key:'actual', 
         title: 'Saldos', 
+        show:true,
         width: 100,
         render: (objeto:any) =>  objeto.saldo
       },
@@ -76,6 +82,7 @@ function App() {
         dataIndex: 'actual', 
         key:'actual', 
         title: 'Tasa', 
+        show:true,
         width: 100,
         render: (objeto:any) =>  objeto.tasa
       }
@@ -87,7 +94,8 @@ function App() {
         {
           dataIndex: 'variacion', 
           key:'variacion', 
-          title: 'Saldos', 
+          title: 'Saldos',
+          show:true, 
           width: 100,
           render: (objeto:any) =>  objeto.saldo
         },
@@ -95,6 +103,7 @@ function App() {
           dataIndex: 'actual', 
           key:'actual', 
           title: 'Tasa', 
+          show:true,
           width: 100,
           render: (objeto:any) =>  objeto.tasa
         }
@@ -108,12 +117,14 @@ function App() {
         dataIndex: 'codigo', 
         key:'codigo', 
         title: 'Codigo', 
+        show:true,
         width: 100,
       },
       {
         dataIndex: 'descripcion', 
         key:'descripcion', 
         title: 'Descripcion', 
+        show:true,
         width: 100,
       }
     ]
@@ -125,6 +136,7 @@ function App() {
           dataIndex: 'anterior', 
           key:'anterior', 
           title: 'Cuentas', 
+          show:true,
           width: 100,
           render: (objeto:any) =>  objeto.cuenta
         },
@@ -132,6 +144,7 @@ function App() {
           dataIndex: 'anterior', 
           key:'anterior', 
           title: 'Saldos', 
+          show:true,
           width: 100,
           render: (objeto:any) =>  objeto.saldo
         },
@@ -139,6 +152,7 @@ function App() {
           dataIndex: 'anterior', 
           key:'anterior', 
           title: 'Tasa', 
+          show:true,
           width: 100,
           render: (objeto:any) =>  objeto.tasa
         }
@@ -151,20 +165,23 @@ function App() {
         dataIndex: 'actual', 
         key:'actual', 
         title: 'Cuentas', 
+        show:true,
         width: 100,
         render: (objeto:any) =>  objeto.cuenta
       },
       {
         dataIndex: 'actual', 
         key:'actual', 
-        title: 'Saldos', 
+        title: 'Saldos',
+        show:true, 
         width: 100,
         render: (objeto:any) =>  objeto.saldo
       },
       {
         dataIndex: 'actual', 
         key:'actual', 
-        title: 'Tasa', 
+        title: 'Tasa',
+        show:true, 
         width: 100,
         render: (objeto:any) =>  objeto.tasa
       }
@@ -176,7 +193,8 @@ function App() {
         {
           dataIndex: 'variacion', 
           key:'variacion', 
-          title: 'Saldos', 
+          title: 'Saldos',
+          show:true, 
           width: 100,
           render: (objeto:any) =>  objeto.saldo
         },
@@ -184,6 +202,7 @@ function App() {
           dataIndex: 'actual', 
           key:'actual', 
           title: 'Tasa', 
+          show:true,
           width: 100,
           render: (objeto:any) =>  objeto.tasa
         }
