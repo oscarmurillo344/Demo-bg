@@ -19,6 +19,17 @@ import * as XLSX from "xlsx";
 import ModalContentBG from '../modalContentBG/modalContentBG';
 const { TabPane } = Tabs;
 
+interface GridViewBGPropsDataSetGrafico{
+      labels: any[],
+      datasets: [{
+        label:string,
+        data:any[],
+        fill:boolean,
+        borderColor:string,
+        tension:number
+      }]
+    
+}
 interface GridViewBGProps{
     width:number;
     height:number,
@@ -35,13 +46,9 @@ interface GridViewBGProps{
     onAplicarFiltro?:any;
     filtroCatalogoValues : catalogosValues[]
     filtroInformacion: informacionFiltros[];
-    
+    dataSetGraficos? : {mensual:GridViewBGPropsDataSetGrafico, anual:GridViewBGPropsDataSetGrafico}
 }
 
-interface GridViewBGModalState {
-  id:number;
-  element:any
-}
 let validarRefencia = 0;
 const GridViewBG = (props:GridViewBGProps)=>{
   const [open, setOpen] = useState(false)
@@ -50,7 +57,16 @@ const GridViewBG = (props:GridViewBGProps)=>{
   const [openModalColumn, setOpenModalColumn] = useState(false)
   const [columnsTotales, setColumnsTotales] = useState(props.columnsTotal)
   const [columnsGrupo, setColumnsGrupos] = useState(props.columns)
-
+  const dataAnual = {
+    labels: ["Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Noviembre", "Diciembre"],
+    datasets: [{
+      label: 'Grafico 1',
+      data: [65, 59, 80, 81, 56, 55, 40, 52, 48, 12,11, 80],
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    }]
+  };
   const getColumnsGroup = (columns:any[])=>{
     if(props.tipoColumna === "grupo")
     {
@@ -276,16 +292,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
        </> 
     }
     
-    const datMes = {
-      labels: [65, 59, 80, 81, 56, 55, 40],
-      datasets: [{
-        label: 'Grafico 1',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }]
-    };
+    
     return (
       <div style={{justifyContent:"end", width:"100%", marginRight:"30px"}} className="flex" >
         
@@ -339,12 +346,19 @@ const GridViewBG = (props:GridViewBGProps)=>{
 
                         <TabPane tab="Anual" key="0" >
                         <div className="flex"  style={{width:"1000px",justifyContent:"center", height:"500px"}}> 
-                          <Line data={datMes}  />
+                        {
+                            props.dataSetGraficos?  <Line data={props.dataSetGraficos?.anual}  /> :  <> </>
+                        }
+                          
                         </div>
                         </TabPane>
 
                         <TabPane tab="Mensual" key="1" >
-
+                        <div className="flex"  style={{width:"1000px",justifyContent:"center", height:"500px"}}> 
+                        {
+                            props.dataSetGraficos?  <Line data={props.dataSetGraficos?.mensual}  /> :  <> </>
+                        }
+                        </div>
                         </TabPane>
 
                       </Tabs>
@@ -415,4 +429,3 @@ const GridViewBG = (props:GridViewBGProps)=>{
 
 
 export default GridViewBG;
-

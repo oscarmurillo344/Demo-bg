@@ -310,6 +310,33 @@ function App() {
     console.log(e)
   }
   
+  const getDataSetGraficos = (x:any[], y:any[], tituloGrafico:string)=>{
+    const dataSet = {
+      labels:x ,
+      datasets: [{
+        label: tituloGrafico,
+        data: y,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      },    
+    ]
+    }
+
+    return dataSet;
+  }
+  const meses:any[] = ["Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Noviembre", "Diciembre"]
+  const dataSimuladaGrafico:any[] = [65, 59, 80, 81, 56, 55, 40, 52, 48, 12,11, 80];
+  const diasMeses = ()=> { 
+    let retorno:any[] = []
+    for(var i=1;i<32; i++)
+    {  
+      retorno.push(i)
+    }
+
+    return retorno;
+   }
+ 
   return (
       <> 
         <MenuBG items={menu} tituloPagina="RESUMEN CUENTAS DE AHORROS" >
@@ -337,6 +364,31 @@ function App() {
             filtroCatalogoCampos = {CatalogoCampos}             
             filtroInformacion = {informacionFiltro}
             onAplicarFiltro = {onAplicaFiltro}
+            dataSetGraficos={{
+            mensual:{
+              labels: diasMeses(),
+              datasets: [{
+                label: 'Mensual',
+                data: dataSimuladaGrafico,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+              },            
+            ]
+            },
+            anual:{
+              labels: meses,
+              datasets: [{
+                label: 'Anual',
+                data: dataSimuladaGrafico,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+              },            
+            ]
+            }
+          
+          }}
             />            
           </div>
         </MenuBG>        
