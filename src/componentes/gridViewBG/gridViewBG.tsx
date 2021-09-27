@@ -46,6 +46,7 @@ interface GridViewBGProps{
     filtroCatalogoValues : catalogosValues[]
     filtroInformacion: informacionFiltros[];
     onBuscar?:any;
+    onLoad?: any;
     dataSetGraficos? : {mensual:GridViewBGPropsDataSetGrafico, anual:GridViewBGPropsDataSetGrafico}
 }
 
@@ -70,6 +71,16 @@ const GridViewBG = (props:GridViewBGProps)=>{
       tension: 0.1
     }]
   };
+  useEffect(()=>{
+      if(props.onLoad)
+      {
+        props.onLoad({
+          fechaAnterior : fechaAnterior,
+          fechaActual : fechaActual,
+          filtrosAplicados : filtrosAplicadosObjeto
+        });
+      }
+  })
   const getColumnsGroup = (columns:any[])=>{
     if(props.tipoColumna === "grupo")
     {

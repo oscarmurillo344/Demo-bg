@@ -326,6 +326,10 @@ function App() {
   const onBuscar = (e:any)=>{
     console.log(e)
   }
+
+  const onLoad = (e:any)=>{
+    console.log(e)
+  }
   return (
       <> 
         <MenuBG items={menu} tituloPagina="RESUMEN CUENTAS DE AHORROS" >
@@ -338,6 +342,7 @@ function App() {
             height={100} 
             columns={columnsGroup} 
             rows={rows}          
+            onLoad={onLoad}
             columnsTotal ={columnsGroupResumen}
             rowsTotal={[{
               
