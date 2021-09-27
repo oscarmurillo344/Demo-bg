@@ -14,8 +14,7 @@ import ColumnasGrupo from '../../interfaces/columnasGrupos';
 import ReactDOM from 'react-dom';
 import ModalBG from '../modalBG/modalBG';
 import { catalogosCampos, catalogosFiltros, catalogosValues, informacionFiltros } from '../../interfaces/filtros';
-import * as FileSaver from "file-saver";
-import * as XLSX from "xlsx";
+import moment from 'moment';
 import ModalContentBG from '../modalContentBG/modalContentBG';
 const { TabPane } = Tabs;
 
@@ -46,6 +45,7 @@ interface GridViewBGProps{
     onAplicarFiltro?:any;
     filtroCatalogoValues : catalogosValues[]
     filtroInformacion: informacionFiltros[];
+    onBuscar?:any;
     dataSetGraficos? : {mensual:GridViewBGPropsDataSetGrafico, anual:GridViewBGPropsDataSetGrafico}
 }
 
@@ -57,6 +57,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
   const [openModalColumn, setOpenModalColumn] = useState(false)
   const [columnsTotales, setColumnsTotales] = useState(props.columnsTotal)
   const [columnsGrupo, setColumnsGrupos] = useState(props.columns)
+  const [filtrosAplicadosObjeto, setFiltrosAplicados] = useState({});
+  let fechaAnterior = new Date(moment().subtract(20, "days").toDate());
+  let fechaActual = new Date(moment().toDate());
   const dataAnual = {
     labels: ["Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Noviembre", "Diciembre"],
     datasets: [{
@@ -134,9 +137,14 @@ const GridViewBG = (props:GridViewBGProps)=>{
     { 
       setOpen(false)
       setBadge(e.longitud)
+      setFiltrosAplicados(e)
+      
+      
       if(props.onAplicarFiltro)
       {
+        
         props.onAplicarFiltro(e);
+        
       }
     }
 
@@ -274,19 +282,43 @@ const GridViewBG = (props:GridViewBGProps)=>{
     }
 
     
-
+    const onBuscar = ()=>{
+      if(props.onBuscar)
+      {
+        console.log(filtrosAplicadosObjeto)
+        console.log({
+          fechaAnterior : fechaAnterior,
+          fechaActual : fechaActual,
+          filtrosAplicados : filtrosAplicadosObjeto
+        })
+        props.onBuscar({
+          fechaAnterior : fechaAnterior,
+          fechaActual : fechaActual,
+          filtrosAplicados : filtrosAplicadosObjeto
+        });
+      }
+    }
+    const onChangeFechaFechaAnterior = (e:any)=>
+    {
+      fechaAnterior = e.toDate();
+      
+    }
+    const onChangeFechaFechaActual = (e:any)=>
+    {
+      fechaActual = e.toDate();
+    }
     const fechas = ()=>{
       return <>
           <div className="flex" style={{ alignItems:"end"}}  >
               <div className="flex colum" style={{alignItems:"start", justifyContent:"center"}} >
                 <div>Fecha Anterior</div>
-                <DatePicker format="DD/MM/yyyy"  style={{ width:"200px"}} />
+                <DatePicker format="DD/MM/yyyy" onChange={onChangeFechaFechaAnterior} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
               </div>
               <div className="flex colum" style={{alignItems:"start", marginLeft:"20px"}}  >
               <div>Fecha Actual</div>
-                <DatePicker format="DD/MM/yyyy"  style={{ width:"200px"}} />
+                <DatePicker format="DD/MM/yyyy" onChange={onChangeFechaFechaActual} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
               </div>
-              <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}`, marginLeft:"20px" }}  text="Buscar" type="normal" icon={<ReloadOutlined />} /> 
+              <ButtonBG shape="round" onClick={onBuscar} style={{display: `${props.buttonFilter? "inline" : "none"}`, marginLeft:"20px" }}  text="Buscar" type="normal" icon={<ReloadOutlined />} /> 
               
           </div>
        </> 

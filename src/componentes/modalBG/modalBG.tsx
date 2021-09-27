@@ -92,7 +92,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     render()
     {
         return (
-            <Modal style={{height:"1000px"}} width="550px" title="Filtros" visible={this.state.open} onOk={this.okModal} okText="Aplicar Filtro" onCancel={this.cancelModla} >
+            <Modal style={{height:"1000px"}} width="550px" title="Filtros" visible={this.state.open} onOk={this.okModal} okText="Guardar Filtro" onCancel={this.cancelModla} >
             <div className="flex row accionesModal"  > 
                <ButtonBG shape="round" text="Limpiar" type="normal" style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}}  onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
                <ButtonBG shape="round" text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />

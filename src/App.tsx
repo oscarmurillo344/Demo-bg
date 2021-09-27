@@ -307,24 +307,11 @@ function App() {
   }
 
   const onAplicaFiltro = (e:any)=>{
+    console.log("datow filtros")
     console.log(e)
   }
   
-  const getDataSetGraficos = (x:any[], y:any[], tituloGrafico:string)=>{
-    const dataSet = {
-      labels:x ,
-      datasets: [{
-        label: tituloGrafico,
-        data: y,
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      },    
-    ]
-    }
 
-    return dataSet;
-  }
   const meses:any[] = ["Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Noviembre", "Diciembre"]
   const dataSimuladaGrafico:any[] = [65, 59, 80, 81, 56, 55, 40, 52, 48, 12,11, 80];
   const diasMeses = ()=> { 
@@ -336,12 +323,15 @@ function App() {
 
     return retorno;
    }
- 
+  const onBuscar = (e:any)=>{
+    console.log(e)
+  }
   return (
       <> 
         <MenuBG items={menu} tituloPagina="RESUMEN CUENTAS DE AHORROS" >
           <div className="flex column" style={{justifyContent:"center"}}  >
-            <GridViewBG 
+            <GridViewBG
+            onBuscar={onBuscar}
             buttonDownload={true} 
             buttonFilter={true}  
             onOpenDetalle={onOpenDetalle} 
