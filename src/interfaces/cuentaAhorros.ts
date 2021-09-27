@@ -14,3 +14,32 @@ interface DataSetItems //esta interface se va a reutilizar en la renderizacion d
     saldo:number;
     tasa:number;
 }
+
+interface DataTotal{
+    actualCuentas: number
+    actualSaldos: number
+    actualTasa: number
+    anteriorCuentas: number
+    anteriorSaldos: number
+    anteriorTasa: number
+    total: string;
+    variacionCuentas: number
+    variacionSaldos: number
+    variacionTasa: number
+}
+
+interface DataGrupo{
+    key:number;
+    actualCuentas: number
+    actualSaldos: number
+    actualTasa: number
+    anteriorCuentas: number
+    anteriorSaldos: number
+    anteriorTasa: number
+    id:number;
+    descripcion:string;
+    variacionCuentas: number
+    variacionSaldos: number
+    variacionTasa: number
+}
+

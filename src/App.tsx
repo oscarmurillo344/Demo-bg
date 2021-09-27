@@ -18,18 +18,20 @@ import CatalogoCampos from './data/catalogoCampo';
 import FiltrosServices from './servicios/filtros';
 import { catalogosCampos, catalogosValues, informacionFiltros } from './interfaces/filtros';
 import { useEffect, useState } from 'react';
+import DataServices from './servicios/data';
 
 function App() {
   const menu : MenuListBg[] = menuBG;
   const [filtrosCampos, setFiltrosCampos] = useState(Array<informacionFiltros>())
   const [filtrosValues, setFiltrosValues] = useState(Array<catalogosValues>())
   const [filtrosCampoCatalogo,setFiltrosCampoCatalogo] =  useState(Array<catalogosCampos>())  
+  const [rowsTotales, setRowsTotales] = useState<any[]>([]);
   const columnsGroupResumen :ColumnasGrupo[] = [
     {
       tituloGrupo: "",
       items : [{
-        dataIndex: 'titulo', 
-        key:'titulo', 
+        dataIndex: 'total', 
+        key:'total', 
         show:true,
         title: '', 
         width: 100,
@@ -40,28 +42,25 @@ function App() {
     tituloGrupo:"ANTERIOR",
     items: [
         {
-          dataIndex: 'anterior', 
-          key:'anterior', 
+          dataIndex: 'anteriorCuentas', 
+          key:'anteriorCuentas', 
           title: 'Cuentas', 
           width: 100,
-          show:true,
-          render: (objeto:any) =>  objeto.cuenta
+          show:true          
         },
         {
-          dataIndex: 'anterior', 
-          key:'anterior', 
+          dataIndex: 'anteriorSaldos', 
+          key:'anteriorSaldos', 
           title: 'Saldos', 
           show:true,
-          width: 100,
-          render: (objeto:any) =>  objeto.saldo
+          width: 100          
         },
         {
-          dataIndex: 'anterior', 
-          key:'anterior', 
+          dataIndex: 'anteriorTasa', 
+          key:'anteriorTasa', 
           title: 'Tasa', 
           show:true,
-          width: 100,
-          render: (objeto:any) =>  objeto.tasa
+          width: 100          
         }
       ]
     },
@@ -69,28 +68,25 @@ function App() {
     tituloGrupo:"ACTUAL",
     items: [
       {
-        dataIndex: 'actual', 
-        key:'actual', 
+        dataIndex: 'actualCuentas', 
+        key:'actualCuentas', 
         title: 'Cuentas', 
         show:true,
-        width: 100,
-        render: (objeto:any) =>  objeto.cuenta
+        width: 100
       },
       {
-        dataIndex: 'actual', 
-        key:'actual', 
+        dataIndex: 'actualSaldos', 
+        key:'actualSaldos', 
         title: 'Saldos', 
         show:true,
-        width: 100,
-        render: (objeto:any) =>  objeto.saldo
+        width: 100
       },
       {
-        dataIndex: 'actual', 
-        key:'actual', 
+        dataIndex: 'actualTasa', 
+        key:'actualTasa', 
         title: 'Tasa', 
         show:true,
-        width: 100,
-        render: (objeto:any) =>  objeto.tasa
+        width: 100        
       }
     ]
     },
@@ -98,20 +94,18 @@ function App() {
       tituloGrupo:"VARIACION",
       items: [      
         {
-          dataIndex: 'variacion', 
-          key:'variacion', 
+          dataIndex: 'variacionSaldos', 
+          key:'variacionSaldos', 
           title: 'Saldos',
           show:true, 
-          width: 100,
-          render: (objeto:any) =>  objeto.saldo
+          width: 100
         },
         {
-          dataIndex: 'actual', 
-          key:'actual', 
+          dataIndex: 'variacionTasa', 
+          key:'variacionTasa', 
           title: 'Tasa', 
           show:true,
-          width: 100,
-          render: (objeto:any) =>  objeto.tasa
+          width: 100        
         }
       ]
     }  
@@ -333,8 +327,13 @@ function App() {
     console.log(e)
   }
 
-  const onLoad = (e:any)=>{
-    
+  const onLoad = async (e:any)=>{
+    const objeto = new DataServices();
+    const retorno = await objeto.consultarTotal(e.fechaAnterior, e.fechaActual)
+    retorno.map((recorre:any, index:number)=>{
+      recorre.key = index;
+    })
+    setRowsTotales(retorno)
   }
 
   useEffect(()=>{
@@ -372,15 +371,7 @@ function App() {
             rows={rows}          
             onLoad={onLoad}
             columnsTotal ={columnsGroupResumen}
-            rowsTotal={[{
-              
-              codigo : 1,
-              titulo:"Total",
-              descripcion: "descripcion",
-              anterior: {cuenta:1, saldo : 2, tasa:3},
-              actual: {cuenta:1, saldo : 2, tasa:3},
-              variacion: {cuenta:1, saldo : 2, tasa:3}  
-            }]}     
+            rowsTotal={rowsTotales}     
             width={1200}
             tipoColumna="grupo"
             filtroCatalogoValues = {filtroCatalogoValues}
