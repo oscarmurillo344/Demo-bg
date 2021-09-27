@@ -28,13 +28,7 @@ const CatalogoCampos = [
     },
     {
         cammpo:"saldo"
-    },
-    {
-        cammpo:"fecha anterior"
-    },
-    {
-        cammpo:"fecha actual"
-    }            
+    }         
   ]
 
 export default CatalogoCampos

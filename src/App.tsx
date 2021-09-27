@@ -15,9 +15,15 @@ import filtroCatalogoValues from './data/catalogoValores';
 
 import informacionFiltro from './data/informacionFiltro';
 import CatalogoCampos from './data/catalogoCampo';
+import FiltrosServices from './servicios/filtros';
+import { catalogosCampos, catalogosValues, informacionFiltros } from './interfaces/filtros';
+import { useEffect, useState } from 'react';
 
 function App() {
   const menu : MenuListBg[] = menuBG;
+  const [filtrosCampos, setFiltrosCampos] = useState(Array<informacionFiltros>())
+  const [filtrosValues, setFiltrosValues] = useState(Array<catalogosValues>())
+  const [filtrosCampoCatalogo,setFiltrosCampoCatalogo] =  useState(Array<catalogosCampos>())  
   const columnsGroupResumen :ColumnasGrupo[] = [
     {
       tituloGrupo: "",
@@ -328,8 +334,30 @@ function App() {
   }
 
   const onLoad = (e:any)=>{
-    console.log(e)
+    
   }
+
+  useEffect(()=>{
+ /*    const objeto = new FiltrosServices(); 
+    objeto.consultarCampos().then((retorno:Array<informacionFiltros>)=>{
+        objeto.consultarCatalogos().then((retornoValues:Array<catalogosValues>)=>{
+            setFiltrosCampos(retorno)
+            setFiltrosValues(retornoValues);
+            
+            let aux :catalogosCampos[] = [];
+            filtrosCampos.forEach(recorre=>{
+              aux.push({cammpo:recorre.campo})
+            })
+            
+            setFiltrosCampoCatalogo(aux)
+        }, error=>console.log(error))        
+    }, error=>{
+      console.log(error)
+    }) */
+    
+  })
+  
+  
   return (
       <> 
         <MenuBG items={menu} tituloPagina="RESUMEN CUENTAS DE AHORROS" >
@@ -356,7 +384,7 @@ function App() {
             width={1200}
             tipoColumna="grupo"
             filtroCatalogoValues = {filtroCatalogoValues}
-            filtroCatalogoCampos = {CatalogoCampos}             
+            filtroCatalogoCampos = { CatalogoCampos}             
             filtroInformacion = {informacionFiltro}
             onAplicarFiltro = {onAplicaFiltro}
             dataSetGraficos={{

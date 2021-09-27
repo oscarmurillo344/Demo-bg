@@ -14,5 +14,3 @@ interface DataSetItems //esta interface se va a reutilizar en la renderizacion d
     saldo:number;
     tasa:number;
 }
-
-

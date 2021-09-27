@@ -44,16 +44,6 @@ const informacionFiltro = [
       campo : "saldo",
       tipoDato : "number",
       esCatalogo: false
-    },    
-    {
-      campo : "fecha anterior",
-      tipoDato : "date",
-      esCatalogo: false
-    },
-    {
-      campo : "fecha actual",
-      tipoDato : "date",
-      esCatalogo: false
     }
   ]
 
