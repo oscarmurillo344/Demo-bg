@@ -58,6 +58,8 @@ const GridViewBG = (props:GridViewBGProps)=>{
   const [openModalColumn, setOpenModalColumn] = useState(false)
   const [columnsTotales, setColumnsTotales] = useState(props.columnsTotal)
   const [columnsGrupo, setColumnsGrupos] = useState(props.columns)
+  const [rowTotales, setRowTotales] = useState(props.rowsTotal)
+  const [rowGrupos, setRowGrupos] = useState(props.rows)
   const [filtrosAplicadosObjeto, setFiltrosAplicados] = useState({});
   let fechaAnterior = new Date(moment().subtract(20, "days").toDate());
   let fechaActual = new Date(moment().toDate());
@@ -81,6 +83,14 @@ const GridViewBG = (props:GridViewBGProps)=>{
         });
       }
   })
+
+  useEffect(()=>{
+    setRowTotales(props.rowsTotal)
+  }, [props.rowsTotal])
+
+  useEffect(()=>{
+    setRowGrupos(props.rows)
+  }, [props.rows])
   const getColumnsGroup = (columns:any[])=>{
     if(props.tipoColumna === "grupo")
     {
@@ -358,7 +368,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     pagination={false}
                     style={{width:props.width, marginBottom:"10px"}}
                                       
-                    dataSource={props.rowsTotal}>
+                    dataSource={rowTotales}>
                     {
                       getColumnsGroup(columnsTotales)
                     }
@@ -370,7 +380,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                       style={{width:props.width}}
                       scroll ={{y:210}}            
                       expandable={{ expandedRowRender }}
-                      dataSource={props.rows}>
+                      dataSource={rowGrupos}>
                       {
                         getColumnsGroup(columnsGrupo)
                       }                        
