@@ -349,9 +349,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
     return (
       <div style={{justifyContent:"end", width:"100%", marginRight:"30px"}} className="flex" >
         
-        <Tabs defaultActiveKey="1" tabPosition="right" >
+        
                 
-                <TabPane tab="Informacion" key="1">
+                
                 <div className="tabContainer"> 
                 
                 <div className="acciones flex" style={{justifyContent:"space-between", alignItems:"end", marginBottom:"20px"}}>          
@@ -391,9 +391,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     <ButtonBG shape="round" text="Columnas" onClick={onColumnas}  type="outline" icon={<RotateRightOutlined />} /> 
                     </div>
                 </div>
-                </TabPane>
+                
               
-                <TabPane tab="Graficos" key="3">
+             {/*    <TabPane tab="Graficos" key="3">
                 <div className="tabContainer flex" style={{justifyContent:"center"}}  >
                       <Tabs  defaultActiveKey="0" centered> 
 
@@ -418,8 +418,8 @@ const GridViewBG = (props:GridViewBGProps)=>{
                       
                       
                 </div>
-                </TabPane>
-        </Tabs> 
+                </TabPane> */}
+        
       
         {
           <>

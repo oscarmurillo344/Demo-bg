@@ -38,7 +38,7 @@ export default class MenuBG extends React.Component<MenuBGProps, any>
         <div className="container-menu ancho-manu">
       
         </div>
-        <div style={{marginTop:"60px"}}>
+        <div style={{marginTop:"20px"}}>
             {this.props.children}
         </div>               
     </>)
