@@ -44,7 +44,11 @@ export default class MenuBG extends React.Component<MenuBGProps, any>
               })
             }
         </div>
-        <div style={{marginTop:"20px"}}>
+        <div className="container-menu-childrens" >
+            hola
+        </div>
+        <div style={{marginTop:"20px", marginLeft:"260px"}} >
+            
             {this.props.children}
         </div>               
     </>)
