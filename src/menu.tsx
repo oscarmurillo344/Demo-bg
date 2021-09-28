@@ -1,5 +1,5 @@
 import React from 'react'
-import { AiOutlineShop, AiOutlineSolution, AiOutlineUser } from 'react-icons/ai'
+import { AiOutlineSetting, AiOutlineShop, AiOutlineSolution, AiOutlineUnlock, AiOutlineUser } from 'react-icons/ai'
 
 const menu = [
     {
@@ -45,7 +45,7 @@ const menu = [
    },
    {
        nombre:"Seguridad", 
-       icon: <AiOutlineUser></AiOutlineUser>,
+       icon: <AiOutlineUnlock></AiOutlineUnlock>,
        items: [
            {
                nombre:"Usuarios"}, 
@@ -55,7 +55,7 @@ const menu = [
    },
    {
        nombre:"Configuraciones", 
-       icon: <AiOutlineShop></AiOutlineShop>,
+       icon: <AiOutlineSetting></AiOutlineSetting>,
        items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
    }
 ]

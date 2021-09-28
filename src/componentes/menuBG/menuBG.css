@@ -87,6 +87,34 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 }
 
+.container-menu .container-item
+{
+  
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  
+  width: 100%;
+  justify-content: center;
+  
+}
+
+.container-menu .container-item :hover
+{
+  
+  cursor: pointer;
+  
+
+}
+
+.container-menu .container-item:active
+{
+  
+  background: rgba(214, 231, 227, 0.897);
+  
+
+}
 .descripcion-pantalla
 {
   position: absolute;
