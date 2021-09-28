@@ -65,16 +65,24 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: rgba(0, 0, 0, 0.3);
 }
 
+.nav-bar
+{
+  height: 60px;
+  background: #160F41;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.336);
+  
+}
 
 
 .container-menu
 {
-  width: 100%;
-  height: 46px;
-  border-bottom: 1px solid rgba(1,34,68,.2);
-  position: absolute;
+  width: 60px;
+  height: 100%;
+  position: fixed;
+  background: #160F41;
 
-  background-color: rgba(1,34,68,.01) 
 }
 
 .descripcion-pantalla
@@ -87,16 +95,11 @@ Note: Beware of modifying this element as it can break the animations - you shou
   font-size: 17px;
 }
 
-.nav-bar
-{
-  height: 100px;
-  background: #bc157c;
-  justify-content: space-between;
-}
 
 .nav-bar img{
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 5px;
+  
+  
 }
 
 .menuItems

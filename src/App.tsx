@@ -222,7 +222,7 @@ function App() {
     rows.push({
       key: recorre+1,
       codigo : (recorre +1).toString(),
-      descripcion: "descripcion ",
+      descripcion: "descripcion",
       anterior: {cuenta:80.3, saldo : 42.1, tasa:31.3},
       actual: {cuenta:56.21, saldo : 2.4, tasa:34.42},
       variacion: {cuenta:62.5, saldo : 2.6, tasa:32.12}    
