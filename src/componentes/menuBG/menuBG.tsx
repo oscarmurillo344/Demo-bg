@@ -17,13 +17,20 @@ interface MenuBGProps
   items: MenuListBg[]
   tituloPagina :string;
 }
-export default class MenuBG extends React.Component<MenuBGProps, any>
+
+interface MenuBGSatate
+{
+  moduloSeleccionado  : string
+}
+export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 {
  
  constructor(props:any)
  {   
     super(props);
+    this.state ={moduloSeleccionado : ""}
  }
+  
   render()
   {
     return (<>
@@ -38,14 +45,33 @@ export default class MenuBG extends React.Component<MenuBGProps, any>
         <div className="container-menu ancho-manu flex colum" style={{alignItems:"center"}} >
             {
               this.props.items.map((recorre, index)=>{
-                return <a href="#" className="flex container-item" style={{color:"white", fontSize:"30px"}} >
+                return <a href="#" onClick={()=>this.setState({...this.state, moduloSeleccionado:recorre.nombre})}  className="flex container-item" style={{color:"white", fontSize:"30px"}} >
                   {recorre.icon}
                 </a>
               })
             }
         </div>
-        <div className="container-menu-childrens" >
-            hola
+        <div className="container-menu-childrens" style={{display:this.state.moduloSeleccionado.trim() !== ""? "flex": "none"}} >
+            {
+              this.props.items.filter(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase()).map((recorre, index)=>{
+                {
+                  return recorre.items.map((recorreChild:any, indexchild:any)=>{
+                    return (
+                      <> 
+                        <a href="#" className="container-menu-childrens-children" >
+                          
+                          <div className="icon" >{recorreChild.icon}</div>
+                          <div>{recorreChild.nombre}</div>
+                          
+                        </a>
+                      </>
+                    )
+                  })
+                }
+                 
+              })            
+                
+            }
         </div>
         <div style={{marginTop:"20px", marginLeft:"260px"}} >
             

@@ -71,7 +71,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #160F41;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.164);
+  
   
 }
 
@@ -80,7 +80,8 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 .container-menu
 {
-  
+  border-right: 1px solid rgba(255, 255, 255, 0.164);
+
   height: 100%;
   position: fixed;
   background: #160F41;
@@ -90,9 +91,55 @@ Note: Beware of modifying this element as it can break the animations - you shou
 {
   height: 100%;
   position: fixed;
-  background: red;
-  width:190px;
+  background: #bc157c;
+  width:220px;
   left: 70px;
+  
+  flex-direction: column;
+  align-items: flex-start;
+  
+  
+}
+a.container-menu-childrens-children .icon
+{
+  font-size: 30px;
+  background: #160F41;
+  width: 50px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  align-items: center;
+  
+  margin-right: 6px;
+}
+
+a.container-menu-childrens-children
+{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 40px;
+  color: white;   
+  display: flex;
+  align-items: flex-start;
+  
+}
+
+.container-menu-childrens-children :hover
+{
+  
+  color: white; 
+}
+.container-menu-childrens-children :active
+{
+  
+  color: white; 
+}
+
+.container-menu-childrens-children :link
+{
+  
+  color: white; 
 }
 .container-menu .container-item
 {
