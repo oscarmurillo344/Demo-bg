@@ -35,28 +35,39 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   
   retornoBackground = (comparacion:string)=>
   {
-    const color = comparacion.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase()? "#bc157c": "transparent" 
-    return color
+   return comparacion.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase()? "#bc157c": "transparent" 
+   
   }
 
-  onClickModulo = (nombre:string)=>
+  openMenu(nombreModuloSeleccionado:string)
   {
     this.setState({...this.state, addSpace:true}, ()=>{
       setTimeout(()=>{
-        this.setState({...this.state, moduloSeleccionado:nombre, openMenu:true})
+        this.setState({...this.state, moduloSeleccionado:nombreModuloSeleccionado, openMenu:true})
       }, 200)
       
     })
-    
   }
 
-  onClickCloseMenu = ()=>{
+  closeMenu()
+  {
     this.setState({...this.state, openMenu: false},()=>{
       setTimeout(()=>{
         this.setState({...this.state, addSpace:false})    
       }, 200)
     })
-    
+  }
+
+  onClickModulo = (nombre:string)=>
+  {
+   
+    this.openMenu(nombre)
+  }
+
+
+  onClickCloseMenu = ()=>{
+  
+      this.closeMenu();
     
   }
   actionMenu = (moduloSelecc:string, openMenu:boolean)=>
@@ -130,7 +141,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                   return recorre.items.map((recorreChild:any, indexchild:any)=>{
                     return (
                       <> 
-                        <a href="#" className="container-menu-childrens-children"  >
+                        <a href="#" onClick={()=>this.closeMenu()} className="container-menu-childrens-children"  >
                           
                           <div className="icon" >{recorreChild.icon}</div>
                           <div>{recorreChild.nombre}</div>
