@@ -347,7 +347,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
     
     
     return (
-      <div style={{justifyContent:"center", width:"100%", marginLeft:"10px"}} className="flex"  >
+      <div style={{justifyContent:"center", width:"100%"}} className="flex"  >
         
         
                 

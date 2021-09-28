@@ -296,3 +296,9 @@ a.container-menu-childrens-children
 {
   cursor: pointer;
 }
+
+#content
+{
+  transition-duration: 0.3s;
+  margin-left: 70px;
+}

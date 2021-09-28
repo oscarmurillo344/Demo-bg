@@ -22,6 +22,7 @@ interface MenuBGSatate
 {
   moduloSeleccionado  : string
   openMenu:boolean;
+  addSpace:boolean;
 }
 export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 {
@@ -29,7 +30,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
  constructor(props:any)
  {   
     super(props);
-    this.state ={moduloSeleccionado : "", openMenu:true}
+    this.state ={moduloSeleccionado : "", openMenu:false, addSpace:false}
  }
   
   retornoBackground = (comparacion:string)=>
@@ -38,6 +39,26 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     return color
   }
 
+  onClickModulo = (nombre:string)=>
+  {
+    this.setState({...this.state, addSpace:true}, ()=>{
+      setTimeout(()=>{
+        this.setState({...this.state, moduloSeleccionado:nombre, openMenu:true})
+      }, 200)
+      
+    })
+    
+  }
+
+  onClickCloseMenu = ()=>{
+    this.setState({...this.state, openMenu: false},()=>{
+      setTimeout(()=>{
+        this.setState({...this.state, addSpace:false})    
+      }, 200)
+    })
+    
+    
+  }
   actionMenu = (moduloSelecc:string, openMenu:boolean)=>
   {
     if(this.props.items.filter(x=>x.nombre.trim().toLowerCase() === moduloSelecc.trim().toLowerCase()).length> 0 && openMenu)
@@ -45,6 +66,16 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
       return "rotateY(0deg)"
     }else{
       return "rotateY(90deg)" 
+    }
+  }
+
+  isOpen = ()=>{
+    const retornoTransform = this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu)
+    if(retornoTransform === "rotateY(0deg)")
+    {
+      return true;
+    }else{
+      return false;
     }
   }
 
@@ -83,7 +114,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
         <div className="container-menu ancho-manu flex colum" style={{alignItems:"center"}} >
             {
               this.props.items.map((recorre, index)=>{
-                return <a href="#" onClick={()=>this.setState({...this.state, moduloSeleccionado:recorre.nombre, openMenu:true})}  className="flex container-item" 
+                return <a href="#" onClick={()=>this.onClickModulo(recorre.nombre)}  className="flex container-item" 
                 style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre.nombre) }} >
                   {recorre.icon}
                 </a>
@@ -91,7 +122,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             }
         </div>
         <div className="container-menu-childrens" style={{transform: this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu)}} >
-            <div id="iconClose" onClick={()=>this.setState({...this.state, openMenu: false})} ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
+            <div id="iconClose" onClick={()=>this.onClickCloseMenu()} ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
             {
               
               this.props.items.filter(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase()).map((recorre, index)=>{
@@ -114,7 +145,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                 
             }
         </div>
-        <div style={{marginTop:"20px", marginLeft:"260px"}} >
+        <div id="content"  style={{marginTop:"20px", marginLeft: this.state.addSpace? "260px": "70px"}} >
             
             {this.props.children}
         </div>               
