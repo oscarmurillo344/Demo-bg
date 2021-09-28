@@ -38,7 +38,9 @@ export default class MenuBG extends React.Component<MenuBGProps, any>
         <div className="container-menu ancho-manu flex colum" style={{alignItems:"center"}} >
             {
               this.props.items.map((recorre, index)=>{
-                return <div className="flex container-item" style={{color:"white", fontSize:"30px"}} >{recorre.icon}</div>
+                return <a href="#" className="flex container-item" style={{color:"white", fontSize:"30px"}} >
+                  {recorre.icon}
+                </a>
               })
             }
         </div>
