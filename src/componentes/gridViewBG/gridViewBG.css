@@ -42,9 +42,13 @@
 
 
 .ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td {
-    padding: 7px 20px;
+    padding: 13px 20px;
     font-size: 12.5px;
     text-align: center;
 }
 
-
+.ant-table-thead > tr > th
+{
+    padding: 7px 20px;
+    background: #ebe5e5;
+}

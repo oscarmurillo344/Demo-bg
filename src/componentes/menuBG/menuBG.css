@@ -69,12 +69,36 @@ Note: Beware of modifying this element as it can break the animations - you shou
 {
   height: 60px;
   background: #160F41;
-  justify-content: space-between;
+  
   align-items: center;
   
   
 }
 
+
+.nav-bar .pantalla
+{
+  color: white;
+  margin-left: 20px;
+  
+  height: 100%;
+  display: flex;
+  
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 3px;
+
+}
+
+.nav-bar .opciones
+{
+  margin-left: auto;
+}
+.nav-bar .pantalla > *
+{
+  margin: 0px;
+
+}
 .ancho-manu{
   width: 70px;
 }
@@ -94,9 +118,11 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #bc157c;
   width:220px;
   left: 70px;
-  
+  display: flex;
+  visibility: visible;
   flex-direction: column;
   align-items: flex-start;
+  transition-duration: 0.3s;
   
   
 }
@@ -118,7 +144,7 @@ a.container-menu-childrens-children
 {
   margin-top: 20px;
   margin-bottom: 20px;
-  margin-left: 40px;
+  margin-left: 24px;
   color: white;   
   display: flex;
   align-items: flex-start;
@@ -164,12 +190,9 @@ a.container-menu-childrens-children
 
 }
 
-.container-menu .container-item:focus
-{
-  
-  background: #bc157c;
-  
-}
+
+
+
 
 
 
@@ -237,4 +260,23 @@ a.container-menu-childrens-children
 
 #items-menu .submenu:active{
   color: #bc157c;  
+}
+
+
+.opciones  .boton
+{
+  background: #bc157c;
+  margin-right: 20px;
+  height: 30px;
+  width: 30px;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+}
+
+
+.opciones  .boton:hover
+{
+  cursor: pointer;
 }
