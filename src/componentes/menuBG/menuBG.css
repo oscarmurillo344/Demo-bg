@@ -115,7 +115,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 {
   height: 100%;
   position: fixed;
-  background: #bc157c;
+  background: #160F41;
   width:220px;
   left: 70px;
   display: flex;
@@ -123,13 +123,29 @@ Note: Beware of modifying this element as it can break the animations - you shou
   flex-direction: column;
   align-items: flex-start;
   transition-duration: 0.3s;
+  border-top: 1px solid rgba(255, 255, 255, 0.164);
+
   
+  
+}
+.container-menu-childrens #iconClose
+{
+  color: white;
+  font-size: 20px;
+  margin-left: auto;
+  margin-right: 10px;
+  
+}
+
+.container-menu-childrens #iconClose:hover
+{
+  cursor: pointer;
   
 }
 a.container-menu-childrens-children .icon
 {
   font-size: 30px;
-  background: #160F41;
+  background: #2f256d52;
   width: 50px;
   border-radius: 5px;
   display: flex;

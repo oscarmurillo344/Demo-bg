@@ -3,7 +3,7 @@ import './menuBG.css';
 import { bubble as MenuBurger } from 'react-burger-menu'
 import imagen from './../../jusLogo.png'
 import iconOption from "./../../iconLogOut.png"
-import { AiOutlineShop, AiOutlineSolution, AiOutlineUser, AiOutlineTeam, AiOutlineLogin, AiOutlineCaretDown } from "react-icons/ai";
+import { AiOutlineShop, AiOutlineSolution, AiOutlineUser, AiOutlineTeam, AiOutlineLogin, AiOutlineCaretDown, AiOutlineCloseCircle } from "react-icons/ai";
 import { Button, Dropdown, Menu } from 'antd';
 import { AppstoreOutlined, DownOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
@@ -21,6 +21,7 @@ interface MenuBGProps
 interface MenuBGSatate
 {
   moduloSeleccionado  : string
+  openMenu:boolean;
 }
 export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 {
@@ -28,7 +29,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
  constructor(props:any)
  {   
     super(props);
-    this.state ={moduloSeleccionado : ""}
+    this.state ={moduloSeleccionado : "", openMenu:true}
  }
   
   retornoBackground = (comparacion:string)=>
@@ -36,6 +37,18 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     const color = comparacion.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase()? "#bc157c": "transparent" 
     return color
   }
+
+  actionMenu = (moduloSelecc:string, openMenu:boolean)=>
+  {
+    if(this.props.items.filter(x=>x.nombre.trim().toLowerCase() === moduloSelecc.trim().toLowerCase()).length> 0 && openMenu)
+    {
+      return "rotateY(0deg)"
+    }else{
+      return "rotateY(90deg)" 
+    }
+  }
+
+  
   render()
   {
     return (<>
@@ -70,15 +83,17 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
         <div className="container-menu ancho-manu flex colum" style={{alignItems:"center"}} >
             {
               this.props.items.map((recorre, index)=>{
-                return <a href="#" onClick={()=>this.setState({...this.state, moduloSeleccionado:recorre.nombre})}  className="flex container-item" 
+                return <a href="#" onClick={()=>this.setState({...this.state, moduloSeleccionado:recorre.nombre, openMenu:true})}  className="flex container-item" 
                 style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre.nombre) }} >
                   {recorre.icon}
                 </a>
               })
             }
         </div>
-        <div className="container-menu-childrens" style={{transform:this.state.moduloSeleccionado.trim() !== ""? "rotateY(0deg)": "rotateY(90deg)"}} >
+        <div className="container-menu-childrens" style={{transform: this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu)}} >
+            <div id="iconClose" onClick={()=>this.setState({...this.state, openMenu: false})} ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
             {
+              
               this.props.items.filter(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase()).map((recorre, index)=>{
                 {
                   return recorre.items.map((recorreChild:any, indexchild:any)=>{
