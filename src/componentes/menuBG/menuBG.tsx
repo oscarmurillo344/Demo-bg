@@ -28,10 +28,14 @@ export default class MenuBG extends React.Component<MenuBGProps, any>
   {
     return (<>
         <nav className="nav-bar flex row" >
-          <img src= {imagen} width="40px" height="40px" ></img>
+          <div  className="ancho-manu flex" style={{justifyContent:"center"}} > 
+
+            <img src= {imagen} width="40px" height="40px" ></img>
+          </div>
+          
 
         </nav>        
-        <div className="container-menu">
+        <div className="container-menu ancho-manu">
       
         </div>
         <div style={{marginTop:"60px"}}>

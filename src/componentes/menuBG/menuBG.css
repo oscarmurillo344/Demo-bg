@@ -71,14 +71,16 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #160F41;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.336);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.164);
   
 }
 
-
+.ancho-manu{
+  width: 70px;
+}
 .container-menu
 {
-  width: 60px;
+  
   height: 100%;
   position: fixed;
   background: #160F41;
@@ -96,11 +98,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 
-.nav-bar img{
-  margin-left: 5px;
-  
-  
-}
+
 
 .menuItems
 {
