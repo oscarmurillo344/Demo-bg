@@ -27,8 +27,8 @@ const Home = (props:HomeProps)=>{
             props.onReady();
         }
     }, [])
-    const getGrafico = ()=>{
-       return <div className="item-dashboard"  style={{width: "530px", justifyContent:"center", height:"200px"}}> 
+    const getGrafico = (width:string, heigth:string)=>{
+       return <div className="item-dashboard"  style={{width: width, justifyContent:"center", height:heigth}}> 
         {
             <Line data={data}  /> 
         }          
@@ -36,25 +36,71 @@ const Home = (props:HomeProps)=>{
     }
     return (
         <> 
-            <div style={{justifyContent:"center", alignItems:"center"}} className="flex colum" >
-            <div className="flex row" >
-                {
-                    getGrafico()
-                }
-                {
-                    getGrafico()
-                }
+        <div className="flex colum" >
+        <div className="flex" style={{justifyContent:"center", alignItems:"start"}} >
+        <div className="flex colum"  >
+            <div  style={{justifyContent:"start", alignItems:"center"}} className="flex colum contenedor" >
+                <p className="titulo" > Activo y Pasivo</p>
+                <div className="flex row" style={{alignItems:"start"}} >
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                </div>
+                <div className="flex row" style={{justifyContent:"center"}} >
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                </div>
             </div>
-            <div className="flex row" >
-                {
-                    getGrafico()
-                }
-                {
-                    getGrafico()
-                }
+            <div className="contenedor flex colum" style={{marginTop:"1px", justifyContent:"center", alignItems:"center"}} >
+            <p className="titulo" > Informe Cartera</p>
+            <div className="flex row" style={{justifyContent:"center"}} >
+                     
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                    {
+                        getGrafico("280px", "100px")
+                    }
+                </div>
             </div>
+        </div>
+        
+            <div style={{justifyContent:"center", alignItems:"center"}} >
+                
+                <div className="flex contenedor colum"  style={{justifyContent:"center",marginTop:"12px", alignItems:"center"}} >
+                <p className="titulo" > Cobertura</p>
+                    {
+                        getGrafico("280px", "200px")
+
+                    }
+                    {
+                        getGrafico("280px", "200px")
+
+                    }
+                    
+                </div>
+                    
             </div>
-            
+        </div>
+        
+        </div>
+                     
         </>
     )
 }

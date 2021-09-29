@@ -6,4 +6,43 @@
     margin-bottom: 40px;   
     cursor: pointer;   
     
+    transition: 0.3s;
+    
 }
+
+.titulo
+{
+    visibility: hidden;
+    transition: 0.3;
+    font-size: 20px;
+    color: white;
+}
+.contenedor
+{
+    margin-bottom: 3px;
+    padding-bottom: 2px;
+    background: #ebe5e5;
+    margin-left: 4px;
+    height: 100%;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+
+.contenedor:hover
+{
+    
+    opacity: 1;
+    background: rgb(0, 0, 0,0.5);
+    cursor: pointer;
+}
+
+
+.contenedor:hover .titulo
+{
+    
+    visibility: visible;
+    
+}
+
+
