@@ -38,9 +38,22 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   }
  }
   
-  retornoBackground = (comparacion:string)=>
+  retornoBackground = (comparacion:MenuListBg)=>
   {
-   return comparacion.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase()? "#bc157c": "transparent" 
+   const comparacionVal = (comparacion.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase())
+   const moduloHome = this.props.items.find(x=>x.default)
+   if(this.state.moduloSeleccionado.trim().toLowerCase() === "")
+   {
+     if(moduloHome?.nombre.trim().toLowerCase() === comparacion.nombre.trim().toLowerCase() )
+     {
+       return "#bc157c"
+     }else{
+      return "transparent" 
+     }
+   }else{
+      return comparacionVal ? "#bc157c": "transparent" 
+   }
+   
    
   }
 
@@ -231,7 +244,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             {
               this.props.items.map((recorre, index)=>{
                 return <a href="#" onClick={()=>this.onClickModulo(recorre.nombre)}  className="flex container-item" 
-                style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre.nombre) }} >
+                style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre) }} >
                   {recorre.icon}
                 </a>
               })
