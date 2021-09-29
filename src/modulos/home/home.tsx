@@ -83,18 +83,25 @@ const Home = (props:HomeProps)=>{
         
             <div style={{justifyContent:"center", alignItems:"center"}} >
                 
-                <div className="flex contenedor colum"  style={{justifyContent:"center",marginTop:"12px", alignItems:"center"}} >
+                <div className="flex contenedor colum"  style={{justifyContent:"center", alignItems:"center"}} >
                 <p className="titulo" > Cobertura</p>
                     {
                         getGrafico("280px", "200px")
 
                     }
+                   
+                    
+                </div>
+                <div className="flex contenedor colum"  style={{justifyContent:"center", alignItems:"center"}} >
+                <p className="titulo" > Informe Pasivo</p>
                     {
                         getGrafico("280px", "200px")
 
                     }
+                   
                     
                 </div>
+                    
                     
             </div>
         </div>

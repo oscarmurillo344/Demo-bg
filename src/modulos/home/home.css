@@ -12,10 +12,10 @@
 
 .titulo
 {
-    visibility: hidden;
+    visibility: visible;
     transition: 0.3;
     font-size: 20px;
-    color: white;
+    color: rgb(128, 115, 115);
 }
 .contenedor
 {
@@ -40,7 +40,7 @@
 
 .contenedor:hover .titulo
 {
-    
+    color: white;
     visibility: visible;
     
 }
