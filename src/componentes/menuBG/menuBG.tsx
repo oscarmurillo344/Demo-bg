@@ -74,21 +74,13 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   {
     if(this.props.items.filter(x=>x.nombre.trim().toLowerCase() === moduloSelecc.trim().toLowerCase()).length> 0 && openMenu)
     {
-      return "rotateY(0deg)"
+      return "scale(1)"
     }else{
-      return "rotateY(90deg)" 
+      return "scale(0)" 
     }
   }
 
-  isOpen = ()=>{
-    const retornoTransform = this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu)
-    if(retornoTransform === "rotateY(0deg)")
-    {
-      return true;
-    }else{
-      return false;
-    }
-  }
+ 
 
   
   render()
