@@ -19,20 +19,27 @@ function App() {
     switch(pagina)
     {
       case "CuentaAhorrosResumen":
-          return <AhorroResumen onReady={onReadyAhorros} menuAbierto={menuAbierto} {...props} />
+          return <AhorroResumen onReady={onReadyComponent} menuAbierto={menuAbierto} {...props} />
         
       case "CuentaAhorrosDetalles":
-        return <AhorroResumen onReady={onReadyAhorros} menuAbierto={menuAbierto} {...props} />
+        return <AhorroResumen onReady={onReadyComponent} menuAbierto={menuAbierto} {...props} />
         
       case "NotFoundIt":
         return  <p>We are working in it! </p>
         
       case 'Home':
-        return  <Home {...props}  />
+        return  <Home onReady={onReadyComponent} {...props}  />
     }
     return <> </>
 
   }
+  
+  useEffect(()=>{
+    setTimeout(() => {
+      setOpenSpinner(false)
+    }, 1000);   
+  }, [])
+
   
   const onCloseMenu = ()=>{
     
@@ -42,7 +49,7 @@ function App() {
   const onOpenMenu = ()=>{
     setMenuAbierto(true)
   }
-  const onReadyAhorros = ()=>{
+  const onReadyComponent = ()=>{
     setOpenSpinner(true)
     setTimeout(() => {
       setOpenSpinner(false)

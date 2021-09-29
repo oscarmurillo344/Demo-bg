@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import { Line } from "react-chartjs-2"
 import './home.css'
+interface HomeProps{
+    onReady? :any;
+}
 
-
-const Home = ()=>{
+const Home = (props:HomeProps)=>{
     const meses:any[] = ["Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Noviembre", "Diciembre"]
     const dataSimuladaGrafico:any[] = [65, 59, 80, 81, 56, 55, 40, 52, 48, 12,11, 80];
     const data  = {
@@ -17,7 +20,13 @@ const Home = ()=>{
             },            
         ]
       }
-
+    
+    useEffect(()=>{
+        if(props.onReady)
+        {
+            props.onReady();
+        }
+    }, [])
     const getGrafico = ()=>{
        return <div className="item-dashboard"  style={{width: "530px", justifyContent:"center", height:"200px"}}> 
         {
