@@ -1,5 +1,5 @@
 import React from 'react'
-import { AiOutlineSetting, AiOutlineShop, AiOutlineSnippets, AiOutlineSolution, AiOutlineTool, AiOutlineUngroup, AiOutlineUnlock, AiOutlineUpload, AiOutlineUser } from 'react-icons/ai'
+import { AiOutlineCalculator, AiOutlineCarryOut, AiOutlineSetting, AiOutlineShop, AiOutlineSnippets, AiOutlineSolution, AiOutlineTool, AiOutlineUngroup, AiOutlineUnlock, AiOutlineUpload, AiOutlineUser } from 'react-icons/ai'
 import MenuListBg from './interfaces/menu'
 
 const menu:MenuListBg[] = [
@@ -23,10 +23,12 @@ const menu:MenuListBg[] = [
                 items: [
                     {
                         nombre: "Detalle",
+                        icon: <AiOutlineCarryOut></AiOutlineCarryOut>
                         
                     },
                     {
                         nombre: "Resumen",
+                        icon: <AiOutlineCalculator></AiOutlineCalculator>
                         
                     }
                 ]
