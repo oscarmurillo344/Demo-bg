@@ -13,30 +13,34 @@ function App() {
     {
       case "CuentaAhorrosResumen":
           return <AhorroResumen {...props} />
-        return
+        
       case "CuentaAhorrosDetalles":
         return <AhorroResumen {...props} />
-        return
+        
       case "NotFoundIt":
-          <p>We are working in it! </p>
-        return
+        return  <p>We are working in it! </p>
+        
+      case 'Home':
+        return <p>Estas en home</p>
     }
     return <> </>
 
   }
   return (<>
     <section>
-    <MenuBG items={menu}  >
+    
     <BrowserRouter>
       <Switch>                        
-        <Route exact path='/' render={(props)=>(getPage('CuentaAhorrosResumen', props))}></Route> 
+      <MenuBG items={menu}  >
+        <Route exact path='/' render={(props)=>(getPage('Home', props))}></Route> 
+        <Route exact path='/home' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/ahorros/detalles' render={(props)=>(getPage('CuentaAhorrosDetalles', props))}></Route> 
         <Route exact path='/ahorros/resumen' render={(props)=>(getPage('CuentaAhorrosResumen', props))}></Route>
         <Route exact path='/nofoundit' render={(props)=>(getPage('NotFoundIt', props))}></Route> 
-                    
+      </MenuBG>                
       </Switch>
     </BrowserRouter>  
-    </MenuBG>
+    
          
   </section>    
 </>)

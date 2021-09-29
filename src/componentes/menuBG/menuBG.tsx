@@ -9,6 +9,7 @@ import { AppstoreOutlined, DownOutlined, MailOutlined, SettingOutlined } from '@
 import 'antd/dist/antd.css';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import MenuListBg from '../../interfaces/menu';
+import { Link } from 'react-router-dom';
 
 
 
@@ -206,7 +207,20 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   }
 
  
-
+  goTo = (objeto:MenuListBg)=>
+  { 
+    if(objeto.items)
+    {
+      return window.location
+    }else{
+      if(objeto.ruta)
+      { 
+        return objeto.ruta
+      }else{
+        return "/nofoundit"
+      }
+    }
+  }
   
   render()
   {
@@ -218,7 +232,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
           </div>
           <div className='pantalla' >
               
-              <p>{this.state.tituloItems.titulo}</p>
+              <p>NEO CHrome</p>
           </div>
           <div className="opciones" >
           <Dropdown  placement="bottomRight" arrow overlay={
@@ -242,10 +256,10 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
         <div className="container-menu ancho-manu flex colum" style={{alignItems:"center"}} >
             {
               this.props.items.map((recorre, index)=>{
-                return <a href="#" onClick={()=>this.onClickModulo(recorre.nombre)}  className="flex container-item" 
+                return <Link to= {this.goTo(recorre) } onClick={()=>this.onClickModulo(recorre.nombre)}  className="flex container-item" 
                 style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre) }} >
                   {recorre.icon}
-                </a>
+                </Link>
               })
             }
         </div>
@@ -259,12 +273,12 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                this.state.renderItems.map((recorreChild:any, indexchild:any)=>{
                 return (
                   <> 
-                    <a href="#" key={indexchild} onClick={()=>this.onClickItems(this.state.renderItems,recorreChild)} className="container-menu-childrens-children"  >
+                    <Link to={this.goTo(recorreChild)} key={indexchild} onClick={()=>this.onClickItems(this.state.renderItems,recorreChild)} className="container-menu-childrens-children"  >
                       
                       <div className="icon" >{recorreChild.icon}</div>
                       <div>{recorreChild.nombre}</div>
                       
-                    </a>
+                    </Link>
                   </>
                 )
               }) 
