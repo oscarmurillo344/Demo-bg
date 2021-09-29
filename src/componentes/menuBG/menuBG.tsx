@@ -21,8 +21,11 @@ interface MenuBGProps
 interface MenuBGSatate
 {
   moduloSeleccionado  : string
+  itemsSleccionados :any[]
+  renderItems: MenuListBg[]
   openMenu:boolean;
   addSpace:boolean;
+
 }
 export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 {
@@ -30,7 +33,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
  constructor(props:any)
  {   
     super(props);
-    this.state ={moduloSeleccionado : "", openMenu:false, addSpace:false}
+    this.state ={moduloSeleccionado : "", openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[]}
  }
   
   retornoBackground = (comparacion:string)=>
@@ -41,27 +44,86 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 
   openMenu(nombreModuloSeleccionado:string)
   {
-    this.setState({...this.state, addSpace:true}, ()=>{
-      setTimeout(()=>{
-        this.setState({...this.state, moduloSeleccionado:nombreModuloSeleccionado, openMenu:true})
-      }, 200)
-      
+    return new Promise((resolve, reject)=>{
+      this.setState({...this.state, addSpace:true}, ()=>{
+        setTimeout(()=>{
+          this.setState({...this.state, moduloSeleccionado:nombreModuloSeleccionado, openMenu:true}, ()=>resolve(true))
+        }, 200)
+        
+      })
     })
+   
   }
 
   closeMenu()
   {
-    this.setState({...this.state, openMenu: false},()=>{
-      setTimeout(()=>{
-        this.setState({...this.state, addSpace:false})    
-      }, 200)
+    return new Promise((resolve, reject)=>{
+      this.setState({...this.state, openMenu: false},()=>{
+        setTimeout(()=>{
+          this.setState({...this.state, addSpace:false}, ()=>resolve(true))    
+        }, 200)
+      })
     })
+    
   }
 
+  onClickItems = (itemsPrevios:MenuListBg[], itemSeleccionado:MenuListBg)=>
+  {
+    if(itemSeleccionado.items)
+    {
+      if(itemSeleccionado.items.length > 0)
+      {
+          this.closeMenu().then(()=>{
+            let itemsSeleccionadosPrevia = this.state.itemsSleccionados;
+          itemsSeleccionadosPrevia.push(itemSeleccionado.nombre)
+
+          const itemToRender = this.obtenerLasItem(itemsPrevios, itemsSeleccionadosPrevia, 0)
+          console.log(itemToRender)
+          this.setState({...this.state, renderItems:itemToRender}, ()=>this.openMenu(this.state.moduloSeleccionado))
+          })
+          
+      }else{
+        this.closeMenu()
+      }
+
+    }else{
+      this.closeMenu()
+    }
+  }
+
+  obtenerLasItem = (listaItems:MenuListBg[], itemsSeleccionados:any, iteracion:number):MenuListBg[]=>{
+      let itera = iteracion;
+      const itemSelecc = itemsSeleccionados[itera]
+      if(itera > itemsSeleccionados.length - 1)
+      {
+        return listaItems;
+      }else{
+        if(listaItems.length  === 0)
+        {
+          return listaItems;
+        }else{
+          
+            const retorno = listaItems.find(x=>x.nombre.trim().toLowerCase() === itemSelecc.trim().toLowerCase())
+            itera ++;
+            return this.obtenerLasItem(retorno?.items? retorno.items : [], itemsSeleccionados, itera )
+          
+        }
+      }
+      
+  }
   onClickModulo = (nombre:string)=>
   {
-   
-    this.openMenu(nombre)
+    if(this.state.moduloSeleccionado.trim().toLowerCase() !== nombre.trim().toLowerCase())
+    {
+      const render = this.props.items.find(x=>x.nombre.trim().toLowerCase() === nombre.trim().toLowerCase())?.items
+    
+
+      this.setState({...this.state, renderItems: render? render : [], itemsSleccionados:[]  }, ()=>{
+        this.openMenu(nombre)
+      })
+    }else{
+      this.openMenu(nombre)
+    }        
   }
 
 
@@ -128,25 +190,21 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             <div id="iconClose" onClick={()=>this.onClickCloseMenu()} ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
             {
               
-              this.props.items.filter(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase()).map((recorre, index)=>{
-                {
-                  return recorre.items.map((recorreChild:any, indexchild:any)=>{
-                    return (
-                      <> 
-                        <a href="#" onClick={()=>this.closeMenu()} className="container-menu-childrens-children"  >
-                          
-                          <div className="icon" >{recorreChild.icon}</div>
-                          <div>{recorreChild.nombre}</div>
-                          
-                        </a>
-                      </>
-                    )
-                  })
-                }
+               this.state.renderItems.map((recorreChild:any, indexchild:any)=>{
+                return (
+                  <> 
+                    <a href="#" key={indexchild} onClick={()=>this.onClickItems(this.state.renderItems,recorreChild)} className="container-menu-childrens-children"  >
+                      
+                      <div className="icon" >{recorreChild.icon}</div>
+                      <div>{recorreChild.nombre}</div>
+                      
+                    </a>
+                  </>
+                )
+              }) 
                  
-              })            
-                
-            }
+            })            
+                            
         </div>
         <div id="content"  style={{marginTop:"20px", marginLeft: this.state.addSpace? "260px": "70px"}} >
             

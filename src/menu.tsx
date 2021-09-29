@@ -1,7 +1,8 @@
 import React from 'react'
 import { AiOutlineSetting, AiOutlineShop, AiOutlineSnippets, AiOutlineSolution, AiOutlineTool, AiOutlineUngroup, AiOutlineUnlock, AiOutlineUpload, AiOutlineUser } from 'react-icons/ai'
+import MenuListBg from './interfaces/menu'
 
-const menu = [
+const menu:MenuListBg[] = [
     {
         nombre:"Activos y Pasivos", 
         icon: <AiOutlineUser></AiOutlineUser>,
@@ -18,7 +19,17 @@ const menu = [
             {
                 icon: <AiOutlineUpload></AiOutlineUpload>,
 
-                nombre:"Ahorros"
+                nombre:"Ahorros",
+                items: [
+                    {
+                        nombre: "Detalle",
+                        
+                    },
+                    {
+                        nombre: "Resumen",
+                        
+                    }
+                ]
             },
             {
                 icon: <AiOutlineSnippets></AiOutlineSnippets>,
