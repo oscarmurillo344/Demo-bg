@@ -3,7 +3,7 @@ import './menuBG.css';
 import { bubble as MenuBurger } from 'react-burger-menu'
 import imagen from './../../jusLogo.png'
 import iconOption from "./../../iconLogOut.png"
-import { AiOutlineShop, AiOutlineSolution, AiOutlineUser, AiOutlineTeam, AiOutlineLogin, AiOutlineCaretDown, AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineShop, AiOutlineSolution, AiOutlineUser, AiOutlineTeam, AiOutlineLogin, AiOutlineCaretDown, AiOutlineCloseCircle, AiOutlineArrowLeft } from "react-icons/ai";
 import { Button, Dropdown, Menu } from 'antd';
 import { AppstoreOutlined, DownOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
@@ -25,7 +25,7 @@ interface MenuBGSatate
   renderItems: MenuListBg[]
   openMenu:boolean;
   addSpace:boolean;
-
+  tituloItems : {titulo:string, isModulo:boolean}
 }
 export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 {
@@ -33,7 +33,9 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
  constructor(props:any)
  {   
     super(props);
-    this.state ={moduloSeleccionado : "", openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[]}
+    this.state ={moduloSeleccionado : "", openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],
+    tituloItems : {titulo:"", isModulo:false}
+  }
  }
   
   retornoBackground = (comparacion:string)=>
@@ -79,7 +81,14 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 
           const itemToRender = this.obtenerLasItem(itemsPrevios, itemsSeleccionadosPrevia, 0)
           console.log(itemToRender)
-          this.setState({...this.state, renderItems:itemToRender}, ()=>this.openMenu(this.state.moduloSeleccionado))
+          this.setState({...this.state, renderItems:itemToRender}, ()=>
+          
+          {
+            this.setState({...this.state, tituloItems:{titulo:itemSeleccionado.nombre, isModulo:false} }, ()=>{
+              this.openMenu(this.state.moduloSeleccionado)
+            })
+                        
+          })
           })
           
       }else{
@@ -90,7 +99,25 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
       this.closeMenu()
     }
   }
+  onClickBackListItem = (itemsPrevios:MenuListBg[])=>{
+    this.closeMenu().then(()=>{
+    let itemsSeleccionadosPrevia = this.state.itemsSleccionados;
+    itemsSeleccionadosPrevia.pop()
+    const firtsItem = this.props.items.find(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase() )?.items
+    const itemToRender = this.obtenerLasItem(firtsItem? firtsItem : [], itemsSeleccionadosPrevia, 0)
+    console.log(itemToRender)
+    this.setState({...this.state, renderItems:itemToRender}, ()=>
+    
+    {
+      const titulo = itemsSeleccionadosPrevia.length > 0 ? itemsSeleccionadosPrevia[itemsSeleccionadosPrevia.length] : this.state.moduloSeleccionado;
 
+      this.setState({...this.state, tituloItems:{titulo: titulo, isModulo:this.state.itemsSleccionados.length === 1 ? false: true} }, ()=>{
+        this.openMenu(this.state.moduloSeleccionado)
+      })
+                  
+    })
+    })
+  }
   obtenerLasItem = (listaItems:MenuListBg[], itemsSeleccionados:any, iteracion:number):MenuListBg[]=>{
       let itera = iteracion;
       const itemSelecc = itemsSeleccionados[itera]
@@ -117,9 +144,11 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     {
       const render = this.props.items.find(x=>x.nombre.trim().toLowerCase() === nombre.trim().toLowerCase())?.items
     
-
       this.setState({...this.state, renderItems: render? render : [], itemsSleccionados:[]  }, ()=>{
-        this.openMenu(nombre)
+        this.setState({...this.state, tituloItems:{titulo:nombre, isModulo:true} }, ()=>{
+          this.openMenu(nombre)
+        })
+        
       })
     }else{
       this.openMenu(nombre)
@@ -155,7 +184,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
           </div>
           <div className='pantalla' >
               
-              <p>Activos y Pasivos - Ahorros</p>
+              <p>{this.state.tituloItems.titulo}</p>
           </div>
           <div className="opciones" >
           <Dropdown  placement="bottomRight" arrow overlay={
@@ -187,7 +216,10 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             }
         </div>
         <div className="container-menu-childrens" style={{transform: this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu)}} >
-            <div id="iconClose" onClick={()=>this.onClickCloseMenu()} ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
+            
+            <div id="iconClose" onClick={()=>this.onClickCloseMenu()}   ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
+            <div id="tituloItem" > <div className="icon" style={{visibility:this.state.tituloItems.isModulo? "hidden" : "visible"}}  onClick={()=>this.onClickBackListItem(this.state.renderItems)} > <AiOutlineArrowLeft> </AiOutlineArrowLeft> </div>  <p> {this.state.tituloItems.titulo}</p></div>
+            
             {
               
                this.state.renderItems.map((recorreChild:any, indexchild:any)=>{

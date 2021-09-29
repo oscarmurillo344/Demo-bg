@@ -303,3 +303,29 @@ a.container-menu-childrens-children
   transition-duration: 0.3s;
   margin-left: 70px;
 }
+
+#tituloItem
+{
+  margin-left: 24px;
+  margin-right: auto;
+  margin-top: 10px;
+  color: white;
+  display: flex;
+  font-size: 20px;
+}
+
+.container-menu-childrens #tituloItem
+{
+  max-width: 170px;
+}
+
+#tituloItem .icon
+{
+  margin-top: 4px;
+  margin-right: 2px;
+}
+
+#tituloItem .icon:hover
+{
+  cursor: pointer;
+}
