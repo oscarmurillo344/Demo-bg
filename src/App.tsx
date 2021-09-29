@@ -46,18 +46,21 @@ function App() {
     setOpenSpinner(true)
     setTimeout(() => {
       setOpenSpinner(false)
-    }, 1500);   
+    }, 1000);   
   }
   return (<>
     <div className="loading" style={{display: openSpinner? "block": "none"}} >
+    <div id="item-loading" >
     <Loader
-        type="Puff"
-        color="#00BFFF"
-        height={100}
+        type="Audio"
+        color="white"
+        height={140}
         visible = {openSpinner}
-        width={100}
+        width={140}
         
       />
+    </div>
+    
     </div>       
     <section>
     
