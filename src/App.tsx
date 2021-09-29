@@ -6,13 +6,16 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MenuBG from './componentes/menuBG/menuBG';
 import menuBG from './menu'
 import MenuListBg from './interfaces/menu';
+import { useState } from 'react';
+
 function App() {
   const menu : MenuListBg[] = menuBG;
+  const [menuAbierto, setMenuAbierto] = useState(false)
   const getPage = (pagina:string, props:any)=>{
     switch(pagina)
     {
       case "CuentaAhorrosResumen":
-          return <AhorroResumen {...props} />
+          return <AhorroResumen menuAbierto={menuAbierto} {...props} />
         
       case "CuentaAhorrosDetalles":
         return <AhorroResumen {...props} />
@@ -26,12 +29,20 @@ function App() {
     return <> </>
 
   }
+
+  const onCloseMenu = ()=>{
+    setMenuAbierto(false)
+  }
+
+  const onOpenMenu = ()=>{
+    setMenuAbierto(true)
+  }
   return (<>
     <section>
     
     <BrowserRouter>
       <Switch>                        
-      <MenuBG items={menu}  >
+      <MenuBG items={menu} onCloseMenu={onCloseMenu} onOpenMenu={onOpenMenu}  >
         <Route exact path='/' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/home' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/ahorros/detalles' render={(props)=>(getPage('CuentaAhorrosDetalles', props))}></Route> 

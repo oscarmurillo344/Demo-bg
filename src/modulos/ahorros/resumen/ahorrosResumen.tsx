@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GridViewBG from "../../../componentes/gridViewBG/gridViewBG";
 import MenuBG from "../../../componentes/menuBG/menuBG";
 import ColumnasGrupo from "../../../interfaces/columnasGrupos";
@@ -10,11 +10,20 @@ import filtroCatalogoValues from './../../../data/catalogoValores';
 
 import informacionFiltro from './../../../data/informacionFiltro';
 import CatalogoCampos from './../../../data/catalogoCampo';
-const AhorroResumen = ()=>{
+interface AhorroResumenProps
+{
+    menuAbierto: boolean
+}
+const AhorroResumen = (props:AhorroResumenProps)=>{
     const menu : MenuListBg[] = menuBG;
     const [filtrosCampos, setFiltrosCampos] = useState(Array<informacionFiltros>())
     const [filtrosValues, setFiltrosValues] = useState(Array<catalogosValues>())
     const [filtrosCampoCatalogo,setFiltrosCampoCatalogo] =  useState(Array<catalogosCampos>())  
+    const [menuAbierto, setMenuAbierto] = useState(props.menuAbierto)
+
+    useEffect(()=>{
+        setMenuAbierto(props.menuAbierto)
+    }, [props.menuAbierto])
     const columnsGroupResumen :ColumnasGrupo[] = [
       {
         tituloGrupo: "",
@@ -34,7 +43,7 @@ const AhorroResumen = ()=>{
             dataIndex: 'anterior', 
             key:'anterior', 
             title: 'Cuentas', 
-            width: 100,
+            width: "72px",
             show:true,
             render: (objeto:any) =>  objeto.cuenta
           },
@@ -43,7 +52,7 @@ const AhorroResumen = ()=>{
             key:'anterior', 
             title: 'Saldos', 
             show:true,
-            width: 100,
+            width: "63px",
             render: (objeto:any) =>  objeto.saldo
           },
           {
@@ -51,7 +60,7 @@ const AhorroResumen = ()=>{
             key:'anterior', 
             title: 'Tasa', 
             show:true,
-            width: 100,
+            width: "49px",
             render: (objeto:any) =>  objeto.tasa
           }
         ]
@@ -64,7 +73,7 @@ const AhorroResumen = ()=>{
           key:'actual', 
           title: 'Cuentas', 
           show:true,
-          width: 100,
+          width: "72px",
           render: (objeto:any) =>  objeto.cuenta
         },
         {
@@ -72,7 +81,7 @@ const AhorroResumen = ()=>{
           key:'actual', 
           title: 'Saldos', 
           show:true,
-          width: 100,
+          width: "63px",
           render: (objeto:any) =>  objeto.saldo
         },
         {
@@ -80,7 +89,7 @@ const AhorroResumen = ()=>{
           key:'actual', 
           title: 'Tasa', 
           show:true,
-          width: 100,
+          width: "49px",
           render: (objeto:any) =>  objeto.tasa
         }
       ]
@@ -93,7 +102,7 @@ const AhorroResumen = ()=>{
             key:'variacion', 
             title: 'Saldos',
             show:true, 
-            width: 100,
+            width: "63px",
             render: (objeto:any) =>  objeto.saldo
           },
           {
@@ -101,7 +110,7 @@ const AhorroResumen = ()=>{
             key:'actual', 
             title: 'Tasa', 
             show:true,
-            width: 100,
+            width: "49px",
             render: (objeto:any) =>  objeto.tasa
           }
         ]
@@ -115,14 +124,14 @@ const AhorroResumen = ()=>{
           key:'codigo', 
           title: 'Codigo', 
           show:true,
-          width: 100,
+          width: "100px",
         },
         {
           dataIndex: 'descripcion', 
           key:'descripcion', 
           title: 'Descripcion', 
           show:true,
-          width: 100,
+          width: "100px",
         }
       ]
       },
@@ -134,7 +143,7 @@ const AhorroResumen = ()=>{
             key:'anterior', 
             title: 'Cuentas', 
             show:true,
-            width: 100,
+            width: "auto",
             render: (objeto:any) =>  objeto.cuenta
           },
           {
@@ -142,7 +151,7 @@ const AhorroResumen = ()=>{
             key:'anterior', 
             title: 'Saldos', 
             show:true,
-            width: 100,
+            width: "auto",
             render: (objeto:any) =>  objeto.saldo
           },
           {
@@ -150,7 +159,7 @@ const AhorroResumen = ()=>{
             key:'anterior', 
             title: 'Tasa', 
             show:true,
-            width: 100,
+            width: "auto",
             render: (objeto:any) =>  objeto.tasa
           }
         ]
@@ -163,7 +172,7 @@ const AhorroResumen = ()=>{
           key:'actual', 
           title: 'Cuentas', 
           show:true,
-          width: 100,
+          width: "auto",
           render: (objeto:any) =>  objeto.cuenta
         },
         {
@@ -171,7 +180,7 @@ const AhorroResumen = ()=>{
           key:'actual', 
           title: 'Saldos',
           show:true, 
-          width: 100,
+          width: "auto",
           render: (objeto:any) =>  objeto.saldo
         },
         {
@@ -179,7 +188,7 @@ const AhorroResumen = ()=>{
           key:'actual', 
           title: 'Tasa',
           show:true, 
-          width: 100,
+          width: "auto",
           render: (objeto:any) =>  objeto.tasa
         }
       ]
@@ -192,7 +201,7 @@ const AhorroResumen = ()=>{
             key:'variacion', 
             title: 'Saldos',
             show:true, 
-            width: 100,
+            width: "auto",
             render: (objeto:any) =>  objeto.saldo
           },
           {
@@ -200,7 +209,7 @@ const AhorroResumen = ()=>{
             key:'actual', 
             title: 'Tasa', 
             show:true,
-            width: 100,
+            width: "auto",
             render: (objeto:any) =>  objeto.tasa
           }
         ]
@@ -338,6 +347,7 @@ const AhorroResumen = ()=>{
     <div className="flex column" style={{justifyContent:"center"}}  >
             <GridViewBG
             onBuscar={onBuscar}
+            menuAbierto = {menuAbierto}
             buttonDownload={true} 
             buttonFilter={true}  
             onOpenDetalle={onOpenDetalle} 
@@ -380,7 +390,8 @@ const AhorroResumen = ()=>{
                 data: dataSimuladaGrafico,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
+                tension: 0.1,
+            
               },            
             ]
             }

@@ -15,7 +15,9 @@ import { Link } from 'react-router-dom';
 
 interface MenuBGProps
 {
-  items: MenuListBg[]  
+  items: MenuListBg[]
+  onCloseMenu  ? :any;
+  onOpenMenu? :any  
 }
 
 interface MenuBGSatate
@@ -62,7 +64,17 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     return new Promise((resolve, reject)=>{
       this.setState({...this.state, addSpace:true}, ()=>{
         setTimeout(()=>{
-          this.setState({...this.state, moduloSeleccionado:nombreModuloSeleccionado, openMenu:true}, ()=>resolve(true))
+          this.setState({...this.state, moduloSeleccionado:nombreModuloSeleccionado, openMenu:true}, 
+            
+            ()=> {
+              if(this.props.onOpenMenu)
+              {
+                this.props.onOpenMenu();
+              }
+              
+              resolve(true)
+              
+            })
         }, 200)
         
       })
@@ -75,7 +87,15 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     return new Promise((resolve, reject)=>{
       this.setState({...this.state, openMenu: false},()=>{
         setTimeout(()=>{
-          this.setState({...this.state, addSpace:false}, ()=>resolve(true))    
+          this.setState({...this.state, addSpace:false}, ()=>
+          {
+            if(this.props.onCloseMenu)
+            {
+              this.props.onCloseMenu()
+            }
+            resolve(true)
+          }
+          )    
         }, 200)
       })
     })
@@ -286,7 +306,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             })            
                             
         </div>
-        <div id="content"  style={{marginTop:"20px", marginLeft: this.state.addSpace? "260px": "70px"}} >
+        <div id="content"  style={{marginTop:"20px", marginLeft: this.state.addSpace? "300px": "70px"}} >
             
             {this.props.children}
         </div>               

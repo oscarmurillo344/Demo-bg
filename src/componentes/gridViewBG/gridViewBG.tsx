@@ -43,6 +43,7 @@ interface GridViewBGProps{
     tipoColumna: "grupo" | "individual"
     filtroCatalogoCampos: catalogosCampos[];
     onAplicarFiltro?:any;
+    menuAbierto:any; 
     filtroCatalogoValues : catalogosValues[]
     filtroInformacion: informacionFiltros[];
     onBuscar?:any;
@@ -61,6 +62,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
   const [rowTotales, setRowTotales] = useState(props.rowsTotal)
   const [rowGrupos, setRowGrupos] = useState(props.rows)
   const [filtrosAplicadosObjeto, setFiltrosAplicados] = useState({});
+  const [menuAbierto, setMenuAbierto] = useState(props.menuAbierto)
   let fechaAnterior = new Date(moment().subtract(20, "days").toDate());
   let fechaActual = new Date(moment().toDate());
   const dataAnual = {
@@ -73,6 +75,11 @@ const GridViewBG = (props:GridViewBGProps)=>{
       tension: 0.1
     }]
   };
+  useEffect(()=>{
+    console.log(props.menuAbierto)
+    console.log("se ha actualizado")
+    setMenuAbierto(props.menuAbierto)
+  }, [props.menuAbierto])
   useEffect(()=>{
       if(props.onLoad)
       {
@@ -347,12 +354,12 @@ const GridViewBG = (props:GridViewBGProps)=>{
     
     
     return (
-      <div style={{justifyContent:"center", width:"100%"}} className="flex"  >
+      <div style={{justifyContent:"center", width:"100%", marginLeft:"7px"}} className="flex"  >
         
         
                 
                 
-                <div className="tabContainer"> 
+                <div className="tabContainer" style={{marginRight:"auto"}} > 
                 
                 <div className="acciones flex" style={{justifyContent:"space-between", alignItems:"end", marginBottom:"20px"}}>          
                   {
@@ -366,8 +373,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
                   <Table
                     className="totales"
                     pagination={false}
-                    style={{width:props.width, marginBottom:"10px"}}
-                                      
+                      style={{width: "800px", marginBottom:"10px"}}
+                      scroll ={{ x:"800px"}}  
+
                     dataSource={rowTotales}>
                     {
                       getColumnsGroup(columnsTotales)
@@ -377,7 +385,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                   <Table
                       className="components-table-demo-nested"
                       
-                      style={{width:props.width}}
+                      style={{width: "800px"}}
                       scroll ={{y:210}}            
                       expandable={{ expandedRowRender }}
                       dataSource={rowGrupos}>
@@ -390,6 +398,20 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     <ButtonBG shape="round" text="Variaciones" type="outline" icon={<FileOutlined />} /> 
                     <ButtonBG shape="round" text="Columnas" onClick={onColumnas}  type="outline" icon={<RotateRightOutlined />} /> 
                     </div>
+                </div>
+                <div   style={{width:"100%", justifyContent:'start'} }  className="flex colum">
+                      <div  style={{width: menuAbierto? "400px": "530px", justifyContent:"center", marginLeft: menuAbierto?"10px": "40px", transition:"0.3s", height:"300px"}}> 
+                        {
+                            props.dataSetGraficos?  <Line data={props.dataSetGraficos?.anual}  /> :  <> </>
+                          }
+                          
+                      </div>
+                      <div  style={{width: menuAbierto? "400px": "530px", justifyContent:"center", marginLeft: menuAbierto?"10px": "40px", transition:"0.3s", height:"200px"}}> 
+                        {
+                            props.dataSetGraficos?  <Line data={props.dataSetGraficos?.mensual}  /> :  <> </>
+                          }
+                          
+                      </div>
                 </div>
                 
               
