@@ -254,6 +254,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
               
               <p>NEO CHrome</p>
           </div>
+          
           <div className="opciones" >
           <Dropdown  placement="bottomRight" arrow overlay={
               <Menu>

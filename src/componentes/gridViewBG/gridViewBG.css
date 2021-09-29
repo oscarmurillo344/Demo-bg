@@ -50,3 +50,10 @@
     padding: 7px 20px;
     background: #ebe5e5;
 }
+
+
+.tables.ant-table-thead > tr > th
+{
+    padding: 7px 20px;
+    background: red;
+}

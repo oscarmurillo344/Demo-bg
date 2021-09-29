@@ -371,9 +371,10 @@ const GridViewBG = (props:GridViewBGProps)=>{
                   
                 </div>
                   <Table
+
                     className="totales"
                     pagination={false}
-                      style={{width: "800px", marginBottom:"10px"}}
+                      style={{width: "800px", marginBottom:"10px", background:"red"}}
                       scroll ={{ x:"800px"}}  
 
                     dataSource={rowTotales}>

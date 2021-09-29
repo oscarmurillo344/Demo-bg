@@ -7,12 +7,13 @@ import { catalogosCampos, catalogosValues, informacionFiltros } from "../../../i
 import MenuListBg from "../../../interfaces/menu";
 import menuBG from './../../../menu'
 import filtroCatalogoValues from './../../../data/catalogoValores';
-
+import './ahorrosResumen.css'
 import informacionFiltro from './../../../data/informacionFiltro';
 import CatalogoCampos from './../../../data/catalogoCampo';
 interface AhorroResumenProps
 {
     menuAbierto: boolean
+    onReady? :any;
 }
 const AhorroResumen = (props:AhorroResumenProps)=>{
     const menu : MenuListBg[] = menuBG;
@@ -20,10 +21,16 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
     const [filtrosValues, setFiltrosValues] = useState(Array<catalogosValues>())
     const [filtrosCampoCatalogo,setFiltrosCampoCatalogo] =  useState(Array<catalogosCampos>())  
     const [menuAbierto, setMenuAbierto] = useState(props.menuAbierto)
-
     useEffect(()=>{
         setMenuAbierto(props.menuAbierto)
     }, [props.menuAbierto])
+    useEffect(()=>{
+      if(props.onReady)
+      {
+        props.onReady();
+      }
+    }, [])
+    
     const columnsGroupResumen :ColumnasGrupo[] = [
       {
         tituloGrupo: "",
@@ -375,7 +382,7 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
             mensual:{
               labels: diasMeses(),
               datasets: [{
-                label: 'Mensual',
+                label: 'Evol Mensual',
                 data: dataSimuladaGrafico,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -386,7 +393,7 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
             anual:{
               labels: meses,
               datasets: [{
-                label: 'Anual',
+                label: '  Evol Anual',
                 data: dataSimuladaGrafico,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -397,7 +404,8 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
             }
           
           }}
-            />            
+            />      
+           
           </div>
     
     </>)

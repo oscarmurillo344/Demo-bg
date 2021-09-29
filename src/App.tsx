@@ -6,20 +6,22 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MenuBG from './componentes/menuBG/menuBG';
 import menuBG from './menu'
 import MenuListBg from './interfaces/menu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Home from './modulos/home/home';
+
 
 function App() {
   const menu : MenuListBg[] = menuBG;
   const [menuAbierto, setMenuAbierto] = useState(false)
+  const [openSpinner, setOpenSpinner] = useState(true);
   const getPage = (pagina:string, props:any)=>{
     switch(pagina)
     {
       case "CuentaAhorrosResumen":
-          return <AhorroResumen menuAbierto={menuAbierto} {...props} />
+          return <AhorroResumen onReady={onReadyAhorros} menuAbierto={menuAbierto} {...props} />
         
       case "CuentaAhorrosDetalles":
-        return <AhorroResumen menuAbierto={menuAbierto} {...props} />
+        return <AhorroResumen onReady={onReadyAhorros} menuAbierto={menuAbierto} {...props} />
         
       case "NotFoundIt":
         return  <p>We are working in it! </p>
@@ -30,19 +32,28 @@ function App() {
     return <> </>
 
   }
-
+  
   const onCloseMenu = ()=>{
+    
     setMenuAbierto(false)
   }
 
   const onOpenMenu = ()=>{
     setMenuAbierto(true)
   }
+  const onReadyAhorros = ()=>{
+    setOpenSpinner(true)
+    setTimeout(() => {
+      setOpenSpinner(false)
+    }, 1500);   
+  }
   return (<>
+    <div className="loading" style={{display: openSpinner? "block": "none"}} >
+    </div>       
     <section>
     
-    <BrowserRouter>
-      <Switch>                        
+    <BrowserRouter  >
+      <Switch  >                        
       <MenuBG items={menu} onCloseMenu={onCloseMenu} onOpenMenu={onOpenMenu}  >
         <Route exact path='/' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/home' render={(props)=>(getPage('Home', props))}></Route> 
@@ -52,8 +63,7 @@ function App() {
       </MenuBG>                
       </Switch>
     </BrowserRouter>  
-    
-         
+            
   </section>    
 </>)
  
