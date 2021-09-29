@@ -18,7 +18,7 @@ function App() {
           return <AhorroResumen menuAbierto={menuAbierto} {...props} />
         
       case "CuentaAhorrosDetalles":
-        return <AhorroResumen {...props} />
+        return <AhorroResumen menuAbierto={menuAbierto} {...props} />
         
       case "NotFoundIt":
         return  <p>We are working in it! </p>
