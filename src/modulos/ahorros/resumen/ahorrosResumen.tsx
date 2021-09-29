@@ -335,8 +335,7 @@ const AhorroResumen = ()=>{
 
     return (<> 
     
-    <MenuBG items={menu} tituloPagina="RESUMEN CUENTAS DE AHORROS" >
-          <div className="flex column" style={{justifyContent:"center"}}  >
+    <div className="flex column" style={{justifyContent:"center"}}  >
             <GridViewBG
             onBuscar={onBuscar}
             buttonDownload={true} 
@@ -389,8 +388,6 @@ const AhorroResumen = ()=>{
           }}
             />            
           </div>
-        </MenuBG> 
-    
     
     </>)
 }

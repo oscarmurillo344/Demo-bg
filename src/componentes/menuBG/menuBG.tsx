@@ -14,8 +14,7 @@ import MenuListBg from '../../interfaces/menu';
 
 interface MenuBGProps
 {
-  items: MenuListBg[]
-  tituloPagina :string;
+  items: MenuListBg[]  
 }
 
 interface MenuBGSatate

@@ -2,5 +2,6 @@ export default interface MenuListBg {
     nombre :string
     icon?: any
     items? : MenuListBg[]
-    default?: boolean
+    default?: boolean,
+    ruta? :string;
   }

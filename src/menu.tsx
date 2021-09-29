@@ -6,7 +6,8 @@ const menu:MenuListBg[] = [
     {
         default:true,
         nombre:"Home", 
-        icon: <AiOutlineHome></AiOutlineHome>        
+        icon: <AiOutlineHome></AiOutlineHome>,
+        ruta: "/home"        
     },
     {
         
@@ -29,12 +30,14 @@ const menu:MenuListBg[] = [
                 items: [
                     {
                         nombre: "Detalle",
-                        icon: <AiOutlineCarryOut></AiOutlineCarryOut>
+                        icon: <AiOutlineCarryOut></AiOutlineCarryOut>,
+                        ruta : "/ahorros/detalles"
                         
                     },
                     {
                         nombre: "Resumen",
-                        icon: <AiOutlineCalculator></AiOutlineCalculator>
+                        icon: <AiOutlineCalculator></AiOutlineCalculator>,
+                        ruta:"/ahorros/resumen"
                         
                     }
                 ]

@@ -3,9 +3,11 @@ import 'antd/dist/antd.css';
 
 import AhorroResumen from './modulos/ahorros/resumen/ahorrosResumen';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
+import MenuBG from './componentes/menuBG/menuBG';
+import menuBG from './menu'
+import MenuListBg from './interfaces/menu';
 function App() {
-
+  const menu : MenuListBg[] = menuBG;
   const getPage = (pagina:string, props:any)=>{
     switch(pagina)
     {
@@ -24,7 +26,7 @@ function App() {
   }
   return (<>
     <section>
-    
+    <MenuBG items={menu}  >
     <BrowserRouter>
       <Switch>                        
         <Route exact path='/' render={(props)=>(getPage('CuentaAhorrosResumen', props))}></Route> 
@@ -33,7 +35,9 @@ function App() {
         <Route exact path='/nofoundit' render={(props)=>(getPage('NotFoundIt', props))}></Route> 
                     
       </Switch>
-    </BrowserRouter>        
+    </BrowserRouter>  
+    </MenuBG>
+         
   </section>    
 </>)
  
