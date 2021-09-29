@@ -140,18 +140,40 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   }
   onClickModulo = (nombre:string)=>
   {
-    if(this.state.moduloSeleccionado.trim().toLowerCase() !== nombre.trim().toLowerCase())
-    {
+    const moduloSelec = this.state.moduloSeleccionado
+    const objetoSelc = this.props.items.find(x=>x.nombre.trim().toLowerCase() === nombre.trim().toLowerCase());
+    if(moduloSelec.trim().toLowerCase() !== nombre.trim().toLowerCase())
+    { 
+      
       const render = this.props.items.find(x=>x.nombre.trim().toLowerCase() === nombre.trim().toLowerCase())?.items
     
+
+      
       this.setState({...this.state, renderItems: render? render : [], itemsSleccionados:[]  }, ()=>{
         this.setState({...this.state, tituloItems:{titulo:nombre, isModulo:true} }, ()=>{
-          this.openMenu(nombre)
+          
+          if(objetoSelc?.default)
+          {
+            this.setState({...this.state, moduloSeleccionado:nombre, openMenu:false}, ()=>{
+              this.closeMenu()
+            })            
+            
+          }else{
+            this.openMenu(nombre)
+          }
+          
         })
         
       })
     }else{
-      this.openMenu(nombre)
+            
+      if(objetoSelc?.default)
+      {
+        this.closeMenu()
+      }else{
+        this.openMenu(nombre)
+      }
+      
     }        
   }
 

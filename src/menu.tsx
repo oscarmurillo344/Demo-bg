@@ -1,9 +1,15 @@
 import React from 'react'
-import { AiOutlineCalculator, AiOutlineCarryOut, AiOutlineSetting, AiOutlineShop, AiOutlineSnippets, AiOutlineSolution, AiOutlineTool, AiOutlineUngroup, AiOutlineUnlock, AiOutlineUpload, AiOutlineUser } from 'react-icons/ai'
+import { AiOutlineCalculator, AiOutlineCarryOut, AiOutlineHome, AiOutlineSetting, AiOutlineShop, AiOutlineSnippets, AiOutlineSolution, AiOutlineTool, AiOutlineUngroup, AiOutlineUnlock, AiOutlineUpload, AiOutlineUser } from 'react-icons/ai'
 import MenuListBg from './interfaces/menu'
 
 const menu:MenuListBg[] = [
     {
+        default:true,
+        nombre:"Home", 
+        icon: <AiOutlineHome></AiOutlineHome>        
+    },
+    {
+        
         nombre:"Activos y Pasivos", 
         icon: <AiOutlineUser></AiOutlineUser>,
         items: [
