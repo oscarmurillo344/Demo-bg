@@ -7,6 +7,7 @@ import MenuBG from './componentes/menuBG/menuBG';
 import menuBG from './menu'
 import MenuListBg from './interfaces/menu';
 import { useState } from 'react';
+import Home from './modulos/home/home';
 
 function App() {
   const menu : MenuListBg[] = menuBG;
@@ -24,7 +25,7 @@ function App() {
         return  <p>We are working in it! </p>
         
       case 'Home':
-        return <p>Estas en home</p>
+        return  <Home {...props}  />
     }
     return <> </>
 
