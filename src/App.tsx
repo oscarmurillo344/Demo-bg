@@ -9,6 +9,7 @@ import MenuListBg from './interfaces/menu';
 import { useEffect, useState } from 'react';
 import Home from './modulos/home/home';
 import video from './indices_video.gif'
+import Loader from "react-loader-spinner";
 
 function App() {
   const menu : MenuListBg[] = menuBG;
@@ -49,7 +50,14 @@ function App() {
   }
   return (<>
     <div className="loading" style={{display: openSpinner? "block": "none"}} >
-        <img style={{opacity:"0.7"}} src={video} width="100%" height="100%" />
+    <Loader
+        type="Puff"
+        color="#00BFFF"
+        height={100}
+        visible = {openSpinner}
+        width={100}
+        
+      />
     </div>       
     <section>
     
