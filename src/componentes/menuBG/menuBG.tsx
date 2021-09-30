@@ -8,6 +8,7 @@ import { AppstoreOutlined, DownOutlined, MailOutlined, SettingOutlined } from '@
 import 'antd/dist/antd.css';
 import MenuListBg from '../../interfaces/menu';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 
 
@@ -28,6 +29,7 @@ interface MenuBGSatate
   renderItems: MenuListBg[]
   openMenu:boolean;
   addSpace:boolean;
+  fechaActual:string;
   tituloItems : {titulo:string, isModulo:boolean}
 }
 export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
@@ -39,6 +41,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     console.log("modulo")
     console.log(this.props.modulo)
     let moduloSelec = ""
+    
     if(this.props.modulo.trim() === "")
     {
       const nombre = this.props.items.find(x=>x.default)?.nombre 
@@ -48,9 +51,10 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
       moduloSelec = nombre? nombre : ""
     }
     
-    this.state ={moduloSeleccionado : moduloSelec , openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],
+    this.state ={moduloSeleccionado : moduloSelec, fechaActual:moment().format("YYYY-MM-DD HH:mm:ss").toString() , openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],    
     tituloItems : {titulo:"", isModulo:false}
   }
+    this.onFechaActual()
  }
   
  componentDidUpdate(propsPrev:MenuBGProps)
@@ -341,6 +345,12 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 
     return ruta
   }
+  onFechaActual =async()=>{
+    setInterval(() => {
+      this.setState({...this.state, fechaActual:moment().format("YYYY-MM-DD HH:mm:ss").toString() })
+      
+    }, 1000);       
+  }
   render()
   {
     return (<>
@@ -349,13 +359,17 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 
             <img src= {imagen} width="40px" height="40px" ></img>
           </div>
-          <div className='pantalla colum' >
+          <div className='pantalla colum'  >
               
               <p style={{fontSize:"21px", letterSpacing:"5px"}} >NEO FINANCIAL</p>
               <p id="ruta" style={{color:"white"}} >  {this.getRutaCompletaActual()} </p>
           </div>
           
-          <div className="opciones" >
+          <div className="opciones row" >
+            <div  style={{color:"white", height:"100%", justifyContent:"center"}} className="flex colum" > 
+              <p style={{margin:"0px", fontSize:"12px" , fontWeight:100}} >Leonel Velez Larrea </p>
+              <p style={{ margin:0,  fontSize:"12px", fontWeight:100}}>{this.state.fechaActual}</p>
+            </div>
             
             <Badge  count={1} color="#bc157c" >
             <div className="flex" style={{ fontSize:"24px", height:"100%", color:"white"}}>
