@@ -108,21 +108,17 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     {
       if(itemSeleccionado.items.length > 0)
       {
-          this.closeMenu().then(()=>{
-            let itemsSeleccionadosPrevia = this.state.itemsSleccionados;
-          itemsSeleccionadosPrevia.push(itemSeleccionado.nombre)
+        let itemsSeleccionadosPrevia = this.state.itemsSleccionados;
+        itemsSeleccionadosPrevia.push(itemSeleccionado.nombre)
 
-          const itemToRender = this.obtenerLasItem(itemsPrevios, itemsSeleccionadosPrevia, 0)
-          console.log(itemToRender)
-          this.setState({...this.state, renderItems:itemToRender}, ()=>
-          
-          {
-            this.setState({...this.state, tituloItems:{titulo:itemSeleccionado.nombre, isModulo:false} }, ()=>{
-              this.openMenu(this.state.moduloSeleccionado)
-            })
-                        
-          })
-          })
+        const itemToRender = this.obtenerLasItem(itemsPrevios, itemsSeleccionadosPrevia, 0)
+        console.log(itemToRender)
+        this.setState({...this.state, renderItems:itemToRender}, ()=>
+        
+        {
+          this.setState({...this.state, tituloItems:{titulo:itemSeleccionado.nombre, isModulo:false} })
+                      
+        })
           
       }else{
         this.closeMenu()
@@ -133,7 +129,6 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     }
   }
   onClickBackListItem = (itemsPrevios:MenuListBg[])=>{
-    this.closeMenu().then(()=>{
     let itemsSeleccionadosPrevia = this.state.itemsSleccionados;
     itemsSeleccionadosPrevia.pop()
     const firtsItem = this.props.items.find(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase() )?.items
@@ -145,10 +140,9 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
       const titulo = itemsSeleccionadosPrevia.length > 0 ? itemsSeleccionadosPrevia[itemsSeleccionadosPrevia.length] : this.state.moduloSeleccionado;
 
       this.setState({...this.state, tituloItems:{titulo: titulo, isModulo:this.state.itemsSleccionados.length === 1 ? false: true} }, ()=>{
-        this.openMenu(this.state.moduloSeleccionado)
+        
       })
                   
-    })
     })
   }
   obtenerLasItem = (listaItems:MenuListBg[], itemsSeleccionados:any, iteracion:number):MenuListBg[]=>{
@@ -252,7 +246,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
           </div>
           <div className='pantalla' >
               
-              <p>NEO CHrome</p>
+              <p>NEO FINANCIAL</p>
           </div>
           
           <div className="opciones" >
@@ -307,7 +301,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             })            
                             
         </div>
-        <div id="content"  style={{marginTop:"20px", marginLeft: this.state.addSpace? "300px": "70px"}} >
+        <div id="content"  style={{marginTop:"20px"}} >
             
             {this.props.children}
         </div>               

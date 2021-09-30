@@ -131,14 +131,14 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
           key:'codigo', 
           title: 'Codigo', 
           show:true,
-          width: "100px",
+          width: "90px",
         },
         {
           dataIndex: 'descripcion', 
           key:'descripcion', 
           title: 'Descripcion', 
           show:true,
-          width: "100px",
+          width: "200px",
         }
       ]
       },
@@ -224,7 +224,7 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
     ]
   
     let rows = new Array<DataSet>();
-    for(let recorre = 0; recorre<10; recorre++)
+    for(let recorre = 0; recorre<1000; recorre++)
     {
       rows.push({
         key: recorre+1,

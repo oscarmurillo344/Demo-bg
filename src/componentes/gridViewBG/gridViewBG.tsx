@@ -374,7 +374,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
 
                     className="totales"
                     pagination={false}
-                      style={{width: "800px", marginBottom:"10px", background:"red"}}
+                      style={{width: "100%", marginBottom:"10px", background:"red"}}
                       scroll ={{ x:"800px"}}  
 
                     dataSource={rowTotales}>
@@ -386,8 +386,8 @@ const GridViewBG = (props:GridViewBGProps)=>{
                   <Table
                       className="components-table-demo-nested"
                       
-                      style={{width: "800px"}}
-                      scroll ={{y:210}}            
+                      style={{width: "100%"}}
+                      scroll ={{y:370}}            
                       expandable={{ expandedRowRender }}
                       dataSource={rowGrupos}>
                       {
@@ -400,14 +400,14 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     <ButtonBG shape="round" text="Columnas" onClick={onColumnas}  type="outline" icon={<RotateRightOutlined />} /> 
                     </div>
                 </div>
-                <div   style={{width:"100%", justifyContent:'start'} }  className="flex colum">
-                      <div  style={{width: menuAbierto? "400px": "530px", justifyContent:"center", marginLeft: menuAbierto?"10px": "40px", transition:"0.3s", height:"300px"}}> 
+                <div   style={{width:"100%", justifyContent:"center"} }  className="flex colum">
+                      <div  style={{width: menuAbierto? "400px": "400px", justifyContent:"center", marginLeft: menuAbierto?"10px": "10px", transition:"0.3s", height:"300px"}}> 
                         {
                             props.dataSetGraficos?  <Line data={props.dataSetGraficos?.anual}  /> :  <> </>
                           }
                           
                       </div>
-                      <div  style={{width: menuAbierto? "400px": "530px", justifyContent:"center", marginLeft: menuAbierto?"10px": "40px", transition:"0.3s", height:"200px"}}> 
+                      <div  style={{width: menuAbierto? "400px": "400px", justifyContent:"center", marginLeft: menuAbierto?"10px": "10px", transition:"0.3s", height:"200px"}}> 
                         {
                             props.dataSetGraficos?  <Line data={props.dataSetGraficos?.mensual}  /> :  <> </>
                           }
