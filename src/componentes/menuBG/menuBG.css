@@ -69,12 +69,8 @@ Note: Beware of modifying this element as it can break the animations - you shou
 {
   height: 74px;
   background: #160F41;
-  
   align-items: center;
-  
-  
 }
-
 
 .nav-bar .pantalla
 {
@@ -95,7 +91,17 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .nav-bar .opciones
 {
+  display: flex;
   margin-left: auto;
+  width: 20%;
+  justify-content: flex-end; 
+  align-items: flex-end; 
+}
+
+.nav-bar .opciones > *
+{
+  margin-left: 14px;
+  margin-right: 14px;
 }
 .nav-bar .pantalla > *
 {
@@ -113,6 +119,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   position: fixed;
   top: 73px;
   background: #160F41;
+  z-index: 5;
 }
 .container-menu-childrens
 {
@@ -128,12 +135,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
   align-items: flex-start;
   transform-origin: left;
   transition-duration: 0.3s;
-  border-top: 1px solid rgba(255, 255, 255, 0.164);
-  z-index: 3;
-
-  
-  
+  z-index: 5;
 }
+
 .container-menu-childrens #iconClose
 {
   color: white;
