@@ -366,6 +366,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     fechas()
                   }
                   <Badge count={badge} color="#bc157c" > 
+                    
                     <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
                   </Badge>
                   

@@ -55,6 +55,17 @@ function App() {
       setOpenSpinner(false)
     }, 1000);   
   }
+
+  const getModuloRuta = ()=>{
+    let locacion = window.location
+    let moduloRuta = locacion.pathname.substr(1, locacion.pathname.length)
+    const indexBackSlash = moduloRuta.indexOf("/");
+
+    moduloRuta = moduloRuta.substr(0, indexBackSlash === -1? moduloRuta.length: indexBackSlash)
+    console.log(moduloRuta)
+    return moduloRuta;
+
+  }
   return (<>
     <div className="loading" style={{display: openSpinner? "block": "none"}} >
     <div id="item-loading" >
@@ -73,11 +84,11 @@ function App() {
     
     <BrowserRouter  >
       <Switch  >                        
-      <MenuBG items={menu} onCloseMenu={onCloseMenu} onOpenMenu={onOpenMenu}  >
+      <MenuBG modulo={getModuloRuta()} items={menu} onCloseMenu={onCloseMenu} onOpenMenu={onOpenMenu}  >
         <Route exact path='/' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/home' render={(props)=>(getPage('Home', props))}></Route> 
-        <Route exact path='/ahorros/detalles' render={(props)=>(getPage('CuentaAhorrosDetalles', props))}></Route> 
-        <Route exact path='/ahorros/resumen' render={(props)=>(getPage('CuentaAhorrosResumen', props))}></Route>
+        <Route exact path='/activopasivo/ahorros/detalles' render={(props)=>(getPage('CuentaAhorrosDetalles', props))}></Route> 
+        <Route exact path='/activopasivo/ahorros/resumen' render={(props)=>(getPage('CuentaAhorrosResumen', props))}></Route>
         <Route exact path='/nofoundit' render={(props)=>(getPage('NotFoundIt', props))}></Route> 
       </MenuBG>                
       </Switch>

@@ -343,3 +343,8 @@ a.container-menu-childrens-children
 {
   cursor: pointer;
 }
+
+.nav-bar #ruta
+{
+  margin-left: 35%;
+}

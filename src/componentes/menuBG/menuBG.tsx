@@ -17,6 +17,7 @@ interface MenuBGProps
 {
   items: MenuListBg[]
   onCloseMenu  ? :any;
+  modulo:string;
   onOpenMenu? :any  
 }
 
@@ -35,7 +36,10 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
  constructor(props:any)
  {   
     super(props);
-    this.state ={moduloSeleccionado : "", openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],
+    console.log("modulo")
+    console.log(this.props.modulo)
+    const moduloSelecc = this.props.items.find(x=>x.ruta ==="/"+ this.props.modulo)
+    this.state ={moduloSeleccionado : moduloSelecc?.nombre?moduloSelecc?.nombre:"" , openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],
     tituloItems : {titulo:"", isModulo:false}
   }
  }
@@ -53,7 +57,14 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
       return "transparent" 
      }
    }else{
+
+    if(this.state.moduloSeleccionado.trim().toLowerCase() === comparacion.nombre.trim().toLowerCase())
+    {
       return comparacionVal ? "#bc157c": "transparent" 
+    }else{
+      return comparacionVal ? "#bc157c": "transparent" 
+    }
+      
    }
    
    
@@ -108,8 +119,17 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     {
       if(itemSeleccionado.items.length > 0)
       {
+        const mismoLevel = this.esMismoNivel(itemSeleccionado);
         let itemsSeleccionadosPrevia = this.state.itemsSleccionados;
-        itemsSeleccionadosPrevia.push(itemSeleccionado.nombre)
+        if(mismoLevel)
+        {
+          
+          itemsSeleccionadosPrevia.pop();
+          itemsSeleccionadosPrevia.push(itemSeleccionado.nombre)
+        }else{
+          
+          itemsSeleccionadosPrevia.push(itemSeleccionado.nombre)
+        }
 
         const itemToRender = this.obtenerLasItem(itemsPrevios, itemsSeleccionadosPrevia, 0)
         console.log(itemToRender)
@@ -121,16 +141,59 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
         })
           
       }else{
+        
         this.closeMenu()
       }
 
     }else{
+   
+      const mismoLevel = this.esMismoNivel(itemSeleccionado);
+      if(mismoLevel)
+      {
+        let itemsSeleccionadosPrevia = this.state.itemsSleccionados;
+        itemsSeleccionadosPrevia.pop();
+        itemsSeleccionadosPrevia.push(itemSeleccionado.nombre)
+      }else{
+        let itemsSeleccionadosPrevia = this.state.itemsSleccionados;        
+        itemsSeleccionadosPrevia.push(itemSeleccionado.nombre)
+      }
+    
       this.closeMenu()
     }
+
+    console.log(this.state.itemsSleccionados)
+  } 
+
+  esMismoNivel = (itemSeleccionado:any)=>{
+    let esMismoNivel = false;
+    if(this.state.itemsSleccionados.length === 1)
+    {
+      const itemsHijosModulo = this.props.items.find(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase())
+      
+      const itemsMismoNivel = itemsHijosModulo?.items?.filter(x=>x.nombre.trim().toLowerCase() === itemSeleccionado.nombre.trim().toLowerCase() )
+    
+      if(itemsMismoNivel)
+      {
+        esMismoNivel = itemsMismoNivel.length > 0 ? true:false;
+      }
+      
+
+    }
+
+    return esMismoNivel
   }
+  
   onClickBackListItem = (itemsPrevios:MenuListBg[])=>{
     let itemsSeleccionadosPrevia = this.state.itemsSleccionados;
-    itemsSeleccionadosPrevia.pop()
+    if(this.state.itemsSleccionados.length > 1)
+    {
+      itemsSeleccionadosPrevia.pop()
+      itemsSeleccionadosPrevia.pop()
+    }else{
+      itemsSeleccionadosPrevia.pop()
+    }
+    
+    
     const firtsItem = this.props.items.find(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase() )?.items
     const itemToRender = this.obtenerLasItem(firtsItem? firtsItem : [], itemsSeleccionadosPrevia, 0)
     console.log(itemToRender)
@@ -169,7 +232,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   {
     const moduloSelec = this.state.moduloSeleccionado
     const objetoSelc = this.props.items.find(x=>x.nombre.trim().toLowerCase() === nombre.trim().toLowerCase());
-    if(moduloSelec.trim().toLowerCase() !== nombre.trim().toLowerCase())
+    if(moduloSelec.trim().toLowerCase() !== nombre.trim().toLowerCase() || this.state.itemsSleccionados.length === 0)
     { 
       
       const render = this.props.items.find(x=>x.nombre.trim().toLowerCase() === nombre.trim().toLowerCase())?.items
@@ -221,7 +284,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   }
 
  
-  goTo = (objeto:MenuListBg)=>
+  goTo = (objeto:MenuListBg, itemsSeleccionado:any[]=[])=>
   { 
     if(objeto.items)
     {
@@ -230,12 +293,21 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
       if(objeto.ruta)
       { 
         return objeto.ruta
+        
       }else{
         return "/nofoundit"
       }
     }
   }
   
+  getRutaCompletaActual = ()=>{
+    let ruta = this.state.moduloSeleccionado + "/";
+    this.state.itemsSleccionados.forEach(recprre=>{
+        ruta  = recprre + "/"
+    })
+
+    return ruta
+  }
   render()
   {
     return (<>
@@ -248,8 +320,9 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
               
               <p>NEO FINANCIAL</p>
           </div>
-          
+          <p id="ruta" style={{color:"white"}} >  {this.getRutaCompletaActual()} </p>
           <div className="opciones" >
+          
           <Dropdown  placement="bottomRight" arrow overlay={
               <Menu>
               <Menu.Item>

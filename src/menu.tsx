@@ -13,6 +13,7 @@ const menu:MenuListBg[] = [
         
         nombre:"Activos y Pasivos", 
         icon: <AiOutlineUser></AiOutlineUser>,
+        ruta:"/activopasivo",
         items: [
             {
                 icon: <AiOutlineTool></AiOutlineTool>,
@@ -33,17 +34,18 @@ const menu:MenuListBg[] = [
                 icon: <AiOutlineUpload></AiOutlineUpload>,
 
                 nombre:"Ahorros",
+                ruta: "/activopasivo/ahorros",
                 items: [
                     {
                         nombre: "Detalle",
                         icon: <AiOutlineCarryOut></AiOutlineCarryOut>,
-                        ruta : "/ahorros/detalles"
+                        ruta : "/activopasivo/ahorros/detalles"
                         
                     },
                     {
                         nombre: "Resumen",
                         icon: <AiOutlineCalculator></AiOutlineCalculator>,
-                        ruta:"/ahorros/resumen"
+                        ruta:"/activopasivo/ahorros/resumen"
                         
                     }
                 ]
