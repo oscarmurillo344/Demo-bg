@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import Home from './modulos/home/home';
 import video from './indices_video.gif'
 import Loader from "react-loader-spinner";
+import { AiOutlineSetting } from 'react-icons/ai';
 
 function App() {
   const menu : MenuListBg[] = menuBG;
@@ -89,7 +90,12 @@ function App() {
 
     <BrowserRouter>
       <Switch>                        
-      <MenuBG items={menu} modulo={getModuloRuta()} abrirMenu={menuAbierto} onCloseMenu={onCloseMenu} onOpenMenu={onOpenMenu}  >
+      <MenuBG itemConfiguracion={  {
+       nombre:"Configuraciones", 
+       icon: <AiOutlineSetting></AiOutlineSetting>,
+       items: [{nombre:"opcion1"}, {nombre:"opcion2"}]
+   }} items={menu} modulo={getModuloRuta()} abrirMenu={menuAbierto} onCloseMenu={onCloseMenu} onOpenMenu={onOpenMenu}  >
+
         <Route exact path='/' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/home' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/activopasivo/ahorros/detalles' render={(props)=>(getPage('CuentaAhorrosDetalles', props))}></Route> 

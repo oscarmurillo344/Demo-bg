@@ -15,6 +15,7 @@ import moment from 'moment';
 interface MenuBGProps
 {
   items: MenuListBg[]  
+  itemConfiguracion:MenuListBg;
   onCloseMenu? :any;
   onOpenMenu? :any 
   abrirMenu? : any;
@@ -404,7 +405,9 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                   {recorre.icon}
                 </Link>
               })
+
             }
+             
         </div>
         <div className="container-menu-childrens" style={{transform: this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu) }} >
             

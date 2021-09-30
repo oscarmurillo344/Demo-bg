@@ -20,7 +20,7 @@
 .contenedor
 {
     margin-bottom: 3px;
-    padding-bottom: 2px;
+    padding-bottom: 20px;
     background: #ebe5e5;
     margin-left: 4px;
     height: 100%;
@@ -29,18 +29,11 @@
 }
 
 
-.contenedor:hover
-{
-    
-    opacity: 1;
-    background: rgb(0, 0, 0,0.5);
-    cursor: pointer;
-}
 
 
 .contenedor:hover .titulo
 {
-    color: white;
+    color: rgb(22, 15, 65,1);
     visibility: visible;
     
 }
