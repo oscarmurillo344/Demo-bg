@@ -38,8 +38,17 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     super(props);
     console.log("modulo")
     console.log(this.props.modulo)
-    const moduloSelecc = this.props.items.find(x=>x.ruta ==="/"+ this.props.modulo)
-    this.state ={moduloSeleccionado : moduloSelecc?.nombre?moduloSelecc?.nombre:"" , openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],
+    let moduloSelec = ""
+    if(this.props.modulo.trim() === "")
+    {
+      const nombre = this.props.items.find(x=>x.default)?.nombre 
+      moduloSelec = nombre? nombre : ""
+    }else{
+      const nombre = this.props.items.find(x=>x.ruta ==="/"+ this.props.modulo)?.nombre
+      moduloSelec = nombre? nombre : ""
+    }
+    
+    this.state ={moduloSeleccionado : moduloSelec , openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],
     tituloItems : {titulo:"", isModulo:false}
   }
  }
@@ -301,9 +310,20 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   }
   
   getRutaCompletaActual = ()=>{
-    let ruta = this.state.moduloSeleccionado + "/";
-    this.state.itemsSleccionados.forEach(recprre=>{
-        ruta  = recprre + "/"
+    let ruta = this.state.moduloSeleccionado
+    if(this.state.itemsSleccionados.length > 0)
+    {
+      ruta = ruta + " / "
+    }
+    this.state.itemsSleccionados.forEach((recorre, index)=>{
+        if(index === this.state.itemsSleccionados.length - 1)
+        {
+          ruta  = ruta + recorre
+        }else{
+          ruta  = ruta + recorre +" / "
+        }
+        
+        
     })
 
     return ruta
@@ -316,11 +336,12 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 
             <img src= {imagen} width="40px" height="40px" ></img>
           </div>
-          <div className='pantalla' >
+          <div className='pantalla colum' >
               
-              <p>NEO FINANCIAL</p>
+              <p style={{fontSize:"21px", letterSpacing:"5px"}} >NEO FINANCIAL</p>
+              <p id="ruta" style={{color:"white"}} >  {this.getRutaCompletaActual()} </p>
           </div>
-          <p id="ruta" style={{color:"white"}} >  {this.getRutaCompletaActual()} </p>
+          
           <div className="opciones" >
           
           <Dropdown  placement="bottomRight" arrow overlay={

@@ -67,7 +67,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .nav-bar
 {
-  height: 60px;
+  height: 74px;
   background: #160F41;
   
   align-items: center;
@@ -111,14 +111,14 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
   height: 100%;
   position: fixed;
-  top: 60px;
+  top: 73px;
   background: #160F41;
 }
 .container-menu-childrens
 {
   height: 100%;
   position: fixed;
-  top: 60px;
+  top: 73px;
   background: rgb(22, 15, 65, 0.9);
   width:220px;
   left: 70px;
@@ -346,5 +346,7 @@ a.container-menu-childrens-children
 
 .nav-bar #ruta
 {
-  margin-left: 35%;
+  font-weight: 100;
+  margin-top: 6px;
+  font-size: 10px;
 }
