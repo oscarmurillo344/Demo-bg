@@ -51,4 +51,10 @@
     background: #ebe5e5;
 }
 
+.totales .ant-table-thead > tr > th
+{
+    padding: 4px 20px;
+    background: #c2c1c1;
+}
+
 
