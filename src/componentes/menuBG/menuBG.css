@@ -150,7 +150,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 a.container-menu-childrens-children .icon
 {
   font-size: 30px;
-  background: #2f256d52;
+  background: rgb(22, 15, 65,1);;
   width: 50px;
   border-radius: 5px;
   display: flex;
