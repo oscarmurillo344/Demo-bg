@@ -41,13 +41,13 @@
 .loading{
   
   position: fixed;
+  top: 0;
   width: 100%;
-  
   align-items: center;
   background: rgb(22, 15, 65, 0.9);
   height: 100%;
   
-  z-index: 2;
+  z-index: 12;
 }
 
 .loading #item-loading{

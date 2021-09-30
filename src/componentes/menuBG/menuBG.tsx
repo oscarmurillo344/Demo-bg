@@ -239,7 +239,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   render()
   {
     return (<>
-        <nav className="nav-bar flex row" >
+        <nav className="nav-bar flex row fixed" >
           <div  className="ancho-manu flex" style={{justifyContent:"center"}} > 
 
             <img src= {imagen} width="40px" height="40px" ></img>
@@ -268,7 +268,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
           </Dropdown>
           </div>
         </nav>        
-        <div className="container-menu ancho-manu flex colum" style={{alignItems:"center"}} >
+        <div className="container-menu ancho-manu flex colum" >
             {
               this.props.items.map((recorre, index)=>{
                 return <Link to= {this.goTo(recorre) } onClick={()=>this.onClickModulo(recorre.nombre)}  className="flex container-item" 
@@ -301,7 +301,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             })            
                             
         </div>
-        <div id="content"  style={{marginTop:"20px"}} >
+        <div id="content"  style={{marginTop:"80px"}} >
             
             {this.props.children}
         </div>               

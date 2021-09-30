@@ -16,7 +16,13 @@ const menu:MenuListBg[] = [
         items: [
             {
                 icon: <AiOutlineTool></AiOutlineTool>,
-                nombre:"Total Pasivos"
+                nombre:"Total Pasivos",
+                items: [
+                    { 
+                        icon: <AiOutlineTool></AiOutlineTool>,
+                        nombre: "cualquier "
+                    }
+                ]
             }, 
             {
                 icon: <AiOutlineUngroup></AiOutlineUngroup>,
