@@ -382,7 +382,7 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
             mensual:{
               labels: diasMeses(),
               datasets: [{
-                label: 'Evol Mensual',
+                label: 'Diario',
                 data: dataSimuladaGrafico,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -393,7 +393,7 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
             anual:{
               labels: meses,
               datasets: [{
-                label: '  Evol Anual',
+                label: 'Mensual',
                 data: dataSimuladaGrafico,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',

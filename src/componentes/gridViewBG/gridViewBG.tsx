@@ -375,7 +375,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
 
                     className="totales"
                     pagination={false}
-                      style={{width: "100%", marginBottom:"10px", background:"red"}}
+                      style={{width: "100%", marginBottom:"40px", background:"red"}}
                       scroll ={{ x:"800px"}}  
 
                     dataSource={rowTotales}>
@@ -384,6 +384,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     }
                     
                   </Table>  
+                    
                   <Table
                       className="components-table-demo-nested"
                       
@@ -395,13 +396,14 @@ const GridViewBG = (props:GridViewBGProps)=>{
                         getColumnsGroup(columnsGrupo)
                       }                        
                     </Table>
-                    <div className="flex acciones" >
+                    <div  className="flex acciones">
                     <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} />           
                     <ButtonBG shape="round" text="Variaciones" type="outline" icon={<FileOutlined />} /> 
                     <ButtonBG shape="round" text="Columnas" onClick={onColumnas}  type="outline" icon={<RotateRightOutlined />} /> 
                     </div>
                 </div>
-                <div   style={{width:"100%", justifyContent:"center"} }  className="flex colum">
+                <div  id="contenedorGraficos" style={{width:"100%", justifyContent:"center",  alignItems:"flex-start"} }  className="flex colum">
+                      <p style={{marginLeft:"24px", fontWeight:700, color:"#160F41"}} > Gráfico De Evoluciones</p>
                       <div  style={{width: menuAbierto? "400px": "400px", justifyContent:"center", marginLeft: menuAbierto?"10px": "10px", transition:"0.3s", height:"300px"}}> 
                         {
                             props.dataSetGraficos?  <Line data={props.dataSetGraficos?.anual}  /> :  <> </>
