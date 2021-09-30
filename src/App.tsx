@@ -15,6 +15,7 @@ function App() {
   const menu : MenuListBg[] = menuBG;
   const [menuAbierto, setMenuAbierto] = useState(false)
   const [openSpinner, setOpenSpinner] = useState(true);
+  const [openFondoMenu, setOpenFondoMenu] = useState(false);
   const getPage = (pagina:string, props:any)=>{
     switch(pagina)
     {
@@ -42,13 +43,15 @@ function App() {
 
   
   const onCloseMenu = ()=>{
-    
     setMenuAbierto(false)
+    setOpenFondoMenu(false)
   }
 
   const onOpenMenu = ()=>{
     setMenuAbierto(true)
+    setOpenFondoMenu(true)
   }
+
   const onReadyComponent = ()=>{
     setOpenSpinner(true)
     setTimeout(() => {
@@ -68,12 +71,13 @@ function App() {
       />
     </div>
     
-    </div>       
+    </div>
+    <div className="fondoMenu" onClick={onCloseMenu} style={{display: openFondoMenu? "block": "none"}} > </div>          
     <section>
     
-    <BrowserRouter  >
-      <Switch  >                        
-      <MenuBG items={menu} onCloseMenu={onCloseMenu} onOpenMenu={onOpenMenu}  >
+    <BrowserRouter>
+      <Switch>                        
+      <MenuBG items={menu} abrirMenu={menuAbierto} onCloseMenu={onCloseMenu} onOpenMenu={onOpenMenu}  >
         <Route exact path='/' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/home' render={(props)=>(getPage('Home', props))}></Route> 
         <Route exact path='/ahorros/detalles' render={(props)=>(getPage('CuentaAhorrosDetalles', props))}></Route> 

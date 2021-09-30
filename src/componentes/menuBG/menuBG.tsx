@@ -2,12 +2,10 @@ import React from 'react';
 import './menuBG.css';
 import { bubble as MenuBurger } from 'react-burger-menu'
 import imagen from './../../jusLogo.png'
-import iconOption from "./../../iconLogOut.png"
-import { AiOutlineShop, AiOutlineSolution, AiOutlineUser, AiOutlineTeam, AiOutlineLogin, AiOutlineCaretDown, AiOutlineCloseCircle, AiOutlineArrowLeft } from "react-icons/ai";
-import { Button, Dropdown, Menu } from 'antd';
+import { AiOutlineShop, AiOutlineSolution, AiOutlineUser, AiOutlineTeam, AiOutlineLogin, AiOutlineCaretDown, AiOutlineCloseCircle, AiOutlineArrowLeft, AiOutlineBell, AiFillBell } from "react-icons/ai";
+import { Badge, Button, Dropdown, Menu } from 'antd';
 import { AppstoreOutlined, DownOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import SubMenu from 'antd/lib/menu/SubMenu';
 import MenuListBg from '../../interfaces/menu';
 import { Link } from 'react-router-dom';
 
@@ -16,8 +14,9 @@ import { Link } from 'react-router-dom';
 interface MenuBGProps
 {
   items: MenuListBg[]
-  onCloseMenu  ? :any;
-  onOpenMenu? :any  
+  onCloseMenu? :any;
+  onOpenMenu? :any 
+  abrirMenu? : any;
 }
 
 interface MenuBGSatate
@@ -32,7 +31,7 @@ interface MenuBGSatate
 export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 {
  
- constructor(props:any)
+ constructor(props:MenuBGProps)
  {   
     super(props);
     this.state ={moduloSeleccionado : "", openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],
@@ -40,6 +39,19 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   }
  }
   
+ componentDidUpdate(propsPrev:MenuBGProps)
+ {
+   if(this.props.abrirMenu !== propsPrev.abrirMenu)
+   {
+     if(this.props.abrirMenu)
+     {
+       this.openMenu(this.state.moduloSeleccionado)
+     }else{
+      this.closeMenu() 
+     }
+   }
+   
+ }
   retornoBackground = (comparacion:MenuListBg)=>
   {
    const comparacionVal = (comparacion.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase())
@@ -250,6 +262,14 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
           </div>
           
           <div className="opciones" >
+            
+            <Badge  count={1} color="#bc157c" >
+            <div className="flex" style={{ fontSize:"24px", height:"100%", color:"white"}}>
+                  <AiFillBell  />
+            </div> 
+            </Badge>
+              
+
           <Dropdown  placement="bottomRight" arrow overlay={
               <Menu>
               <Menu.Item>
@@ -278,9 +298,9 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
               })
             }
         </div>
-        <div className="container-menu-childrens" style={{transform: this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu)}} >
+        <div className="container-menu-childrens" style={{transform: this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu) }} >
             
-            <div id="iconClose" onClick={()=>this.onClickCloseMenu()}   ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
+           <div id="iconClose" onClick={()=>this.onClickCloseMenu()}   ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
             <div id="tituloItem" > <div className="icon" style={{visibility:this.state.tituloItems.isModulo? "hidden" : "visible"}}  onClick={()=>this.onClickBackListItem(this.state.renderItems)} > <AiOutlineArrowLeft> </AiOutlineArrowLeft> </div>  <p> {this.state.tituloItems.titulo}</p></div>
             
             {
@@ -298,13 +318,11 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                 )
               }) 
                  
-            })            
-                            
+            })          
         </div>
-        <div id="content"  style={{marginTop:"80px"}} >
-            
+           <div id="content"  style={{marginTop:"80px"}} >
             {this.props.children}
-        </div>               
+          </div>
     </>)
   }
 }
