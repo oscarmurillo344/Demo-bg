@@ -257,7 +257,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
           {
             
             return  (<>          
-              <div className="flex row" style={{justifyContent:"space-around"}} >
+              <div className="flex fila" style={{justifyContent:"space-around"}} >
                   {
                     
                     columns.map((recorre:any, index:any)=>{
@@ -338,11 +338,11 @@ const GridViewBG = (props:GridViewBGProps)=>{
     const fechas = ()=>{
       return <>
           <div className="flex" style={{ alignItems:"end"}}  >
-              <div className="flex colum" style={{alignItems:"start", justifyContent:"center"}} >
+              <div className="flex columna" style={{alignItems:"start", justifyContent:"center"}} >
                 <div>Fecha Anterior</div>
                 <DatePicker format="DD/MM/yyyy" onChange={onChangeFechaFechaAnterior} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
               </div>
-              <div className="flex colum" style={{alignItems:"start", marginLeft:"20px"}}  >
+              <div className="flex columna" style={{alignItems:"start", marginLeft:"20px"}}  >
               <div>Fecha Actual</div>
                 <DatePicker format="DD/MM/yyyy" onChange={onChangeFechaFechaActual} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
               </div>
@@ -402,7 +402,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     <ButtonBG shape="round" text="Columnas" onClick={onColumnas}  type="outline" icon={<RotateRightOutlined />} /> 
                     </div>
                 </div>
-                <div  id="contenedorGraficos" style={{width:"100%", justifyContent:"center",  alignItems:"flex-start"} }  className="flex colum">
+                <div  id="contenedorGraficos" style={{width:"100%", justifyContent:"center",  alignItems:"flex-start"} }  className="flex columna">
                       <p style={{marginLeft:"24px", fontWeight:700, color:"#160F41"}} > Gráfico De Evoluciones</p>
                       <div  style={{width: menuAbierto? "400px": "400px", justifyContent:"center", marginLeft: menuAbierto?"10px": "10px", transition:"0.3s", height:"300px"}}> 
                         {

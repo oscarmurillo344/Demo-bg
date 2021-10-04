@@ -28,88 +28,99 @@ const Home = (props:HomeProps)=>{
             props.onReady();
         }
     }, [])
-    const getGrafico = (width:string, heigth:string, titulo:string="titulo", ruta:string="/nofoundit")=>{
-       return <div className="item-dashboard"  style={{width: width, justifyContent:"center", height:heigth}}> 
+    
+    const getGrafico = (titulo:string="titulo", ruta:string="/nofoundit")=>{
+       return <> 
         <Link to={ruta} style={{color:'black'}} > 
-            <p style={{margin:"0px", padding:"0px", fontSize:"12px", fontWeight:600}} >{titulo}</p>
-                    <Line data={data}  />   
+            <p className="text-center" style={{fontSize:"12px", fontWeight:600}} >{titulo}</p>
+                    <Line className="anchura" data={data}  />   
             </Link>               
-      </div>
+      </>
     }
     return (
         <> 
-        <div className="flex colum" >
-        <div className="flex" style={{justifyContent:"center", alignItems:"start"}} >
-        <div className="flex colum"  >
-            <div  style={{justifyContent:"start", alignItems:"center"}} className="flex colum contenedor" >
-                <p className="titulo"  > ACTIVOS Y PASIVOS</p>
-                <div className="flex row" style={{alignItems:"start"}} >
-                    {
-                        getGrafico("280px", "100px", "Ahorros", "/activopasivo/ahorros/resumen")
-                    }
-                    {
-                        getGrafico("280px", "100px", "Corrientes")
-                    }
-                    {
-                        getGrafico("280px", "100px", "Dep Plazo")
-                    }
+        <div className="container-fluid">
+        <div className="row align-items-center">
+            <div className="col-md-12 col-lg-8 contenedor">
+                <div className="row">
+                    <div className="col-12"> <p className="text-center titulo"> Activos y Pasivos</p></div>
                 </div>
-                <div className="flex row" style={{justifyContent:"center"}} >
-                    {
-                        getGrafico("280px", "100px", "Pasivos")
-                    }
-                    {
-                        getGrafico("280px", "100px", "Portafolio")
-                    }
-                    {
-                        getGrafico("280px", "100px", "Cobertura")
-                    }
+                <div className="row">
+                    <div className="col-md-12 col-lg-4">
+                        {
+                            getGrafico("Ahorros", "/activopasivo/ahorros/resumen")
+                        }
+                    </div>
+                    <div className="col-md-12 col-lg-4">
+                        {
+                            getGrafico("Corrientes")
+                        }
+                    </div>
+                    <div className="col-md-12 col-lg-4">
+                        {
+                            getGrafico("Dep Plazo")
+                        }
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12 col-lg-4">
+                        {
+                            getGrafico("Pasivos")
+                        }
+                    </div>
+                    <div className="col-md-12 col-lg-4">
+                        {
+                            getGrafico("Portafolio")
+                        }
+                    </div>
+                    <div className="col-md-12 col-lg-4">
+                        {
+                            getGrafico("Cobertura")
+                        }
+                    </div>
                 </div>
             </div>
-            <div className="contenedor flex colum" style={{marginTop:"1px", justifyContent:"center", alignItems:"center"}} >
-            <p className="titulo" > INFORMES DE CARTERA</p>
-            <div className="flex row" style={{justifyContent:"center"}} >
-                     
+            <div className="col-md-12 col-lg-3 contenedor">
+                <p className="titulo text-center" > COBERTURA</p>
                     {
-                        getGrafico("280px", "100px", "Diarias")
+                        getGrafico("")
+
                     }
-                    {
-                        getGrafico("280px", "100px", "Oficinas")
-                    }
-                    {
-                        getGrafico("280px", "100px", "Productos")
-                    }
-                </div>
             </div>
         </div>
-        
-            <div style={{justifyContent:"center", alignItems:"center"}} >
+        <div className="row">
+            <div className="col-md-12 col-lg-8 contenedor">
+                <div className="row">
+                    <div className="col-12"> <p className="text-center titulo">INFORMES DE CARTERA</p></div>
+                </div>
                 
-                <div className="flex contenedor colum"  style={{justifyContent:"center", alignItems:"center"}} >
-                <p className="titulo" > COBERTURA</p>
+            <div className="row">
+                <div className="col-md-12 col-lg-4">
                     {
-                        getGrafico("280px", "200px", "")
-
+                        getGrafico("Diarias")
                     }
-                   
-                    
                 </div>
-                <div className="flex contenedor colum"  style={{justifyContent:"center", alignItems:"center"}} >
-                <p className="titulo" > INFORMES DE PASIVOS</p>
+                <div className="col-md-12 col-lg-4">
                     {
-                        getGrafico("280px", "200px", "")
-
+                        getGrafico("Oficinas")
                     }
-                   
-                    
                 </div>
-                    
-                    
+                <div className="col-md-12 col-lg-4">
+                    {
+                        getGrafico("Productos")
+                    }
+                </div>
             </div>
         </div>
-        
+        <div className="col-md-12 col-lg-3 contenedor">
+                <p className="titulo text-center" > INFORMES DE PASIVOS</p>
+                    {
+                        getGrafico("")
+
+                    }
         </div>
-                     
+    </div>     
+</div>                  
         </>
     )
 }

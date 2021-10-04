@@ -1,41 +1,55 @@
-.item-dashboard
-{
-    
-    margin: 20px;
-    margin-top: 40px;
-    margin-bottom: 40px;   
-    cursor: pointer;   
-    
-    transition: 0.3s;
-    
-}
 
 .titulo
 {
     visibility: visible;
-    transition: 0.3;
     font-size: 20px;
     color: rgb(128, 115, 115);
 }
 .contenedor
 {
-    margin-bottom: 3px;
-    padding-bottom: 20px;
+    margin-bottom: 10px;
+    margin-left: 25px;
+    margin-right: 5px;
     background: #ebe5e5;
-    margin-left: 4px;
-    height: 100%;
     border-radius: 20px;
     transition: 0.3s;
 }
 
+.anchura{
+    width: 100% !important;
+    height: 133px !important;
+    margin: auto;
+}
 
+@media only screen and (max-width: 991px) and (min-width: 0px) {  
+   
+    .contenedor {
+        margin-bottom: 10px;
+        margin-left: 0px;
+        margin-right: 0px;
+        background: #ebe5e5;
+        border-radius: 20px;
+        transition: 0.3s;
+    }
 
+   
+} 
 
-.contenedor:hover .titulo
-{
-    color: rgb(22, 15, 65,1);
-    visibility: visible;
-    
+@media only screen and (max-width: 991px) and (min-width: 0px) {  
+   
+    .anchura{
+        width: 450px !important;
+        height: 200px !important;
+        margin: auto;
+    }
+   
+} 
+@media only screen and (max-width: 991px) and (min-width: 0px) {  
+   
+    .container-fluid{
+        max-width: 720px !important;
+    }
+   
 }
 
 

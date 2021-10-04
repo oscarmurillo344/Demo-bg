@@ -355,49 +355,52 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   render()
   {
     return (<>
-        <nav className="nav-bar flex row fixed" >
-          <div  className="ancho-manu flex" style={{justifyContent:"center"}} > 
-
+        <nav className="nav-bar row fixed" >
+          <div className="col-1 ml-3" >
             <img src= {imagen} width="40px" height="40px" ></img>
           </div>
-          <div className='pantalla colum'  >
-              
-              <p style={{fontSize:"21px", letterSpacing:"5px"}} >NEO FINANCIAL</p>
-              <p id="ruta" style={{color:"white"}} >  {this.getRutaCompletaActual()} </p>
+
+          <div className="col-xl-6 col-lg-5 col-md-4 col-sm-6 pantalla"  >
+              <p style={{fontSize:"20px", letterSpacing:"4px"}} >NEO FINANCIAL</p>
+              <p className="d-md-block d-none" id="ruta" style={{color:"white"}} >  {this.getRutaCompletaActual()} </p>
           </div>
           
-          <div className="opciones row" >
-            <div  style={{color:"white", height:"100%", justifyContent:"center"}} className="flex colum" > 
-              <p style={{margin:"0px", fontSize:"12px" , fontWeight:100}} >Leonel Velez Larrea </p>
-              <p style={{ margin:0,  fontSize:"12px", fontWeight:100}}>{this.state.fechaActual}</p>
+          <div className="col-xl-4 col-lg-5 col-md-6 d-md-block d-none" >
+            <div className="row align-items-center justify-content-end">
+              <div className="col-lg-5 col-md-6 ml-3"></div>
+              <div className="col-md-4 d-none d-lg-block" style={{color:"white", height:"100%"}}>
+                <p style={{ margin:"0px", fontSize:"12px" , fontWeight:100}} >Leonel Velez Larrea </p>
+                <p style={{ margin:0,  fontSize:"12px", fontWeight:100}}>{this.state.fechaActual}</p>
+              </div>
+              <div className="col-md-1">
+                <Badge  count={1} color="#bc157c" >
+                    <div style={{ fontSize:"24px", height:"100%", color:"white"}}>
+                          <AiFillBell  />
+                    </div> 
+                </Badge>
+              </div>
+              <div className="col-md-1" >
+                  <Dropdown  placement="bottomRight" arrow overlay={
+                  <Menu>
+                  <Menu.Item>
+                    <a target="_blank" rel="noopener noreferrer" href="#">
+                      Salir
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <a target="_blank" rel="noopener noreferrer" href="#">
+                      Perfil
+                    </a>
+                  </Menu.Item>
+                </Menu>
+              }>
+                    <div className="boton p-2" ><AiOutlineCaretDown></AiOutlineCaretDown></div>
+              </Dropdown>
             </div>
-            
-            <Badge  count={1} color="#bc157c" >
-            <div className="flex" style={{ fontSize:"24px", height:"100%", color:"white"}}>
-                  <AiFillBell  />
-            </div> 
-            </Badge>
-              
-
-          <Dropdown  placement="bottomRight" arrow overlay={
-              <Menu>
-              <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="#">
-                  Salir
-                </a>
-              </Menu.Item>
-              <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="#">
-                  Perfil
-                </a>
-              </Menu.Item>
-            </Menu>
-          }>
-                <div   className="flex boton" ><AiOutlineCaretDown></AiOutlineCaretDown></div>
-          </Dropdown>
           </div>
-        </nav>        
-        <div className="container-menu ancho-manu flex colum" >
+        </div>
+    </nav>        
+        <div className="container-menu ancho-manu flex columna" >
             {
               this.props.items.map((recorre, index)=>{
                 return <Link to= {this.goTo(recorre) } onClick={()=>this.onClickModulo(recorre.nombre)}  className="flex container-item" 

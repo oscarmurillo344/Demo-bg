@@ -2,7 +2,7 @@ import './App.css';
 import 'antd/dist/antd.css';
 
 import AhorroResumen from './modulos/ahorros/resumen/ahorrosResumen';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import MenuBG from './componentes/menuBG/menuBG';
 import menuBG from './menu'
 import MenuListBg from './interfaces/menu';
@@ -101,6 +101,7 @@ function App() {
         <Route exact path='/activopasivo/ahorros/detalles' render={(props)=>(getPage('CuentaAhorrosDetalles', props))}></Route> 
         <Route exact path='/activopasivo/ahorros/resumen' render={(props)=>(getPage('CuentaAhorrosResumen', props))}></Route>
         <Route exact path='/nofoundit' render={(props)=>(getPage('NotFoundIt', props))}></Route> 
+        <Redirect from="/" to="home" />
       </MenuBG>                
       </Switch>
     </BrowserRouter>  

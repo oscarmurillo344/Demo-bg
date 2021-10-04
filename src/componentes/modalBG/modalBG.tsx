@@ -93,12 +93,12 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     {
         return (
             <Modal style={{height:"1000px"}} width="550px" title="Filtros" visible={this.state.open} onOk={this.okModal} okText="Guardar Filtro" onCancel={this.cancelModla} >
-            <div className="flex row accionesModal"  > 
+            <div className="flex fila accionesModal"  > 
                <ButtonBG shape="round" text="Limpiar" type="normal" style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}}  onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
                <ButtonBG shape="round" text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />
             </div>
             <div> </div>
-             <div id="contenedorFiltro" className="flex row contenedorFiltro"  style={{overflowY:"scroll", maxHeight:"400px"}} >
+             <div id="contenedorFiltro" className="flex fila contenedorFiltro"  style={{overflowY:"scroll", maxHeight:"400px"}} >
                   
              </div>
             </Modal>
@@ -150,7 +150,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     createElementoFiltro = (id:number)=>{        
         return (
           <> 
-              <div className="flex row elementoFiltro" key={id} style={{width:"480px"}}  >
+              <div className="flex fila elementoFiltro" key={id} style={{width:"480px"}}  >
                 <Select key={`${id}-campo`} onChange={(e)=>this.onChaneCampo({value:e, id:id})} defaultValue="-1" style={{ width: 150 }} >
                   <option value="-1">Campos</option>  
                   {

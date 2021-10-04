@@ -17,11 +17,11 @@ code {
   display: flex;
 }
 
-.colum{
+.columna{
   flex-direction: column;
 }
 
-.row{
+.fila{
   flex-direction: row;
 }
 
