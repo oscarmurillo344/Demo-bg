@@ -355,31 +355,35 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
   render()
   {
     return (<>
-        <nav className="nav-bar row fixed" >
-          <div className="col-1 ml-3" >
-            <img src= {imagen} width="40px" height="40px" ></img>
+        <nav className="nav-bar row justify-content-md-between fixed" >
+          <div className="col-lg-6 col-sm-8 ml-3 pantalla" >
+            <div className="row mt-3">
+              <div className="col-1 mr-2">
+                <img src= {imagen} width="40px" height="40px" ></img>
+              </div>
+              <div className="col-6 col-md-7 col-sm-10">
+                <p style={{fontSize:"20px", letterSpacing:"4px", margin:"0"}} >NEO FINANCIAL</p>
+                <p className="d-md-block d-none" id="ruta" style={{color:"white", margin:"0"}} >  {this.getRutaCompletaActual()} </p>
+              </div>
+            </div>
           </div>
 
-          <div className="col-xl-6 col-lg-5 col-md-4 col-sm-6 pantalla"  >
-              <p style={{fontSize:"20px", letterSpacing:"4px"}} >NEO FINANCIAL</p>
-              <p className="d-md-block d-none" id="ruta" style={{color:"white"}} >  {this.getRutaCompletaActual()} </p>
-          </div>
-          
-          <div className="col-xl-4 col-lg-5 col-md-6 d-md-block d-none" >
-            <div className="row align-items-center justify-content-end">
-              <div className="col-lg-5 col-md-6 ml-3"></div>
-              <div className="col-md-4 d-none d-lg-block" style={{color:"white", height:"100%"}}>
+         
+          <div className="col-lg-4 col-sm-3 d-sm-block d-none" >
+            <div className="row align-items-center justify-content-lg-start justify-content-center">
+              <div className="col-xl-5 col-lg-2 col-md-1"></div>
+              <div className="col-xl-4 col-lg-5 d-none d-lg-block" style={{color:"white", height:"100%"}}>
                 <p style={{ margin:"0px", fontSize:"12px" , fontWeight:100}} >Leonel Velez Larrea </p>
                 <p style={{ margin:0,  fontSize:"12px", fontWeight:100}}>{this.state.fechaActual}</p>
               </div>
-              <div className="col-md-1">
+              <div className="col-xl-1 col-md-2 col-1">
                 <Badge  count={1} color="#bc157c" >
                     <div style={{ fontSize:"24px", height:"100%", color:"white"}}>
                           <AiFillBell  />
                     </div> 
                 </Badge>
               </div>
-              <div className="col-md-1" >
+              <div className="col-xl-1 col-md-2 col-1" >
                   <Dropdown  placement="bottomRight" arrow overlay={
                   <Menu>
                   <Menu.Item>
