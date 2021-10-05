@@ -1,21 +1,18 @@
-import React, { CSSProperties, useState, useEffect } from 'react';
-import { DataGrid, GridColDef, GridCsvExportApi, GridExportCsvOptions, GridFilterItem, GridFilterModel, GridLinkOperator, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@material-ui/data-grid';
+import { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
 import {Line} from 'react-chartjs-2'
-import { Badge, Dropdown, Modal, Space, Table, Select, Tabs, Tree, DatePicker, Checkbox } from 'antd';
-import { CloseOutlined, DeleteOutlined, DownloadOutlined, DownOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Badge, Table, Tabs, Tree, DatePicker } from 'antd';
+import { DoubleLeftOutlined, DownloadOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, PlusOutlined, ReloadOutlined, RotateRightOutlined, SearchOutlined, SelectOutlined } from '@ant-design/icons';
 import ButtonBG from '../buttonBG/buttonBG';
-import { ColumnsType } from 'antd/lib/table';
 import ColumnGroup from 'rc-table/lib/sugar/ColumnGroup';
 import Column from 'rc-table/lib/sugar/Column';
 import ColumnasGrupo from '../../interfaces/columnasGrupos';
-import ReactDOM from 'react-dom';
 import ModalBG from '../modalBG/modalBG';
-import { catalogosCampos, catalogosFiltros, catalogosValues, informacionFiltros } from '../../interfaces/filtros';
+import { catalogosCampos, catalogosValues, informacionFiltros } from '../../interfaces/filtros';
 import moment from 'moment';
 import ModalContentBG from '../modalContentBG/modalContentBG';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 const { TabPane } = Tabs;
 
 interface GridViewBGPropsDataSetGrafico{
@@ -57,6 +54,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
   const [badge, setBadge] = useState(0)
   const [openModalContent, setOpenModalContent] = useState(false)
   const [openModalColumn, setOpenModalColumn] = useState(false)
+  const [openGrafico, setOpenGrafico] = useState(false)
   const [columnsTotales, setColumnsTotales] = useState(props.columnsTotal)
   const [columnsGrupo, setColumnsGrupos] = useState(props.columns)
   const [rowTotales, setRowTotales] = useState(props.rowsTotal)
@@ -98,6 +96,8 @@ const GridViewBG = (props:GridViewBGProps)=>{
   useEffect(()=>{
     setRowGrupos(props.rows)
   }, [props.rows])
+  
+ 
   const getColumnsGroup = (columns:any[])=>{
     if(props.tipoColumna === "grupo")
     {
@@ -337,88 +337,124 @@ const GridViewBG = (props:GridViewBGProps)=>{
     }
     const fechas = ()=>{
       return <>
-          <div className="flex" style={{ alignItems:"end"}}  >
-              <div className="flex columna" style={{alignItems:"start", justifyContent:"center"}} >
+          <div className="row align-items-end">
+              <div className="col-6" >
                 <div>Fecha Anterior</div>
                 <DatePicker format="DD/MM/yyyy" onChange={onChangeFechaFechaAnterior} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
               </div>
-              <div className="flex columna" style={{alignItems:"start", marginLeft:"20px"}}  >
+              <div className="col-6">
               <div>Fecha Actual</div>
                 <DatePicker format="DD/MM/yyyy" onChange={onChangeFechaFechaActual} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
               </div>
-              <ButtonBG shape="round" onClick={onBuscar} style={{display: `${props.buttonFilter? "inline" : "none"}`, marginLeft:"20px" }}  text="Buscar" type="normal" icon={<ReloadOutlined />} /> 
-              
           </div>
        </> 
     }
     
-    
+    const actionGraficos = (verGrafico:boolean):string =>{
+      if(verGrafico){
+        return "scale(1)"
+      }else{
+        return "scale(0)" 
+      }
+    }
+
+   const onClickCloseGrafico =()=>{
+    setOpenGrafico(!openGrafico)
+    }
+
     return (
-      <div style={{justifyContent:"center", width:"100%", marginLeft:"7px"}} className="flex"  >
-        
-        
+      <>
+                <div className="tabContainer" > 
                 
-                
-                <div className="tabContainer" style={{marginRight:"auto"}} > 
-                
-                <div className="acciones flex" style={{justifyContent:"space-between", alignItems:"end", marginBottom:"20px"}}>          
-                  {
-                    fechas()
-                  }
-                  <Badge count={badge} color="#bc157c" > 
-                    
-                    <ButtonBG shape="round" style={{display: `${props.buttonFilter? "inline" : "none"}` }}  onClick={onOpenModal}  text="Filtrar" type="normal" icon={<FunnelPlotOutlined />} /> 
+                <div className="row align-items-end my-3">
+                  <div className="col-xl-5 col-lg-6 col-md-7 col-sm-8 col-12">
+                    {
+                      fechas()
+                    }
+                  </div>
+                  <div className="col-lg-4 col-12">
+                      <ButtonBG 
+                                shape="round" 
+                                onClick={onBuscar} 
+                                style={{display: `${props.buttonFilter? "inline" : "none"}`}}  
+                                text="Buscar" 
+                                type="normal" 
+                                icon={<ReloadOutlined />} /> 
+                  <Badge 
+                          count={badge} 
+                          color="#bc157c"
+                          className="mx-3 mt-sm-2" > 
+                      <ButtonBG 
+                          shape="round" 
+                          style={{display: `${props.buttonFilter? "inline" : "none"}` }} 
+                          onClick={onOpenModal}  
+                          text="Filtrar" 
+                          type="normal" 
+                          icon={<FunnelPlotOutlined />} /> 
                   </Badge>
-                  
+                  </div>                 
                 </div>
+       <div className="row">
+          <div className="col-11">
                   <Table
-
-                    className="totales"
+                    className="totales w-100"
                     pagination={false}
-                      style={{width: "100%", marginBottom:"40px", background:"red"}}
-                      scroll ={{ x:"800px"}}  
-
+                    style={{marginBottom:"40px"}}
+                    scroll ={{ x:true}}  
                     dataSource={rowTotales}>
                     {
                       getColumnsGroup(columnsTotales)
                     }
                     
                   </Table>  
-                    
-                  <Table
-                      className="components-table-demo-nested"
-                      
-                      style={{width: "100%"}}
-                      scroll ={{y:370}}            
+                   <Table
+                      className="components-table-demo-nested w-100"
+                      style={{width: "100%", overflow:"inherit"}}
+                      scroll ={{ x: true, y:370}}            
                       expandable={{ expandedRowRender }}
                       dataSource={rowGrupos}>
                       {
                         getColumnsGroup(columnsGrupo)
                       }                        
                     </Table>
-                    <div  className="flex acciones">
+              <div  className="flex acciones">
                     <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} />           
                     <ButtonBG shape="round" text="Variaciones" type="outline" icon={<FileOutlined />} /> 
                     <ButtonBG shape="round" text="Columnas" onClick={onColumnas}  type="outline" icon={<RotateRightOutlined />} /> 
-                    </div>
+             </div>
+       </div>
+        <div className="col-1 align-self-center">
+           <ButtonBG shape="circle" onClick={()=>onClickCloseGrafico()} text="" type="normal" icon={<DoubleLeftOutlined />} /> 
+        </div>
+        <div  id="contenedorGraficos" className="slide-grafico" style={{transform: actionGraficos(openGrafico) }}>
+              <div className="container-fluid">
+              <div id="iconCloseGrafico" onClick={()=>onClickCloseGrafico()}><AiOutlineCloseCircle width={100}></AiOutlineCloseCircle></div>
+                <div className="row">
+                   <div className="col-12">
+                   <p style={{marginLeft:"24px", fontWeight:700, color:"#160F41"}} > Gráfico De Evoluciones</p>
+                   </div>
                 </div>
-                <div  id="contenedorGraficos" style={{width:"100%", justifyContent:"center",  alignItems:"flex-start"} }  className="flex columna">
-                      <p style={{marginLeft:"24px", fontWeight:700, color:"#160F41"}} > Gráfico De Evoluciones</p>
-                      <div  style={{width: menuAbierto? "400px": "400px", justifyContent:"center", marginLeft: menuAbierto?"10px": "10px", transition:"0.3s", height:"300px"}}> 
-                        {
-                            props.dataSetGraficos?  <Line data={props.dataSetGraficos?.anual}  /> :  <> </>
-                          }
-                          
-                      </div>
-                      <div  style={{width: menuAbierto? "400px": "400px", justifyContent:"center", marginLeft: menuAbierto?"10px": "10px", transition:"0.3s", height:"200px"}}> 
-                        {
-                            props.dataSetGraficos?  <Line data={props.dataSetGraficos?.mensual}  /> :  <> </>
-                          }
-                          
-                      </div>
+              <div className="row">
+                <div className="col-12"  style={{ height:"225px" }}> 
+                  {
+                      props.dataSetGraficos?  <Line data={props.dataSetGraficos?.anual}  /> :  <> </>
+                    }
+                    
                 </div>
-                
-              
+              </div>
+              <div className="row">
+                  <div className="col-12"  style={{ height:"225px" }}> 
+                    {
+                        props.dataSetGraficos?  <Line data={props.dataSetGraficos?.mensual}  /> :  <> </>
+                      }
+                      
+                  </div>
+              </div>
+              </div>
+        </div>
+    </div>            
+</div>
+            
              {/*    <TabPane tab="Graficos" key="3">
                 <div className="tabContainer flex" style={{justifyContent:"center"}}  >
                       <Tabs  defaultActiveKey="0" centered> 
@@ -497,7 +533,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
           </>
           
         }
-      </div>
+      </>
     );
     
     

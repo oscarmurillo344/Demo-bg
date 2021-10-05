@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import GridViewBG from "../../../componentes/gridViewBG/gridViewBG";
-import MenuBG from "../../../componentes/menuBG/menuBG";
 import ColumnasGrupo from "../../../interfaces/columnasGrupos";
 import DataSet from "../../../interfaces/cuentaAhorros";
 import { catalogosCampos, catalogosValues, informacionFiltros } from "../../../interfaces/filtros";
@@ -21,6 +20,7 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
     const [filtrosValues, setFiltrosValues] = useState(Array<catalogosValues>())
     const [filtrosCampoCatalogo,setFiltrosCampoCatalogo] =  useState(Array<catalogosCampos>())  
     const [menuAbierto, setMenuAbierto] = useState(props.menuAbierto)
+
     useEffect(()=>{
         setMenuAbierto(props.menuAbierto)
     }, [props.menuAbierto])
@@ -131,14 +131,14 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
           key:'codigo', 
           title: 'Codigo', 
           show:true,
-          width: "90px",
+          width: "auto",
         },
         {
           dataIndex: 'descripcion', 
           key:'descripcion', 
           title: 'Descripcion', 
           show:true,
-          width: "200px",
+          width: "auto",
         }
       ]
       },
@@ -343,15 +343,10 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
     const onLoad = (e:any)=>{
   
     }
-  
-    const getPage = (pagina:string, props:any)=>{
-      return <> </>
-    }
-
 
     return (<> 
     
-    <div className="flex column" style={{justifyContent:"center"}}  >
+    <div className="container-fluid">
             <GridViewBG
             onBuscar={onBuscar}
             menuAbierto = {menuAbierto}

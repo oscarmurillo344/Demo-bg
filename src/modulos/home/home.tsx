@@ -53,29 +53,29 @@ const Home = (props:HomeProps)=>{
                     </div>
                     <div className="col-md-12 col-lg-4">
                         {
-                            getGrafico("Corrientes")
+                            getGrafico("Corrientes", "/activopasivo/ahorros/resumen")
                         }
                     </div>
                     <div className="col-md-12 col-lg-4">
                         {
-                            getGrafico("Dep Plazo")
+                            getGrafico("Dep Plazo","/activopasivo/ahorros/resumen")
                         }
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-12 col-lg-4">
                         {
-                            getGrafico("Pasivos")
+                            getGrafico("Pasivos", "/activopasivo/ahorros/resumen")
                         }
                     </div>
                     <div className="col-md-12 col-lg-4">
                         {
-                            getGrafico("Portafolio")
+                            getGrafico("Portafolio", "/activopasivo/ahorros/resumen")
                         }
                     </div>
                     <div className="col-md-12 col-lg-4">
                         {
-                            getGrafico("Cobertura")
+                            getGrafico("Cobertura", "/activopasivo/ahorros/resumen")
                         }
                     </div>
                 </div>
@@ -83,7 +83,7 @@ const Home = (props:HomeProps)=>{
             <div className="col-md-12 col-lg-3 contenedor">
                 <p className="titulo text-center" > COBERTURA</p>
                     {
-                        getGrafico("")
+                        getGrafico("", "/activopasivo/ahorros/resumen")
 
                     }
             </div>
@@ -97,17 +97,17 @@ const Home = (props:HomeProps)=>{
             <div className="row">
                 <div className="col-md-12 col-lg-4">
                     {
-                        getGrafico("Diarias")
+                        getGrafico("Diarias", "/activopasivo/ahorros/resumen")
                     }
                 </div>
                 <div className="col-md-12 col-lg-4">
                     {
-                        getGrafico("Oficinas")
+                        getGrafico("Oficinas", "/activopasivo/ahorros/resumen")
                     }
                 </div>
                 <div className="col-md-12 col-lg-4">
                     {
-                        getGrafico("Productos")
+                        getGrafico("Productos", "/activopasivo/ahorros/resumen")
                     }
                 </div>
             </div>
@@ -115,7 +115,7 @@ const Home = (props:HomeProps)=>{
         <div className="col-md-12 col-lg-3 contenedor">
                 <p className="titulo text-center" > INFORMES DE PASIVOS</p>
                     {
-                        getGrafico("")
+                        getGrafico("", "/activopasivo/ahorros/resumen")
 
                     }
         </div>
