@@ -371,7 +371,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                       fechas()
                     }
                   </div>
-                  <div className="col-lg-4 col-12">
+                  <div className="col-lg-4 col-12 mt-sm-2">
                       <ButtonBG 
                                 shape="round" 
                                 onClick={onBuscar} 
@@ -394,9 +394,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
                   </div>                 
                 </div>
        <div className="row">
-          <div className="col-11">
+          <div className="col-11" >
                   <Table
-                    className="totales w-100"
+                    className="totales"
                     pagination={false}
                     style={{marginBottom:"40px"}}
                     scroll ={{ x:true}}  
@@ -407,9 +407,10 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     
                   </Table>  
                    <Table
-                      className="components-table-demo-nested w-100"
-                      style={{width: "100%", overflow:"inherit"}}
-                      scroll ={{ x: true, y:370}}
+                      className="components-table-demo-nested"
+                      style={{width: "100%", overflow:"inherit", overflowWrap:"anywhere"}}
+                      size={"large"}
+                      scroll ={{ x: true, y:200}}
                       expandable={{ expandedRowRender }}
                       dataSource={rowGrupos}>
                       {
