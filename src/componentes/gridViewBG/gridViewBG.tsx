@@ -326,25 +326,24 @@ const GridViewBG = (props:GridViewBGProps)=>{
         });
       }
     }
-    const onChangeFechaFechaAnterior = (e:any)=>
+    const onChangeFechaFechaAnterior = (e:Date)=>
     {
-      fechaAnterior = e.toDate();
-      
+      fechaAnterior = e;
     }
-    const onChangeFechaFechaActual = (e:any)=>
+    const onChangeFechaFechaActual = (e:Date)=>
     {
-      fechaActual = e.toDate();
+      fechaActual = e;
     }
     const fechas = ()=>{
       return <>
           <div className="row align-items-end">
               <div className="col-6" >
                 <div>Fecha Anterior</div>
-                <DatePicker format="DD/MM/yyyy" onChange={onChangeFechaFechaAnterior} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
+                <DatePicker format="DD/MM/yyyy" onChange={()=>onChangeFechaFechaAnterior} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
               </div>
               <div className="col-6">
               <div>Fecha Actual</div>
-                <DatePicker format="DD/MM/yyyy" onChange={onChangeFechaFechaActual} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
+                <DatePicker format="DD/MM/yyyy" onChange={()=>onChangeFechaFechaActual} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
               </div>
           </div>
        </> 
@@ -410,7 +409,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                    <Table
                       className="components-table-demo-nested w-100"
                       style={{width: "100%", overflow:"inherit"}}
-                      scroll ={{ x: true, y:370}}            
+                      scroll ={{ x: true, y:370}}
                       expandable={{ expandedRowRender }}
                       dataSource={rowGrupos}>
                       {
