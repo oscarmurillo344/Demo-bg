@@ -38,7 +38,6 @@ const Home = (props:HomeProps)=>{
       </>
     }
     return (
-        <> 
         <div className="container-fluid">
         <div className="row align-items-center">
             <div className="col-md-12 col-lg-8 contenedor">
@@ -120,9 +119,7 @@ const Home = (props:HomeProps)=>{
                     }
         </div>
     </div>     
-</div>                  
-        </>
-    )
+</div>)
 }
 
 export default Home
