@@ -326,3 +326,34 @@ a.container-menu-childrens-children
   margin-top: 6px;
   font-size: 10px;
 }
+
+.sombra {
+  -webkit-moz-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  -webkit-box-shadow: 4px 3px 7px rgb(0,0,0,0.9);
+  -moz-box-shadow: 4px 3px 7px rgb(0,0,0,0.9);
+}
+
+.salida {
+  -webkit-animation: EntradaLaterarl 0.2s 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation: EntradaLaterarl 0.2s 1;
+  -moz-animation-fill-mode: forwards;
+}
+
+@keyframes EntradaLaterarl {
+  from {left: 0px;}
+  to {left: -100px;}
+}
+
+.entrada{
+  -webkit-animation: SalidaLateral 0.2s 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation: EntradaLaterarl 0.2s 1;
+  -moz-animation-fill-mode: forwards;
+
+}
+@keyframes SalidaLateral {
+  from {left: -100px;}
+  to {left: 0px;}
+}

@@ -337,11 +337,11 @@ const GridViewBG = (props:GridViewBGProps)=>{
     const fechas = ()=>{
       return <>
           <div className="row align-items-end">
-              <div className="col-6" >
+              <div className="col-sm-6 " >
                 <div>Fecha Anterior</div>
                 <DatePicker format="DD/MM/yyyy" onChange={()=>onChangeFechaFechaAnterior} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
               </div>
-              <div className="col-6">
+              <div className="col-sm-6">
               <div>Fecha Actual</div>
                 <DatePicker format="DD/MM/yyyy" onChange={()=>onChangeFechaFechaActual} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
               </div>
@@ -371,7 +371,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                       fechas()
                     }
                   </div>
-                  <div className="col-lg-4 col-12 mt-sm-2">
+                  <div className="col-lg-4 col-12 mt-2">
                       <ButtonBG 
                                 shape="round" 
                                 onClick={onBuscar} 

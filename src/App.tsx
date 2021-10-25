@@ -8,9 +8,8 @@ import menuBG from './menu'
 import MenuListBg from './interfaces/menu';
 import { useEffect, useState } from 'react';
 import Home from './modulos/home/home';
-import video from './indices_video.gif'
-import Loader from "react-loader-spinner";
 import { AiOutlineSetting } from 'react-icons/ai';
+import Loader from 'react-loader-spinner';
 
 function App() {
   const menu : MenuListBg[] = menuBG;

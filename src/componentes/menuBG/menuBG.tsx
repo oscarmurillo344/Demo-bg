@@ -1,16 +1,12 @@
 import React from 'react';
 import './menuBG.css';
-import { bubble as MenuBurger } from 'react-burger-menu'
 import imagen from './../../jusLogo.png'
-import { AiOutlineShop, AiOutlineSolution, AiOutlineUser, AiOutlineTeam, AiOutlineLogin, AiOutlineCaretDown, AiOutlineCloseCircle, AiOutlineArrowLeft, AiOutlineBell, AiFillBell } from "react-icons/ai";
-import { Badge, Button, Dropdown, Menu } from 'antd';
-import { AppstoreOutlined, DownOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { AiOutlineCaretDown, AiOutlineCloseCircle, AiOutlineArrowLeft, AiFillBell } from "react-icons/ai";
+import { Badge, Dropdown, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import MenuListBg from '../../interfaces/menu';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-
-
 
 interface MenuBGProps
 {
@@ -20,7 +16,6 @@ interface MenuBGProps
   onOpenMenu? :any 
   abrirMenu? : any;
   modulo:string;
-
 }
 
 interface MenuBGSatate
@@ -32,15 +27,17 @@ interface MenuBGSatate
   addSpace:boolean;
   fechaActual:string;
   tituloItems : {titulo:string, isModulo:boolean}
+  ViewPortNav:boolean
+  VerNav:boolean
 }
+
 export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
 {
  
+
  constructor(props:MenuBGProps)
  {   
     super(props);
-    console.log("modulo")
-    console.log(this.props.modulo)
     let moduloSelec = ""
     
     if(this.props.modulo.trim() === "")
@@ -53,11 +50,27 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     }
     
     this.state ={moduloSeleccionado : moduloSelec, fechaActual:moment().format("YYYY-MM-DD HH:mm:ss").toString() , openMenu:false, addSpace:false, itemsSleccionados:[], renderItems:[],    
-    tituloItems : {titulo:"", isModulo:false}
+    tituloItems : {titulo:"", isModulo:false}, VerNav: false, ViewPortNav: false
   }
     this.onFechaActual()
  }
-  
+
+  componentDidMount() {
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
+  }
+
+  resize() {
+    let currentHideNav = (window.innerWidth <= 890);
+    if (currentHideNav !== this.state.ViewPortNav) {
+        this.setState({ViewPortNav: currentHideNav, VerNav: currentHideNav});
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resize.bind(this));
+  }
+
  componentDidUpdate(propsPrev:MenuBGProps)
  {
    if(this.props.abrirMenu !== propsPrev.abrirMenu)
@@ -159,7 +172,6 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
         }
 
         const itemToRender = this.obtenerLasItem(itemsPrevios, itemsSeleccionadosPrevia, 0)
-        console.log(itemToRender)
         this.setState({...this.state, renderItems:itemToRender}, ()=>
         
         {
@@ -187,8 +199,6 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     
       this.closeMenu()
     }
-
-    console.log(this.state.itemsSleccionados)
   } 
 
   esMismoNivel = (itemSeleccionado:any)=>{
@@ -223,7 +233,6 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
     
     const firtsItem = this.props.items.find(x=>x.nombre.trim().toLowerCase() === this.state.moduloSeleccionado.trim().toLowerCase() )?.items
     const itemToRender = this.obtenerLasItem(firtsItem? firtsItem : [], itemsSeleccionadosPrevia, 0)
-    console.log(itemToRender)
     this.setState({...this.state, renderItems:itemToRender}, ()=>
     
     {
@@ -352,6 +361,9 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
       
     }, 1000);       
   }
+  ToogleLateral(): void{
+    this.setState({ ViewPortNav: !this.state.ViewPortNav, VerNav: !this.state.VerNav})
+  }
   render()
   {
     return (<>
@@ -359,11 +371,13 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
           <div className="col-lg-6 col-sm-8 ml-3 pantalla" >
             <div className="row mt-3">
               <div className="col-1 mr-2">
+                <a onClick={() => this.ToogleLateral()} >
                 <img src= {imagen} width="40px" height="40px" ></img>
+                </a>
               </div>
-              <div className="col-6 col-md-7 col-sm-10">
+              <div className="col-10 col-md-7 col-sm-10">
                 <p style={{fontSize:"20px", letterSpacing:"4px", margin:"0"}} >NEO FINANCIAL</p>
-                <p className="d-md-block d-none" id="ruta" style={{color:"white", margin:"0"}} >  {this.getRutaCompletaActual()} </p>
+                <p id="ruta" style={{color:"white", margin:"0"}} >  {this.getRutaCompletaActual()} </p>
               </div>
             </div>
           </div>
@@ -383,7 +397,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                     </div> 
                 </Badge>
               </div>
-              <div className="col-xl-1 col-md-2 col-1" >
+              <div className="col-xl-1 col-md-2 ml-sm-2 col-1" >
                   <Dropdown  placement="bottomRight" arrow overlay={
                   <Menu>
                   <Menu.Item>
@@ -404,11 +418,13 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
           </div>
         </div>
     </nav>        
-        <div className="container-menu ancho-manu flex columna" >
+        <div className={this.state.VerNav ? "container-menu ancho-manu flex columna salida" : 
+                                   "container-menu ancho-manu flex columna entrada"} >
             {
               this.props.items.map((recorre, index)=>{
                 return <Link to= {this.goTo(recorre) } onClick={()=>this.onClickModulo(recorre.nombre)}  className="flex container-item" 
-                style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre) }} >
+                style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre), 
+                        marginTop: (recorre.nombre == 'Configuraciones') ? '180px': '0' }} >
                   {recorre.icon}
                 </Link>
               })
@@ -416,7 +432,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             }
              
         </div>
-        <div className="container-menu-childrens" style={{transform: this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu) }} >
+        <div className="container-menu-childrens sombra" style={{transform: this.actionMenu(this.state.moduloSeleccionado, this.state.openMenu) }} >
             
            <div id="iconClose" onClick={()=>this.onClickCloseMenu()}   ><AiOutlineCloseCircle></AiOutlineCloseCircle></div>
             <div id="tituloItem" > <div className="icon" style={{visibility:this.state.tituloItems.isModulo? "hidden" : "visible"}}  onClick={()=>this.onClickBackListItem(this.state.renderItems)} > <AiOutlineArrowLeft> </AiOutlineArrowLeft> </div>  <p> {this.state.tituloItems.titulo}</p></div>
@@ -426,7 +442,9 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                this.state.renderItems.map((recorreChild:any, indexchild:any)=>{
                 return (
                   <> 
-                    <Link to={this.goTo(recorreChild)} key={indexchild} onClick={()=>this.onClickItems(this.state.renderItems,recorreChild)} className="container-menu-childrens-children"  >
+                    <Link to={this.goTo(recorreChild)} key={indexchild} 
+                    onClick={()=>this.onClickItems(this.state.renderItems,recorreChild)} 
+                    className="container-menu-childrens-children"  >
                       
                       <div className="icon" >{recorreChild.icon}</div>
                       <div>{recorreChild.nombre}</div>
@@ -438,7 +456,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                  
             })          
         </div>
-           <div id="content"  style={{marginTop:"80px"}} >
+           <div id="content"  style={{marginTop:"80px", marginLeft:this.state.VerNav ? "0px" : ""}} >
             {this.props.children}
           </div>
     </>)
