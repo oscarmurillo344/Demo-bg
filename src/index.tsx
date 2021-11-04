@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './AplicacionWeb/Componentes/principal-app/App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap-4-grid/css/grid.min.css';
 
