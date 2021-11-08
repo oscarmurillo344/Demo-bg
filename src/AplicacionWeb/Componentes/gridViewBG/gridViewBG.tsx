@@ -66,6 +66,8 @@ const GridViewBG = (props:GridViewBGProps)=>{
   useEffect(()=>{
     setMenuAbierto(props.menuAbierto)
   }, [props.menuAbierto])
+
+
   useEffect(()=>{
       if(props.onLoad)
       {
@@ -121,7 +123,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
        return recorre
       })
     }else{
-      return props.columns.map((recorre:any, index:any)=>{
+      return props.columns.map((recorre:any)=>{
         return (<> 
           <Column   
            title={recorre.title} dataIndex={recorre.dataIndex} key={recorre.key} 
@@ -136,6 +138,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
       const retorno = props.onOpenDetalle(e)
       return <Table scroll={{y:340}} dataSource={retorno.rows} pagination={false} columns={retorno.columns} >    </Table>;
     };
+
     const onOpenModal = ()=>{
       setOpen(true)
       
@@ -339,7 +342,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
 
     return (
       <>
-                <div className="tabContainer" > 
+       <div className="tabContainer" > 
                 
                 <div className="row align-items-end my-3">
                   <div className="col-xl-5 col-lg-6 col-md-7 col-sm-8 col-12">
@@ -439,7 +442,6 @@ const GridViewBG = (props:GridViewBGProps)=>{
            onCancel={onCancelColumns} 
            titulo={'Columnas'} 
            content={ <> 
-           <div  >
               <Tabs defaultActiveKey="0" centered >
                   <TabPane tab="total" key="0">
                   {
@@ -451,14 +453,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                      obtenerTreeColumnas(columnsGrupo, "grupo")
                   }
                   </TabPane>
-
-
               </Tabs>
-           
-              
-           </div>
-            
-           
            </> }
            visible={openModalColumn}></ModalContentBG>
 

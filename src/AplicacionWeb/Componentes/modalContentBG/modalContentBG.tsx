@@ -19,18 +19,13 @@ const ModalContentBG = (props:ModalContentBGProps)=>{
 
 
         const onOk = ()=>{
-            console.log(
-                "doy a ok"
-            )
             props.onOk()
         }
 
         const onCancel = ()=>{
-            console.log(
-                "doy cancel"
-            )
             props.onCancel()
         }   
+        
         return (<>                 
         <Modal  title={props.titulo}  width={props.width} visible={visible} onOk={onOk}  onCancel={onCancel} >
                 {props.content}

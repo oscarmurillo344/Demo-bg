@@ -1,6 +1,6 @@
 import React from 'react';
 import './menuBG.css';
-import imagen from '../../../Imagenes/jusLogo.png';
+import imagen from '../../../Static/jusLogo.png';
 import { AiOutlineCaretDown, AiOutlineCloseCircle, AiOutlineArrowLeft, AiFillBell } from "react-icons/ai";
 import { Badge, Dropdown, Menu } from 'antd';
 import 'antd/dist/antd.css';
@@ -12,9 +12,9 @@ interface MenuBGProps
 {
   items: MenuListBg[]  
   itemConfiguracion:MenuListBg;
-  onCloseMenu? :any;
-  onOpenMenu? :any 
-  abrirMenu? : any;
+  onCloseMenu? :Function;
+  onOpenMenu? :Function 
+  abrirMenu? : boolean;
   modulo:string;
 }
 
@@ -39,7 +39,6 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
  {   
     super(props);
     let moduloSelec = ""
-    
     if(this.props.modulo.trim() === "")
     {
       const nombre = this.props.items.find(x=>x.default)?.nombre 
@@ -413,13 +412,14 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
           </div>
         </div>
     </nav>        
-        <div className={this.state.VerNav ? "container-menu ancho-manu flex columna salida" : 
-                                   "container-menu ancho-manu flex columna entrada"} >
+        <div className={this.state.VerNav ? "container-menu ancho-manu flex columna salida" : "container-menu ancho-manu flex columna entrada"} >
             {
-              this.props.items.map((recorre, index)=>{
-                return <Link to= {this.goTo(recorre) } onClick={()=>this.onClickModulo(recorre.nombre)}  className="flex container-item" 
-                style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre), 
-                        marginTop: (recorre.nombre == 'Configuraciones') ? '180px': '0' }} >
+              this.props.items.map((recorre:MenuListBg, index:number)=>{
+                return <Link to= {this.goTo(recorre) } 
+                        key={(index).toString()} 
+                        onClick={()=>this.onClickModulo(recorre.nombre)}  
+                        className="flex container-item" 
+                        style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre), marginTop: (recorre.nombre == 'Configuraciones') ? '180px': '0' }} >
                   {recorre.icon}
                 </Link>
               })
@@ -434,16 +434,15 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
             
             {
               
-               this.state.renderItems.map((recorreChild:any, indexchild:any)=>{
+               this.state.renderItems.map((recorreChild:MenuListBg, indexchild:number)=>{
                 return (
                   <> 
-                    <Link to={this.goTo(recorreChild)} key={indexchild} 
-                    onClick={()=>this.onClickItems(this.state.renderItems,recorreChild)} 
-                    className="container-menu-childrens-children"  >
-                      
+                    <Link to={this.goTo(recorreChild)} 
+                          key={recorreChild.nombre} 
+                          onClick={()=>this.onClickItems(this.state.renderItems,recorreChild)} 
+                          className="container-menu-childrens-children"  >
                       <div className="icon" >{recorreChild.icon}</div>
                       <div>{recorreChild.nombre}</div>
-                      
                     </Link>
                   </>
                 )

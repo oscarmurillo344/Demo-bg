@@ -68,7 +68,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         
     }
     
-    Open = ()=>{
+    Open(){
         return this.state.open
     }
 
@@ -110,6 +110,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         await this.setValues(e)
         
     }
+
     setValues =(valor:any)=>{
         return new Promise((resolve, reject)=>{
             const valores = this.state.values;
@@ -125,6 +126,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         })
         return opciones
     }
+
     onChangeValue = (e:any)=>{
         
         
@@ -143,6 +145,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         
         
     }
+
     createElementoFiltro = (id:number)=>{        
         return (
           <> 
@@ -279,6 +282,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                  
         
       }
+      
       quitarFiltrosAll = async ()=>{
         
         
