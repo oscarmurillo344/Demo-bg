@@ -326,6 +326,10 @@ a.container-menu-childrens-children
   margin-top: 6px;
   font-size: 10px;
 }
+.posicion-config{
+  position: absolute;
+  bottom: 70px;
+}
 
 .sombra {
   -webkit-moz-transition-duration: 0.3s;

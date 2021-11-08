@@ -2,7 +2,7 @@ const filtroCatalogoValues = [
   {
     id: "1",
     campo: "empresa",
-    value: "difare"
+    value: "Banco Guayaquil"
   },
   {
     id: "2",

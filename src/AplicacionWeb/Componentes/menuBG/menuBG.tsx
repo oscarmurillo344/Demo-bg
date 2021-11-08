@@ -370,7 +370,7 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                 </a>
               </div>
               <div className="col-10 col-md-7 col-sm-10">
-                <p style={{fontSize:"20px", letterSpacing:"4px", margin:"0"}} >NEO FINANCIAL</p>
+                <p style={{fontSize:"20px", letterSpacing:"4px", margin:"0"}} >FINAPP</p>
                 <p id="ruta" style={{color:"white", margin:"0"}} >  {this.getRutaCompletaActual()} </p>
               </div>
             </div>
@@ -418,8 +418,8 @@ export default class MenuBG extends React.Component<MenuBGProps, MenuBGSatate>
                 return <Link to= {this.goTo(recorre) } 
                         key={(index).toString()} 
                         onClick={()=>this.onClickModulo(recorre.nombre)}  
-                        className="flex container-item" 
-                        style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre), marginTop: (recorre.nombre == 'Configuraciones') ? '180px': '0' }} >
+                        className={(recorre.nombre == 'Configuraciones') ? "flex container-item posicion-config" : "flex container-item"} 
+                        style={{color:"white", fontSize:"30px", backgroundColor: this.retornoBackground(recorre)}} >
                   {recorre.icon}
                 </Link>
               })

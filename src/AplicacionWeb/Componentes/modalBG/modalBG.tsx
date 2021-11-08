@@ -1,5 +1,5 @@
-import { CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons'
-import { DatePicker, Input, Modal, Select } from 'antd'
+import { CloseOutlined, DeleteOutlined, FunnelPlotOutlined, PlusOutlined } from '@ant-design/icons'
+import { DatePicker, Divider, Input, Select } from 'antd'
 import  './modalBG.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -58,6 +58,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             await this.setOpen(this.props.open)
         }
     }
+
     setOpen = (valor:boolean)=>
     {
         return new Promise((resolve, reject)=>{
@@ -87,18 +88,37 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
 
     render()
     {
-        return (
-            <Modal style={{height:"1000px"}} width="550px" title="Filtros" visible={this.state.open} onOk={this.okModal} okText="Guardar Filtro" onCancel={this.cancelModla} >
-            <div className="flex fila accionesModal"  > 
-               <ButtonBG shape="round" text="Limpiar" type="normal" style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}}  onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
-               <ButtonBG shape="round" text="Agregar Filtro" type="outline" onClick={this.agregarFiltro} icon={<PlusOutlined />} />
+        return (<>
+        <div className="content-filter mt-2">
+            <div className="row">
+                <div className="col-12">
+                    <h2>Filtros</h2>
+                </div>
             </div>
-            <div> </div>
-             <div id="contenedorFiltro" className="flex fila contenedorFiltro"  style={{overflowY:"scroll", maxHeight:"400px"}} >
-                  
+            <div className="flex fila accionesModal"  > 
+               <ButtonBG shape="round" text="Limpiar" type="normal" 
+               style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}} 
+               onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
+               <ButtonBG shape="round" text="Agregar Filtro" type="outline" 
+               onClick={this.agregarFiltro} 
+               icon={<PlusOutlined />} />
+            </div>
+            <Divider />
+             <div id="contenedorFiltro" className="flex fila contenedorFiltro"  
+             style={{maxHeight:"400px"}} >
              </div>
-            </Modal>
-        )
+             <Divider />
+             <div className="flex fila justify-content-end">
+                <ButtonBG shape="round" text="Cancelar" type="outline"
+                    onClick={this.cancelModla}
+                    icon={<CloseOutlined />} />
+                    <div className="mx-1"></div>
+                <ButtonBG shape="round" text="Guardar Filtro" type="normal"
+                    onClick={this.okModal} 
+                    icon={<FunnelPlotOutlined />} />
+             </div>
+        </div>
+        </>)
     }
 
     onOpenModal = ()=>{
@@ -150,7 +170,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         return (
           <> 
               <div className="flex fila elementoFiltro" key={id} style={{width:"480px"}}  >
-                <Select key={`${id}-campo`} onChange={(e)=>this.onChaneCampo({value:e, id:id})} defaultValue="-1" style={{ width: 150 }} >
+                <Select key={`${id}-campo`} 
+                onChange={(e)=>this.onChaneCampo({value:e, id:id})} defaultValue="-1" style={{ width: 150 }}>
                   <option value="-1">Campos</option>  
                   {
                       this.props.filtroCatalogoCampos.map((recorre, index)=>{
@@ -278,9 +299,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             }
             return recorre
             }))
-        ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))
-                 
-        
+        ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))  
       }
       
       quitarFiltrosAll = async ()=>{
@@ -292,9 +311,11 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         this.props.onClearFiltro(0)      
         
       }
+      
       okModal = ()=>{
         if(this.props.onOk)
         {
+            this.cancelModla()
             this.props.onOk({longitud: this.ElementosFiltro().filter(x=>x.estado).length, filtros:this.retornoFiltrosAplicados})
         }
           

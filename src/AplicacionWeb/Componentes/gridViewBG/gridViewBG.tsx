@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
 import {Line} from 'react-chartjs-2'
-import { Badge, Table, Tabs, Tree, DatePicker } from 'antd';
+import { Table, Tabs, Tree, DatePicker, Dropdown, Divider, Tag } from 'antd';
 import { DoubleLeftOutlined, DownloadOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, ReloadOutlined, RotateRightOutlined } from '@ant-design/icons';
 import ButtonBG from '../buttonBG/buttonBG';
 import ColumnGroup from 'rc-table/lib/sugar/ColumnGroup';
 import Column from 'rc-table/lib/sugar/Column';
 import ModalBG from '../modalBG/modalBG';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import ModalContentBG from '../modalContentBG/modalContentBG';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ColumnasGrupo from '../../Modelos/columnasGrupos';
 import { catalogosCampos, catalogosValues, informacionFiltros } from '../../Modelos/filtros';
+import React from 'react';
+import { ExpandableConfig } from 'rc-table/lib/interface';
 const { TabPane } = Tabs;
+
 
 interface GridViewBGPropsDataSetGrafico{
       labels: any[],
@@ -48,48 +50,73 @@ interface GridViewBGProps{
     dataSetGraficos? : {mensual:GridViewBGPropsDataSetGrafico, anual:GridViewBGPropsDataSetGrafico}
 }
 
-const GridViewBG = (props:GridViewBGProps)=>{
-  const [open, setOpen] = useState(false)
-  const [badge, setBadge] = useState(0)
-  const [openModalContent, setOpenModalContent] = useState(false)
-  const [openModalColumn, setOpenModalColumn] = useState(false)
-  const [openGrafico, setOpenGrafico] = useState(false)
-  const [columnsTotales, setColumnsTotales] = useState(props.columnsTotal)
-  const [columnsGrupo, setColumnsGrupos] = useState(props.columns)
-  const [rowTotales, setRowTotales] = useState(props.rowsTotal)
-  const [rowGrupos, setRowGrupos] = useState(props.rows)
-  const [filtrosAplicadosObjeto, setFiltrosAplicados] = useState({});
-  const [menuAbierto, setMenuAbierto] = useState(props.menuAbierto)
-  let fechaAnterior = new Date(moment().subtract(20, "days").toDate());
-  let fechaActual = new Date(moment().toDate());
-  
-  useEffect(()=>{
-    setMenuAbierto(props.menuAbierto)
-  }, [props.menuAbierto])
+interface FiltroAplicado {
+  filtros:Array<any>
+  longitud:number
+}
+interface GridViewBGState {
+  openDropDown:boolean
+  openModalContent:boolean
+  openModalColumn:boolean
+  openGrafico:boolean
+  columnsTotales:any
+  columnsGrupo:any
+  rowTotales:any
+  rowGrupos:any
+  filtrosAplicadosObjeto:FiltroAplicado
+}
 
 
-  useEffect(()=>{
-      if(props.onLoad)
-      {
-        props.onLoad({
-          fechaAnterior : fechaAnterior,
-          fechaActual : fechaActual,
-          filtrosAplicados : filtrosAplicadosObjeto
-        });
-      }
-  })
-
-  useEffect(()=>{
-    setRowTotales(props.rowsTotal)
-  }, [props.rowsTotal])
-
-  useEffect(()=>{
-    setRowGrupos(props.rows)
-  }, [props.rows])
-  
+export default class GridViewBG extends React.Component<GridViewBGProps,GridViewBGState>{
  
-  const getColumnsGroup = (columns:any[])=>{
-    if(props.tipoColumna === "grupo")
+   fechaAnterior = new Date(moment().subtract(20, "days").toDate());
+   fechaActual = new Date(moment().toDate());
+  
+  constructor(props:GridViewBGProps){
+    super(props)
+    this.state = {
+      openDropDown:false,
+      openModalContent: false,
+      openModalColumn: false,
+      openGrafico: false,
+      columnsTotales: this.props.columnsTotal,
+      columnsGrupo: this.props.columns,
+      rowTotales: this.props.rowsTotal,
+      rowGrupos: this.props.rows,
+      filtrosAplicadosObjeto: {
+        filtros:[],
+        longitud: 0
+      }
+    }
+  }
+
+  componentDidUpdate(Prevprops:GridViewBGProps){
+      if(Prevprops.onLoad)
+      {
+        this.props.onLoad({
+          fechaAnterior : this.fechaAnterior,
+          fechaActual : this.fechaActual,
+          filtrosAplicados : this.state.filtrosAplicadosObjeto
+        });
+        console.log(this.state.filtrosAplicadosObjeto.filtros)
+      }
+      if(Prevprops.rowsTotal != this.props.rowsTotal){
+        this.setState({
+          ...this.state,
+          rowTotales: this.props.rowsTotal
+        })
+      }
+
+      if(Prevprops.rows != this.props.rows){
+        this.setState({
+          ...this.state,
+          rowGrupos: this.props.rows
+        })
+      }
+  } 
+ 
+   getColumnsGroup = (columns:any[])=>{
+    if(this.props.tipoColumna === "grupo")
     {
       return columns.map((recorre, index) =>{
         if(recorre.items.filter((x:any)=>x.show).length > 0)
@@ -123,7 +150,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
        return recorre
       })
     }else{
-      return props.columns.map((recorre:any)=>{
+      return this.props.columns.map((recorre:any)=>{
         return (<> 
           <Column   
            title={recorre.title} dataIndex={recorre.dataIndex} key={recorre.key} 
@@ -134,65 +161,85 @@ const GridViewBG = (props:GridViewBGProps)=>{
     }
     
   }
-  const expandedRowRender = (e:any) => {
-      const retorno = props.onOpenDetalle(e)
-      return <Table scroll={{y:340}} dataSource={retorno.rows} pagination={false} columns={retorno.columns} >    </Table>;
-    };
 
-    const onOpenModal = ()=>{
-      setOpen(true)
-      
+  onOpenModal = ()=>{
+      this.setState({
+        ...this.state,
+        openDropDown: !this.state.openDropDown
+      })
+  }
+   onOkModalDownload = ()=>{
+    this.setState({
+      ...this.state,
+      openModalContent: !this.state.openDropDown
+    })
+  } 
+    onCancelModalDownload = ()=>{
+      this.setState({
+        ...this.state,
+        openModalContent: !this.state.openDropDown
+      })
     }
-    const onOkModalDownload = ()=>{
-      setOpenModalContent(false)
 
-    } 
-    const onCancelModalDownload = ()=>{
-      setOpenModalContent(false)
-
-    }
-    const onOk = (e:any)=>
+   onOk = (e:FiltroAplicado)=>
     { 
-      setOpen(false)
-      setBadge(e.longitud)
-      setFiltrosAplicados(e)
-      
-      
-      if(props.onAplicarFiltro)
+      this.setState({
+        ...this.state,
+        openDropDown: false,
+        filtrosAplicadosObjeto: e
+      })
+
+      if(this.props.onAplicarFiltro)
       {
-        
-        props.onAplicarFiltro(e);
-        
+        this.props.onAplicarFiltro(e);
       }
     }
 
-    const onCancel = ()=>{
-      setOpen(false)
+    onCancel = ()=>{
+      this.setState({
+        ...this.state,
+        openDropDown: false
+      })
     }
 
-    const onClearFiltro = ()=>{
-      setBadge(0)
-      setOpen(false)
-
+    onClearFiltro = ()=>{
+      this.setState({
+        ...this.state,
+        openDropDown: false
+      })
     }
-    const onDowload =()=>
+
+    onDowload =()=>
     {
-      setOpenModalContent(true)
+      this.setState({
+        ...this.state,
+        openModalContent: false
+      })
     }
 
-    const onColumnas =()=>{
-      setOpenModalColumn(true)
+    onColumnas =()=>{
+      this.setState({
+        ...this.state,
+        openModalColumn: true
+      })
     }
 
-    const onOkColumns = ()=>{
-      setOpenModalColumn(false)
+    onOkColumns = ()=>{
+      this.setState({
+        ...this.state,
+        openModalColumn: false
+      })
     }
 
-    const onCancelColumns = ()=>{
-      setOpenModalColumn(false)
+    onCancelColumns = ()=>{
+      this.setState({
+        ...this.state,
+        openModalColumn: false
+      })
     }
-    const onCheked =(e:any)=>{
-      if(props.tipoColumna === "grupo")
+    
+    onCheked =(e:any)=>{
+      if(this.props.tipoColumna === "grupo")
       { 
           e.columns.map((x:any)=>
           {
@@ -226,18 +273,25 @@ const GridViewBG = (props:GridViewBGProps)=>{
           )
           if(e.tipo === "grupo")
           {
-            setColumnsGrupos(e.columns)
+            this.setState({
+              ...this.state,
+              columnsGrupo: e.columns
+            })
           }else{
-            setColumnsTotales(e.columns)
+            this.setState({
+              ...this.state,
+              columnsTotales: e.columns
+            })
           }
 
       }
       
     }
-    const obtenerTreeColumnas = (columns:any[], tipoGrid: "totales" | "grupo")=>{
-      if(props.tipoColumna === "grupo")
+
+    obtenerTreeColumnas = (columns:any[], tipoGrid: "totales" | "grupo")=>{
+      if(this.props.tipoColumna === "grupo")
       {
-          const data = obtenerTreeData(columns)
+          const data = this.obtenerTreeData(columns)
           
           
           if(data)
@@ -253,7 +307,7 @@ const GridViewBG = (props:GridViewBGProps)=>{
                           return (<> 
   
                             <Tree 
-                            onCheck={(checkedKeys)=>onCheked({keys:checkedKeys, columnGroupTitle:recorre.tituloGrupo, columns: columns, tipo:tipoGrid })}
+                            onCheck={(checkedKeys)=>this.onCheked({keys:checkedKeys, columnGroupTitle:recorre.tituloGrupo, columns: columns, tipo:tipoGrid })}
                             defaultCheckedKeys={data[index].children.map((recorre:any)=> {
                               return recorre.key
                             })}
@@ -275,10 +329,10 @@ const GridViewBG = (props:GridViewBGProps)=>{
         
     }
 
-    const obtenerTreeData = (columns:any[])=>
+    obtenerTreeData = (columns:any[])=>
     { 
       let data = new Array<any>();
-      if(props.tipoColumna === "grupo" )
+      if(this.props.tipoColumna === "grupo" )
       {
           columns.forEach((recorre:any, index:any) =>{
             
@@ -295,51 +349,84 @@ const GridViewBG = (props:GridViewBGProps)=>{
     }
 
     
-    const onBuscar = ()=>{
-      if(props.onBuscar)
+    onBuscar = ()=>{
+      if(this.props.onBuscar)
       {
-        props.onBuscar({
-          fechaAnterior : fechaAnterior,
-          fechaActual : fechaActual,
-          filtrosAplicados : filtrosAplicadosObjeto
+        this.props.onBuscar({
+          fechaAnterior : this.fechaAnterior,
+          fechaActual : this.fechaActual,
+          filtrosAplicados : this.state.filtrosAplicadosObjeto
         });
       }
     }
-    const onChangeFechaFechaAnterior = (e:Date)=>
+
+    onChangeFechaFechaAnterior = (e:Date)=>
     {
-      fechaAnterior = e;
+      this.fechaAnterior = e;
     }
-    const onChangeFechaFechaActual = (e:Date)=>
+
+    onChangeFechaFechaActual = (e:Date)=>
     {
-      fechaActual = e;
+      this.fechaActual = e;
     }
-    const fechas = ()=>{
+
+    fechas = ()=>{
       return <>
           <div className="row align-items-end">
               <div className="col-sm-6 " >
                 <div>Fecha Anterior</div>
-                <DatePicker format="DD/MM/yyyy" onChange={()=>onChangeFechaFechaAnterior} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
+                <DatePicker format="DD/MM/yyyy" onChange={(fecha:any)=>this.onChangeFechaFechaAnterior(fecha)} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
               </div>
               <div className="col-sm-6">
               <div>Fecha Actual</div>
-                <DatePicker format="DD/MM/yyyy" onChange={()=>onChangeFechaFechaActual} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
+                <DatePicker format="DD/MM/yyyy" onChange={(fecha:any)=>this.onChangeFechaFechaActual(fecha)} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
               </div>
           </div>
        </> 
     }
     
-    const actionGraficos = (verGrafico:boolean):string =>{
-      if(verGrafico){
-        return "scale(1)"
-      }else{
-        return "scale(0)" 
-      }
+    BorrarTag(e:any): any{
     }
 
-   const onClickCloseGrafico =()=>{
-    setOpenGrafico(!openGrafico)
+    FiltrosAplicados = () => {
+      const { filtros } = this.state.filtrosAplicadosObjeto;
+      return (<> 
+      <div className="row no-gutters">
+       <div className="col-1">
+           <h4>Filtros aplicados: </h4>
+       </div>
+       <div className="col-10">
+         {<div style={{display: filtros.length > 0 ? "flex":"none" }}>
+            <Tag  color="#bc157c" closable onClose={(e) => this.BorrarTag(e)}>
+                Region: "sierra", "costa"
+              </Tag>
+            <Tag color="#bc157c" closable onClose={(e) => this.BorrarTag(e)}>
+                  Empresa: "Economic"
+              </Tag>
+        </div>}
+       </div>
+      </div>
+      </>)
     }
 
+  actionGraficos = (verGrafico:boolean):string =>{
+    if(verGrafico){
+      return "scale(1)"
+    }else{
+      return "scale(0)" 
+    }
+  }
+
+  expandedRowRender(e:any){
+    const retorno = this.props.onOpenDetalle(e)
+    return <Table scroll={{y:340}} dataSource={retorno.rows} pagination={false} columns={retorno.columns} >    </Table>;
+  };
+
+  onClickCloseGrafico =()=>{
+    this.setState({...this.state, openGrafico: !this.state.openGrafico})
+  }
+
+  render(): JSX.Element{
     return (
       <>
        <div className="tabContainer" > 
@@ -347,31 +434,36 @@ const GridViewBG = (props:GridViewBGProps)=>{
                 <div className="row align-items-end my-3">
                   <div className="col-xl-5 col-lg-6 col-md-7 col-sm-8 col-12">
                     {
-                      fechas()
+                      this.fechas()
                     }
                   </div>
                   <div className="col-lg-4 col-12 mt-2">
                       <ButtonBG 
                                 shape="round" 
-                                onClick={onBuscar} 
-                                style={{display: `${props.buttonFilter? "inline" : "none"}`}}  
+                                onClick={this.onBuscar()} 
+                                style={{display: `${this.props.buttonFilter? "inline" : "none"}`}}  
                                 text="Buscar" 
                                 type="normal" 
                                 icon={<ReloadOutlined />} /> 
-                  <Badge 
-                          count={badge} 
-                          color="#bc157c"
-                          className="mx-3 mt-sm-2" > 
-                      <ButtonBG 
+             <Dropdown placement="bottomRight" visible={this.state.openDropDown} trigger={['click']} overlay={<>
+              <ModalBG catalogosValues={this.props.filtroCatalogoValues}  filtroCatalogoCampos = {this.props.filtroCatalogoCampos} filtroInformacion={this.props.filtroInformacion} open={this.state.openDropDown} onCancel={()=>this.onCancel()} onOk={(e:FiltroAplicado)=>this.onOk(e)} onClearFiltro={()=>this.onClearFiltro()}  />
+                  </>}>
+                    <ButtonBG 
                           shape="round" 
-                          style={{display: `${props.buttonFilter? "inline" : "none"}` }} 
-                          onClick={onOpenModal}  
+                          style={{display: `${this.props.buttonFilter? "inline" : "none"}`, marginLeft:"5%"}} 
+                          onClick={()=>this.onOpenModal()}  
                           text="Filtrar" 
-                          type="normal" 
+                          type="normal"
                           icon={<FunnelPlotOutlined />} /> 
-                  </Badge>
+              </Dropdown>
+                
                   </div>                 
-                </div>
+           </div>
+           <Divider style={{margin: "12px 0"}} />
+           {
+             this.FiltrosAplicados()
+           }
+           <Divider style={{margin: "12px 0"}} />
        <div className="row">
           <div className="col-11" >
                   <Table
@@ -379,9 +471,9 @@ const GridViewBG = (props:GridViewBGProps)=>{
                     pagination={false}
                     style={{marginBottom:"40px"}}
                     scroll ={{ x:true}}  
-                    dataSource={rowTotales}>
+                    dataSource={this.state.rowTotales}>
                     {
-                      getColumnsGroup(columnsTotales)
+                      this.getColumnsGroup(this.state.columnsTotales)
                     }
                     
                   </Table>  
@@ -390,24 +482,24 @@ const GridViewBG = (props:GridViewBGProps)=>{
                       style={{width: "100%", overflow:"inherit", overflowWrap:"anywhere"}}
                       size={"large"}
                       scroll ={{ x: true, y:200}}
-                      expandable={{ expandedRowRender }}
-                      dataSource={rowGrupos}>
+                      expandable={{expandedRowRender: (e:any)=>this.expandedRowRender(e)}}
+                      dataSource={this.state.rowGrupos}>
                       {
-                        getColumnsGroup(columnsGrupo)
+                        this.getColumnsGroup(this.state.columnsGrupo)
                       }                        
                     </Table>
               <div  className="flex acciones">
-                    <ButtonBG shape="round" style={{display: `${props.buttonDownload? "inline" : "none"}` }} onClick={onDowload}   text="Exportar" type="outline" icon={<DownloadOutlined />} />           
+                    <ButtonBG shape="round" style={{display: `${this.props.buttonDownload? "inline" : "none"}` }} onClick={()=>this.onDowload()}   text="Exportar" type="outline" icon={<DownloadOutlined />} />           
                     <ButtonBG shape="round" text="Variaciones" type="outline" icon={<FileOutlined />} /> 
-                    <ButtonBG shape="round" text="Columnas" onClick={onColumnas}  type="outline" icon={<RotateRightOutlined />} /> 
+                    <ButtonBG shape="round" text="Columnas" onClick={()=>this.onColumnas()}  type="outline" icon={<RotateRightOutlined />} /> 
              </div>
        </div>
         <div className="col-1 align-self-center">
-           <ButtonBG shape="circle" onClick={()=>onClickCloseGrafico()} text="" type="normal" icon={<DoubleLeftOutlined />} /> 
+           <ButtonBG shape="circle" onClick={()=>this.onClickCloseGrafico()} text="" type="normal" icon={<DoubleLeftOutlined />} /> 
         </div>
-        <div  id="contenedorGraficos" className="slide-grafico" style={{transform: actionGraficos(openGrafico) }}>
+        <div  id="contenedorGraficos" className="slide-grafico" style={{transform: this.actionGraficos(this.state.openGrafico) }}>
               <div className="container-fluid">
-              <div id="iconCloseGrafico" onClick={()=>onClickCloseGrafico()}><AiOutlineCloseCircle width={100}></AiOutlineCloseCircle></div>
+              <div id="iconCloseGrafico" onClick={()=>this.onClickCloseGrafico()}><AiOutlineCloseCircle width={100}></AiOutlineCloseCircle></div>
                 <div className="row">
                    <div className="col-12">
                    <p style={{marginLeft:"24px", fontWeight:700, color:"#160F41"}} > Gráfico De Evoluciones</p>
@@ -416,17 +508,15 @@ const GridViewBG = (props:GridViewBGProps)=>{
               <div className="row">
                 <div className="col-12"  style={{ height:"225px" }}> 
                   {
-                      props.dataSetGraficos?  <Line data={props.dataSetGraficos?.anual}  /> :  <> </>
-                    }
-                    
+                      this.props.dataSetGraficos?  <Line data={this.props.dataSetGraficos?.anual}  /> :  <> </>
+                  }
                 </div>
               </div>
               <div className="row">
                   <div className="col-12"  style={{ height:"225px" }}> 
                     {
-                        props.dataSetGraficos?  <Line data={props.dataSetGraficos?.mensual}  /> :  <> </>
-                      }
-                      
+                        this.props.dataSetGraficos?  <Line data={this.props.dataSetGraficos?.mensual}  /> :  <> </>
+                    }
                   </div>
               </div>
               </div>
@@ -435,33 +525,32 @@ const GridViewBG = (props:GridViewBGProps)=>{
 </div>      
         {
           <>
-          <ModalBG catalogosValues={props.filtroCatalogoValues}  filtroCatalogoCampos = {props.filtroCatalogoCampos} filtroInformacion={props.filtroInformacion} open={open} onCancel={onCancel} onOk={onOk} onClearFiltro={onClearFiltro}  />
           <ModalContentBG 
            width={500}
-           onOk={onOkColumns} 
-           onCancel={onCancelColumns} 
+           onOk={()=>this.onOkColumns()} 
+           onCancel={()=>this.onCancelColumns()} 
            titulo={'Columnas'} 
            content={ <> 
               <Tabs defaultActiveKey="0" centered >
                   <TabPane tab="total" key="0">
                   {
-                     obtenerTreeColumnas(columnsTotales, "totales")
+                     this.obtenerTreeColumnas(this.state.columnsTotales, "totales")
                   }
                   </TabPane>
                   <TabPane tab="grupo" key="1">
                   {
-                     obtenerTreeColumnas(columnsGrupo, "grupo")
+                     this.obtenerTreeColumnas(this.state.columnsGrupo, "grupo")
                   }
                   </TabPane>
               </Tabs>
            </> }
-           visible={openModalColumn}></ModalContentBG>
+           visible={this.state.openModalColumn}></ModalContentBG>
 
            
           <ModalContentBG 
            width={340}
-           onOk={onOkModalDownload} 
-           onCancel={onCancelModalDownload} 
+           onOk={()=>this.onOkModalDownload()} 
+           onCancel={()=>this.onCancelModalDownload()} 
            titulo={'Descargar'} 
            content={ <> 
               <div className="flex" style={{width:"100%", justifyContent:"space-around"}} >
@@ -471,18 +560,11 @@ const GridViewBG = (props:GridViewBGProps)=>{
               
 
            </> }
-           visible={openModalContent}></ModalContentBG>
+           visible={this.state.openModalContent}></ModalContentBG>
           </>
           
         }
       </>
-    );
-    
-    
-        
-
-  
+    )
+  }          
 }
-
-
-export default GridViewBG;
