@@ -140,7 +140,6 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 {
                     recorre.value = e.value
                 }
-                return recorre
             })
         }else{
             this.retornoFiltrosAplicados.push({campo:this.state.tipoCatalogo.find(x=>x.idContainer === e.campo)?.campo, value:e.value, id:e.campo})
@@ -158,7 +157,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                   <Select.Option value="-1">Campos</Select.Option>  
                   {
                       this.props.filtroCatalogoCampos.map((recorre, index)=>{
-                        return <Select.Option key={recorre.cammpo} value={recorre.cammpo}>{ this.transformarToItem(recorre.cammpo)}</Select.Option>                      
+                        return <Select.Option key={index} value={recorre.cammpo}>{ this.transformarToItem(recorre.cammpo)}</Select.Option>                      
                       })
                   }                  
                 </Select>
@@ -252,7 +251,6 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             {
                 return <div key={index} > {recorre.element} </div>
             } 
-            return recorre       
         }))
         ReactDOM.render(elementos, document.getElementById("contenedorFiltro")) 
         
@@ -280,7 +278,6 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 <div key={index} >  {recorre.element} </div>
                 </>)    
             }
-            return recorre
             })         
         const elementos = React.createElement("div", {}, FiltrosEliminado )
         ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))  
@@ -317,7 +314,6 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             {
                 return <div key={index} > {recorre.element} </div>
             } 
-            return recorre       
         }))
         ReactDOM.render(elementos, document.getElementById("contenedorFiltro")) 
       }
@@ -331,9 +327,6 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 const restoInput = input.substr(1,input.length - 1).toLocaleLowerCase();
                 return primerLetra +  restoInput
               }
-            
           }
-          
-
       }
 }
