@@ -232,7 +232,6 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
     }
     const onOpenDetalle = (e:any) : any =>
     {
-      console.log(e) //objeto obtenido cuando se abre el detalle
       const columns :any[] = [
           {
             dataIndex: 'anterior', 
@@ -315,8 +314,6 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
     }
   
     const onAplicaFiltro = (e:any)=>{
-      console.log("datow filtros")
-      console.log(e)
     }
     
   
@@ -332,11 +329,9 @@ const AhorroResumen = (props:AhorroResumenProps)=>{
       return retorno;
      }
     const onBuscar = (e:any)=>{
-      console.log(e)
     }
   
     const onLoad = (e:any)=>{
-  
     }
 
     return (<> 

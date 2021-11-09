@@ -1,6 +1,6 @@
 
 import { Select } from "antd";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 interface SelectMultipleBG {
     show:boolean,
@@ -10,11 +10,12 @@ interface SelectMultipleBG {
 const SeleccionMultipleBG = (props:SelectMultipleBG)=>{
     
     const [show, setShow] = useState(props.show)
-    const [value, setValue] = React.useState([]);
+    const [value, setValue] = useState([]);
     
     useEffect(()=>{
         setShow(props.show)
     }, [props.show])
+
     const onChangeValor = (newValue:any)=>{
         setValue(newValue);
         if(props.onChange)

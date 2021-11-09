@@ -7,13 +7,12 @@ import ButtonBG from '../buttonBG/buttonBG';
 import ColumnGroup from 'rc-table/lib/sugar/ColumnGroup';
 import Column from 'rc-table/lib/sugar/Column';
 import ModalBG from '../modalBG/modalBG';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import ModalContentBG from '../modalContentBG/modalContentBG';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ColumnasGrupo from '../../Modelos/columnasGrupos';
 import { catalogosCampos, catalogosValues, informacionFiltros } from '../../Modelos/filtros';
 import React from 'react';
-import { ExpandableConfig } from 'rc-table/lib/interface';
 const { TabPane } = Tabs;
 
 
@@ -45,7 +44,7 @@ interface GridViewBGProps{
     menuAbierto:any; 
     filtroCatalogoValues : catalogosValues[]
     filtroInformacion: informacionFiltros[];
-    onBuscar?:any;
+    onBuscar?:(buscar:any)=>void
     onLoad?: any;
     dataSetGraficos? : {mensual:GridViewBGPropsDataSetGrafico, anual:GridViewBGPropsDataSetGrafico}
 }
@@ -98,16 +97,15 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
           fechaActual : this.fechaActual,
           filtrosAplicados : this.state.filtrosAplicadosObjeto
         });
-        console.log(this.state.filtrosAplicadosObjeto.filtros)
       }
-      if(Prevprops.rowsTotal != this.props.rowsTotal){
+      if(Prevprops.rowsTotal !== this.props.rowsTotal){
         this.setState({
           ...this.state,
           rowTotales: this.props.rowsTotal
         })
       }
 
-      if(Prevprops.rows != this.props.rows){
+      if(Prevprops.rows !== this.props.rows){
         this.setState({
           ...this.state,
           rowGrupos: this.props.rows
@@ -183,15 +181,16 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
 
    onOk = (e:FiltroAplicado)=>
     { 
+      let filtro = e.filtros
       this.setState({
         ...this.state,
         openDropDown: false,
-        filtrosAplicadosObjeto: e
+        filtrosAplicadosObjeto: { filtros:filtro, longitud: 0}
       })
 
       if(this.props.onAplicarFiltro)
       {
-        this.props.onAplicarFiltro(e);
+        this.props.onAplicarFiltro(filtro);
       }
     }
 
@@ -203,10 +202,13 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     }
 
     onClearFiltro = ()=>{
-      this.setState({
-        ...this.state,
-        openDropDown: false
-      })
+      let lista = this.state.filtrosAplicadosObjeto.filtros
+      lista = []
+        this.setState({
+            ...this.state,
+            openDropDown:false,
+            filtrosAplicadosObjeto:{ filtros: lista, longitud:0 }
+        })
     }
 
     onDowload =()=>
@@ -385,25 +387,33 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
        </> 
     }
     
-    BorrarTag(e:any): any{
+    BorrarTag (removedTag:any):any{
+      let tags = this.state.filtrosAplicadosObjeto.filtros
+      tags = tags.filter(tag => tag.id !== removedTag.id);
+      this.setState({ 
+            ...this.state,
+            filtrosAplicadosObjeto: { filtros: tags, longitud: 0}
+           })
     }
 
     FiltrosAplicados = () => {
       const { filtros } = this.state.filtrosAplicadosObjeto;
+      
       return (<> 
       <div className="row no-gutters">
        <div className="col-1">
            <h4>Filtros aplicados: </h4>
        </div>
        <div className="col-10">
-         {<div style={{display: filtros.length > 0 ? "flex":"none" }}>
-            <Tag  color="#bc157c" closable onClose={(e) => this.BorrarTag(e)}>
-                Region: "sierra", "costa"
-              </Tag>
-            <Tag color="#bc157c" closable onClose={(e) => this.BorrarTag(e)}>
-                  Empresa: "Economic"
-              </Tag>
-        </div>}
+           {
+              filtros?.map((valor:any, index:number)=>{
+                return (<>
+                  <Tag  color="#bc157c" key={index} closable onClose={()=>this.BorrarTag(valor)}>
+                      {valor.campo}: "{ valor.value}"
+                  </Tag>
+                </>)
+              })
+           }
        </div>
       </div>
       </>)
@@ -440,7 +450,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
                   <div className="col-lg-4 col-12 mt-2">
                       <ButtonBG 
                                 shape="round" 
-                                onClick={this.onBuscar()} 
+                                onClick={()=>this.onBuscar()} 
                                 style={{display: `${this.props.buttonFilter? "inline" : "none"}`}}  
                                 text="Buscar" 
                                 type="normal" 

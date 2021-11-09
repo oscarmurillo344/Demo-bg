@@ -48,8 +48,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             filtros : [],
             tipoCatalogo: [],            
             values: ["1"]
-            
         }
+
     }
     async componentDidUpdate(prevProps:ModalBGProps)
     {
@@ -74,11 +74,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     }
 
     setElementosFiltro = (valor: any[])=>{
-        return new Promise((resolve, reject)=>{
-            this.setState({...this.state, filtros: valor}, ()=>{
-                resolve(0)
-            })
-        })
+            let result = valor
+            this.setState({...this.state, filtros: result})
     }
 
     ElementosFiltro = ()=>{
@@ -98,9 +95,9 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             <div className="flex fila accionesModal"  > 
                <ButtonBG shape="round" text="Limpiar" type="normal" 
                style={{display: this.ElementosFiltro().filter(x=>x.estado).length > 0? "inline": "none"}} 
-               onClick={this.quitarFiltrosAll}  icon={<DeleteOutlined />} />
+               onClick={()=>this.quitarFiltrosAll()}  icon={<DeleteOutlined />} />
                <ButtonBG shape="round" text="Agregar Filtro" type="outline" 
-               onClick={this.agregarFiltro} 
+               onClick={()=>this.agregarFiltro()} 
                icon={<PlusOutlined />} />
             </div>
             <Divider />
@@ -110,11 +107,11 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
              <Divider />
              <div className="flex fila justify-content-end">
                 <ButtonBG shape="round" text="Cancelar" type="outline"
-                    onClick={this.cancelModla}
+                    onClick={()=>this.cancelModla()}
                     icon={<CloseOutlined />} />
                     <div className="mx-1"></div>
                 <ButtonBG shape="round" text="Guardar Filtro" type="normal"
-                    onClick={this.okModal} 
+                    onClick={()=>this.okModal()} 
                     icon={<FunnelPlotOutlined />} />
              </div>
         </div>
@@ -125,20 +122,6 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         this.setOpen(true)
     }
     
-    onChangeInputValue =async (e:any)=>{
-
-        await this.setValues(e)
-        
-    }
-
-    setValues =(valor:any)=>{
-        return new Promise((resolve, reject)=>{
-            const valores = this.state.values;
-            valores.push(valor)
-            this.setState({...this.state, values:valores}, ()=>resolve(1))
-        })
-    }
-
     optenerCatalogosValues = (id:any): any[]=>{
         let opciones:any[] = []
         this.state.tipoCatalogo.find(x=>x.idContainer === id)?.catalogoValue.map(x=>{
@@ -172,10 +155,10 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
               <div className="flex fila elementoFiltro" key={id} style={{width:"480px"}}  >
                 <Select key={`${id}-campo`} 
                 onChange={(e)=>this.onChaneCampo({value:e, id:id})} defaultValue="-1" style={{ width: 150 }}>
-                  <option value="-1">Campos</option>  
+                  <Select.Option value="-1">Campos</Select.Option>  
                   {
                       this.props.filtroCatalogoCampos.map((recorre, index)=>{
-                        return <option key={index} value={recorre.cammpo}>{ this.transformarToItem(recorre.cammpo)}</option>                      
+                        return <Select.Option key={recorre.cammpo} value={recorre.cammpo}>{ this.transformarToItem(recorre.cammpo)}</Select.Option>                      
                       })
                   }                  
                 </Select>
@@ -214,9 +197,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                     }     
                     return recorre       
                 })
-                this.setElementosFiltro(newFiltro).then(()=>{
-                    this.renderFiltro()
-                })
+                this.setElementosFiltro(newFiltro)
+                this.renderFiltro()
             })
        }else{
         let tipoCatalogoAux = this.state.tipoCatalogo
@@ -243,9 +225,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                     }     
                     return recorre       
                 })
-                this.setElementosFiltro(newFiltro).then(()=>{
-                    this.renderFiltro()
-                })
+                this.setElementosFiltro(newFiltro)
+                this.renderFiltro()
             })
             
 
@@ -253,7 +234,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
 
      }
       
-      agregarFiltro =async ()=>{
+      agregarFiltro = async ()=>{
         
         const oldElements = this.ElementosFiltro()
         const elementosOrdenados = oldElements.sort((a,b)=>a.id - b.id)
@@ -265,7 +246,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         }
         
         oldElements?.push({id:idAsignada, element: this.createElementoFiltro(idAsignada), estado:true}, )
-        await this.setElementosFiltro(oldElements)     
+        this.setElementosFiltro(oldElements)     
         const elementos = React.createElement("div", {}, this.ElementosFiltro()?.map((recorre, index)=>{      
             if(recorre.estado)
             {
@@ -291,25 +272,27 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             return x;
         })
         
-        await this.setElementosFiltro(retorno)         
-        const elementos = React.createElement("div", {}, this.ElementosFiltro()?.map((recorre, index)=>{   
+        this.setElementosFiltro(retorno)
+        let FiltrosEliminado = this.ElementosFiltro()?.map((recorre, index)=>{   
             if(recorre.estado)
             { 
-                return <div key={index} >  {recorre.element} </div>    
+                return (<>
+                <div key={index} >  {recorre.element} </div>
+                </>)    
             }
             return recorre
-            }))
+            })         
+        const elementos = React.createElement("div", {}, FiltrosEliminado )
         ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))  
       }
       
       quitarFiltrosAll = async ()=>{
         
-        
         ReactDOM.render(<> </>, document.getElementById("contenedorFiltro"))
-        await this.setElementosFiltro([])     
-        await this.setState({...this.state, tipoCatalogo: []})
-        this.props.onClearFiltro(0)      
-        
+        this.retornoFiltrosAplicados = []
+        this.setElementosFiltro(this.retornoFiltrosAplicados)
+        this.setState({...this.state, tipoCatalogo:[]})     
+        this.props.onClearFiltro(0)         
       }
       
       okModal = ()=>{
