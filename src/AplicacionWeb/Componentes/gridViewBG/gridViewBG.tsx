@@ -180,18 +180,21 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       })
     }
 
-    SetFiltro(filtro:any[]): Promise<any>{
+    SetFiltro(filtro:FiltroAplicado): Promise<any>{
     return new Promise((resolve, reject)=>{
-      this.setState({...this.state, filtrosAplicadosObjeto: { filtros:filtro, longitud: 0}},()=> resolve(0))
-    })
+      this.setState(()=>{
+        resolve(0)
+        return {filtrosAplicadosObjeto: filtro}
+      } )})
     }
+
    onOk = async (e:FiltroAplicado)=>
     { 
-      let filtro = e.filtros
-      await this.SetFiltro(filtro)
+      this.setState(()=> { return {openDropDown: false}})
+      await this.SetFiltro(e)
       if(this.props.onAplicarFiltro)
       {
-        this.props.onAplicarFiltro(filtro);
+        this.props.onAplicarFiltro(this.state.filtrosAplicadosObjeto);
       }
     }
 
@@ -203,8 +206,8 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     }
 
     onClearFiltro = async ()=>{
-      let lista = this.state.filtrosAplicadosObjeto.filtros
-      lista = []
+      let lista = this.state.filtrosAplicadosObjeto
+      lista = { filtros: [], longitud: 0}
       await this.SetFiltro(lista)
     }
 
@@ -385,8 +388,8 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     }
     
     async BorrarTag (removedTag:any){
-      let tags = this.state.filtrosAplicadosObjeto.filtros
-      tags = tags.filter(tag => tag.id !== removedTag.id);
+      let tags = this.state.filtrosAplicadosObjeto
+      tags.filtros = tags.filtros.filter(tag => tag.id !== removedTag.id);
       await this.SetFiltro(tags)
     }
 
@@ -403,7 +406,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
               filtros?.map((valor:any, index:number)=>{
                 return (<>
                   <Tag  color="#bc157c" key={index} closable onClose={()=>this.BorrarTag(valor)}>
-                      {valor.campo}: "{ valor.value}"
+                      {valor.campo}: { this.PresentarOpciones(valor)}
                   </Tag>
                 </>)
               })
@@ -411,6 +414,20 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
        </div>
       </div>
       </>)
+    }
+
+    PresentarOpciones(valor:any): string {
+      if (valor.value.length == 1) {
+        console.log(this.props.filtroCatalogoValues.filter(x=>x.id==valor.id)[0])
+          return ""
+      }
+      if(valor.length < 0){
+        return "Varios"
+      }
+      if(valor.length == this.props.filtroCatalogoValues.filter(f=> f.campo==valor.campo)?.length){
+        return "Todos"
+      }
+      return ""
     }
 
   actionGraficos = (verGrafico:boolean):string =>{

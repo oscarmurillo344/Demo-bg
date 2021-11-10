@@ -13,7 +13,6 @@ interface ModalBGProps {
     onCancel  :any;
     onClearFiltro :any;
     filtroCatalogoCampos: catalogosCampos[];
-    
     filtroInformacion: informacionFiltros[]
     catalogosValues : catalogosValues[]
     
@@ -143,6 +142,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 if(recorre.id === e.campo)
                 {
                     recorre.value = e.value
+                    recorre.campo =this.state.tipoCatalogo.find(x=>x.idContainer === e.campo)?.campo
                 }
             })
         }else{
@@ -272,7 +272,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             }            
             return x;
         })
-        
+        this.retornoFiltrosAplicados = this.retornoFiltrosAplicados.filter(x=> x.id !== idIngreso)
        await this.setElementosFiltro(retorno)
         let FiltrosEliminado = this.ElementosFiltro()?.map((recorre, index)=>{   
             if(recorre.estado)
