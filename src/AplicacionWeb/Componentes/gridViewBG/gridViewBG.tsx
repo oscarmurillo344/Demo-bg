@@ -13,6 +13,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ColumnasGrupo from '../../Modelos/columnasGrupos';
 import { catalogosCampos, catalogosValues, informacionFiltros } from '../../Modelos/filtros';
 import React from 'react';
+import { resolve } from 'dns';
 const { TabPane } = Tabs;
 
 
@@ -179,15 +180,15 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       })
     }
 
-   onOk = (e:FiltroAplicado)=>
+    SetFiltro(filtro:any[]): Promise<any>{
+    return new Promise((resolve, reject)=>{
+      this.setState({...this.state, filtrosAplicadosObjeto: { filtros:filtro, longitud: 0}},()=> resolve(0))
+    })
+    }
+   onOk = async (e:FiltroAplicado)=>
     { 
       let filtro = e.filtros
-      this.setState({
-        ...this.state,
-        openDropDown: false,
-        filtrosAplicadosObjeto: { filtros:filtro, longitud: 0}
-      })
-
+      await this.SetFiltro(filtro)
       if(this.props.onAplicarFiltro)
       {
         this.props.onAplicarFiltro(filtro);
@@ -201,14 +202,10 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       })
     }
 
-    onClearFiltro = ()=>{
+    onClearFiltro = async ()=>{
       let lista = this.state.filtrosAplicadosObjeto.filtros
       lista = []
-        this.setState({
-            ...this.state,
-            openDropDown:false,
-            filtrosAplicadosObjeto:{ filtros: lista, longitud:0 }
-        })
+      await this.SetFiltro(lista)
     }
 
     onDowload =()=>
@@ -387,13 +384,10 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
        </> 
     }
     
-    BorrarTag (removedTag:any):any{
+    async BorrarTag (removedTag:any){
       let tags = this.state.filtrosAplicadosObjeto.filtros
       tags = tags.filter(tag => tag.id !== removedTag.id);
-      this.setState({ 
-            ...this.state,
-            filtrosAplicadosObjeto: { filtros: tags, longitud: 0}
-           })
+      await this.SetFiltro(tags)
     }
 
     FiltrosAplicados = () => {

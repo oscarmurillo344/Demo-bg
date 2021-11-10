@@ -73,9 +73,13 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         return this.state.open
     }
 
-    setElementosFiltro = (valor: any[])=>{
+    setElementosFiltro =  (valor: any[])=>{
+        return new Promise((resolve, reject)=>{
             let result = valor
-            this.setState({...this.state, filtros: result})
+            this.setState({...this.state, filtros: result}, ()=>{
+                resolve(0)
+            })
+        })
     }
 
     ElementosFiltro = ()=>{
@@ -196,8 +200,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                     }     
                     return recorre       
                 })
-                this.setElementosFiltro(newFiltro)
-                this.renderFiltro()
+                this.setElementosFiltro(newFiltro).then(()=>this.renderFiltro())
             })
        }else{
         let tipoCatalogoAux = this.state.tipoCatalogo
@@ -270,15 +273,12 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             return x;
         })
         
-        this.setElementosFiltro(retorno)
+       await this.setElementosFiltro(retorno)
         let FiltrosEliminado = this.ElementosFiltro()?.map((recorre, index)=>{   
             if(recorre.estado)
             { 
-                return (<>
-                <div key={index} >  {recorre.element} </div>
-                </>)    
-            }
-            })         
+                return (<div key={index} >  {recorre.element} </div>)    
+            }})         
         const elementos = React.createElement("div", {}, FiltrosEliminado )
         ReactDOM.render(elementos, document.getElementById("contenedorFiltro"))  
       }
@@ -287,7 +287,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         
         ReactDOM.render(<> </>, document.getElementById("contenedorFiltro"))
         this.retornoFiltrosAplicados = []
-        this.setElementosFiltro(this.retornoFiltrosAplicados)
+        await this.setElementosFiltro(this.retornoFiltrosAplicados)
         this.setState({...this.state, tipoCatalogo:[]})     
         this.props.onClearFiltro(0)         
       }
@@ -298,7 +298,6 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             this.cancelModla()
             this.props.onOk({longitud: this.ElementosFiltro().filter(x=>x.estado).length, filtros:this.retornoFiltrosAplicados})
         }
-          
       }
 
       cancelModla = ()=>{
