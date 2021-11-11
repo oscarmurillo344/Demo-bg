@@ -1,0 +1,11 @@
+.elementoFiltro{
+    justify-content: start;
+    
+    margin-bottom: 20px;
+    
+}
+
+.elementoFiltro > *{
+    margin-left: 10px;
+    
+}

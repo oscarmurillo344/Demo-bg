@@ -1,33 +1,36 @@
 const CatalogoCampos = [
     {
-        cammpo:"empresa"
+        campo:"empresa"
     },
     {
-        cammpo:"region"
+        campo:"region"
     },
     {
-        cammpo:"especializacion"
+        campo:"especializacion"
     },
     {
-        cammpo:"plaza"
+        campo:"plaza"
     },
     {
-        cammpo:"oficiona"
+        campo:"oficina"
     }, 
     {
-        cammpo:"oficial"
+        campo:"oficial"
     },
     {
-        cammpo:"area comercial"
+        campo:"area comercial"
     },
     {
-        cammpo:"segmentacion"
+        campo:"segmentacion"
     },
     {
-        cammpo:"tipo de cliente"
+        campo:"tipo de cliente"
     },
     {
-        cammpo:"saldo"
+        campo:"cedula"
+    },
+    {
+        campo:"saldo"
     }         
   ]
 

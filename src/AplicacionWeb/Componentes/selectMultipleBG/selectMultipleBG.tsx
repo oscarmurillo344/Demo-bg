@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 interface SelectMultipleBG {
     show:boolean,
     opciones:any[],
-    onChange?:any;
+    onChange:any;
 }
 const SeleccionMultipleBG = (props:SelectMultipleBG)=>{
     
@@ -25,7 +25,7 @@ const SeleccionMultipleBG = (props:SelectMultipleBG)=>{
         }
     }
     return (<>
-            <Select mode="multiple"  style={{ display:show?"inline":"none", width:"240px"}} value={value} onChange={onChangeValor}  options={props.opciones} placeholder="Valores" maxTagCount="responsive"  />
+            <Select mode="multiple"  style={{ display:show?"inline-block":"none", width:"240px"}} value={value} onChange={onChangeValor}  options={props.opciones} placeholder="Valores" maxTagCount="responsive"  />
     </>);
 }
 

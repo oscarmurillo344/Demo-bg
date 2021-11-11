@@ -6,13 +6,12 @@ import { DoubleLeftOutlined, DownloadOutlined, FileExcelOutlined, FileOutlined, 
 import ButtonBG from '../buttonBG/buttonBG';
 import ColumnGroup from 'rc-table/lib/sugar/ColumnGroup';
 import Column from 'rc-table/lib/sugar/Column';
-import ModalBG from '../modalBG/modalBG';
 import moment from 'moment';
 import ModalContentBG from '../modalContentBG/modalContentBG';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ColumnasGrupo from '../../Modelos/columnasGrupos';
-import { catalogosCampos, catalogosValues, informacionFiltros } from '../../Modelos/filtros';
+import { catalogosCampos, catalogosValues, FiltrosValores, informacionFiltros } from '../../Modelos/filtros';
 import React from 'react';
+import FiltroBg from '../FiltroBg/FiltroBg';
 const { TabPane } = Tabs;
 
 
@@ -59,7 +58,7 @@ interface GridViewBGState {
   columnsGrupo:any
   rowTotales:any
   rowGrupos:any
-  filtrosAplicadosObjeto:catalogosValues[]
+  filtrosAplicadosObjeto:FiltrosValores[]
 }
 
 
@@ -173,35 +172,26 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       })
     }
 
-    SetFiltro(filtro:catalogosValues[]): Promise<any>{
+    SetFiltro(filtro:FiltrosValores[]): Promise<any>{
     return new Promise((resolve, reject)=>{
       this.setState(()=>{
-        resolve(0)
-        return {filtrosAplicadosObjeto: filtro}
+        return { ...this.state, filtrosAplicadosObjeto: filtro}
       } )})
     }
 
-   onOk = async (e:catalogosValues[])=>
+   onOk = async (e:FiltrosValores)=>
     { 
-      this.setState(()=> { return {openDropDown: false}})
-      await this.SetFiltro(e)
+      let listaFiltro:any[] = [...this.state.filtrosAplicadosObjeto]
+      listaFiltro.push({
+        id: this.state.filtrosAplicadosObjeto.length -1,
+        campo: e.campo,
+        listaFiltro: e.listaFiltro
+      })
+      await this.SetFiltro(listaFiltro)
       if(this.props.onAplicarFiltro)
       {
         this.props.onAplicarFiltro(this.state.filtrosAplicadosObjeto);
       }
-    }
-
-    onCancel = ()=>{
-      this.setState({
-        ...this.state,
-        openDropDown: false
-      })
-    }
-
-    onClearFiltro = async ()=>{
-      let lista = this.state.filtrosAplicadosObjeto
-      lista = []
-      await this.SetFiltro(lista)
     }
 
     onDowload =()=>
@@ -368,13 +358,22 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     fechas = ()=>{
       return <>
           <div className="row align-items-end">
-              <div className="col-sm-6 " >
+              <div className="col-4" >
                 <div>Fecha Anterior</div>
                 <DatePicker format="DD/MM/yyyy" onChange={(fecha:any)=>this.onChangeFechaFechaAnterior(fecha)} name="fechaAnterior"  defaultValue={moment().subtract(20, "days")} style={{ width:"200px"}} />
               </div>
-              <div className="col-sm-6">
+              <div className="col-4 mx-2">
               <div>Fecha Actual</div>
                 <DatePicker format="DD/MM/yyyy" onChange={(fecha:any)=>this.onChangeFechaFechaActual(fecha)} name="fechaActual" defaultValue={moment()} style={{ width:"200px"}} />
+              </div>
+              <div className="col-1">
+              <ButtonBG 
+                                shape="round" 
+                                onClick={()=>this.onBuscar()} 
+                                style={{display: `${this.props.buttonFilter? "inline" : "none"}`}}  
+                                text="Buscar" 
+                                type="normal" 
+                                icon={<ReloadOutlined />} /> 
               </div>
           </div>
        </> 
@@ -383,7 +382,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     async BorrarTag (removedTag:any){
       let tags = this.state.filtrosAplicadosObjeto
       tags = tags.filter(tag => tag.id !== removedTag.id);
-      await this.SetFiltro(tags).then(x=> this.render())
+      await this.SetFiltro(tags)
     }
 
     FiltrosAplicados = () => {
@@ -396,10 +395,10 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
        </div>
        <div className="col-10">
            {
-              filtrosAplicadosObjeto?.map((valor:any, index:number)=>{
+              filtrosAplicadosObjeto?.map((valor:any)=>{
                 return (<>
-                  <Tag  color="#bc157c" key={valor.id} closable onClose={()=>this.BorrarTag(valor)}>
-                      {valor.campo}: { this.PresentarOpciones(valor)}
+                  <Tag  color="#bc157c" className={"forma-tag"} key={valor.id} closable onClose={()=>this.BorrarTag(valor)}>
+                      {valor.campo}: { this.PresentarOpciones(valor.listaFiltro, valor.campo)}
                   </Tag>
                 </>)
               })
@@ -409,18 +408,13 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       </>)
     }
 
-    PresentarOpciones(valor:any): string {
-      if (valor.value.length == 1) {
-        console.log(this.props.filtroCatalogoValues.filter(x=>x.id==valor.id)[0])
-          return ""
-      }
-      if(valor.length < 0){
-        return "Varios"
-      }
-      if(valor.length == this.props.filtroCatalogoValues.filter(f=> f.campo==valor.campo)?.length){
+    PresentarOpciones(valor:any[], campo:string): string{
+      if(valor.length == 1){
+        return valor[0].value
+      }if(this.props.filtroCatalogoValues.filter(x=> x.campo ==  campo).length == valor.length){
         return "Todos"
       }
-      return ""
+      return "Varios"
     }
 
   actionGraficos = (verGrafico:boolean):string =>{
@@ -445,41 +439,26 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       <>
        <div className="tabContainer" > 
                 
-                <div className="row align-items-end my-3">
-                  <div className="col-xl-5 col-lg-6 col-md-7 col-sm-8 col-12">
+                <div className="row pt-3">
+                  <div className="col-sm-7 col-12">
                     {
                       this.fechas()
                     }
                   </div>
-                  <div className="col-lg-4 col-12 mt-2">
-                      <ButtonBG 
-                                shape="round" 
-                                onClick={()=>this.onBuscar()} 
-                                style={{display: `${this.props.buttonFilter? "inline" : "none"}`}}  
-                                text="Buscar" 
-                                type="normal" 
-                                icon={<ReloadOutlined />} /> 
-             <Dropdown placement="bottomRight" visible={this.state.openDropDown} trigger={['click']} overlay={<>
-              <ModalBG FiltrosVista={this.state.filtrosAplicadosObjeto} catalogosValues={this.props.filtroCatalogoValues}  filtroCatalogoCampos = {this.props.filtroCatalogoCampos} filtroInformacion={this.props.filtroInformacion} open={this.state.openDropDown} onCancel={()=>this.onCancel()} onOk={(e:catalogosValues[])=>this.onOk(e)} onClearFiltro={()=>this.onClearFiltro()}  />
-                  </>}>
-                    <ButtonBG 
-                          shape="round" 
-                          style={{display: `${this.props.buttonFilter? "inline" : "none"}`, marginLeft:"5%"}} 
-                          onClick={()=>this.onOpenModal()}  
-                          text="Filtrar" 
-                          type="normal"
-                          icon={<FunnelPlotOutlined />} /> 
-              </Dropdown>
-                
+                  <div className="col-sm-5 col-12">
+                      < FiltroBg filtroCatalogoCampos={ this.props.filtroCatalogoCampos}
+                                 filtroInformacion={ this.props.filtroInformacion}
+                                 catalogosValues={ this.props.filtroCatalogoValues}
+                                 Guardar = {(filtro:FiltrosValores)=> this.onOk(filtro)} />
                   </div>                 
            </div>
            <Divider style={{margin: "12px 0"}} />
            {
              this.FiltrosAplicados()
            }
-           <Divider style={{margin: "12px 0"}} />
+           <Divider style={{margin: "10px 0"}} />
        <div className="row">
-          <div className="col-11" >
+          <div className="col-12" >
                   <Table
                     className="totales"
                     pagination={false}
@@ -492,7 +471,6 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
                     
                   </Table>  
                    <Table
-                      className="components-table-demo-nested"
                       style={{width: "100%", overflow:"inherit", overflowWrap:"anywhere"}}
                       size={"large"}
                       scroll ={{ x: true, y:200}}
@@ -508,33 +486,6 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
                     <ButtonBG shape="round" text="Columnas" onClick={()=>this.onColumnas()}  type="outline" icon={<RotateRightOutlined />} /> 
              </div>
        </div>
-        <div className="col-1 align-self-center">
-           <ButtonBG shape="circle" onClick={()=>this.onClickCloseGrafico()} text="" type="normal" icon={<DoubleLeftOutlined />} /> 
-        </div>
-        <div  id="contenedorGraficos" className="slide-grafico" style={{transform: this.actionGraficos(this.state.openGrafico) }}>
-              <div className="container-fluid">
-              <div id="iconCloseGrafico" onClick={()=>this.onClickCloseGrafico()}><AiOutlineCloseCircle width={100}></AiOutlineCloseCircle></div>
-                <div className="row">
-                   <div className="col-12">
-                   <p style={{marginLeft:"24px", fontWeight:700, color:"#160F41"}} > Gráfico De Evoluciones</p>
-                   </div>
-                </div>
-              <div className="row">
-                <div className="col-12"  style={{ height:"225px" }}> 
-                  {
-                      this.props.dataSetGraficos?  <Line data={this.props.dataSetGraficos?.anual}  /> :  <> </>
-                  }
-                </div>
-              </div>
-              <div className="row">
-                  <div className="col-12"  style={{ height:"225px" }}> 
-                    {
-                        this.props.dataSetGraficos?  <Line data={this.props.dataSetGraficos?.mensual}  /> :  <> </>
-                    }
-                  </div>
-              </div>
-              </div>
-        </div>
     </div>            
 </div>      
         {

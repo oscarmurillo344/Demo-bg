@@ -9,6 +9,11 @@
 {
     margin-right: 15px;
 }
+.forma-tag{
+    border-radius: 10px;
+    user-select: none;
+    cursor: pointer;
+}
 .refreshIconCont
 {
     width: 40px;

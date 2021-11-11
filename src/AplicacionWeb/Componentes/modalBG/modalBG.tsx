@@ -169,7 +169,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                   <Select.Option value="-1">Campos</Select.Option>  
                   {
                       this.props.filtroCatalogoCampos.map((recorre, index)=>{
-                        return <Select.Option key={index} value={recorre.cammpo}>{ this.transformarToItem(recorre.cammpo)}</Select.Option>                      
+                        return <Select.Option key={index} value={recorre.campo}>{ this.transformarToItem(recorre.campo)}</Select.Option>                      
                       })
                   }                  
                 </Select>
@@ -282,7 +282,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             return x;
         })
         let filtro = this.state.FiltrosVista.filter(x=> x.id !== idIngreso.toString())
-       await this.setElementosFiltroVista(filtro) 
+       await this.setElementosFiltroVista 
        await this.setElementosFiltro(retorno)
         let FiltrosEliminado = this.ElementosFiltro()?.map((recorre, index)=>{   
             if(recorre.estado)
@@ -306,7 +306,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         if(this.props.onOk)
         {
             this.cancelModla()
-            this.props.onOk({longitud: this.ElementosFiltro().filter(x=>x.estado).length, filtros:this.state.FiltrosVista})
+            this.props.onOk({longitud: this.ElementosFiltro().filter(x=>x.estado).length, filtros:[]})
         }
       }
 

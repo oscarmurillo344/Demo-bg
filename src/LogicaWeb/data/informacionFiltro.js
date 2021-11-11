@@ -21,7 +21,7 @@ const informacionFiltro = [
       esCatalogo: true
     },
     {
-      campo : "oficiona",
+      campo : "oficina",
       tipoDato : "string",
       esCatalogo: true
     },
@@ -39,6 +39,11 @@ const informacionFiltro = [
       campo : "tipo de cliente",
       tipoDato : "string",
       esCatalogo: true
+    },
+    {
+      campo : "cedula",
+      tipoDato : "string",
+      esCatalogo: false
     },
     {
       campo : "saldo",

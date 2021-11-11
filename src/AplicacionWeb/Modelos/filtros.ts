@@ -1,6 +1,12 @@
 export interface catalogosCampos{
-    cammpo:string;
+    campo:string;
 
+}
+
+export interface FiltrosValores {
+    id:number
+    campo:string
+    listaFiltro:any[]
 }
 
 export interface catalogosValues{

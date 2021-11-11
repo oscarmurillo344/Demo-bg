@@ -88,7 +88,7 @@ const Home = (props:HomeProps)=>{
                     }
             </div>
         </div>
-        <div className="row">
+        <div className="row align-items-center">
             <div className="col-md-12 col-lg-8 contenedor">
                 <div className="row">
                     <div className="col-12"> <p className="text-center titulo">INFORMES DE CARTERA</p></div>
