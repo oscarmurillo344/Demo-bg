@@ -13,7 +13,6 @@ import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ColumnasGrupo from '../../Modelos/columnasGrupos';
 import { catalogosCampos, catalogosValues, informacionFiltros } from '../../Modelos/filtros';
 import React from 'react';
-import { resolve } from 'dns';
 const { TabPane } = Tabs;
 
 
@@ -40,9 +39,9 @@ interface GridViewBGProps{
     buttonDownload?:boolean;
     buttonFilter?:boolean;
     tipoColumna: "grupo" | "individual"
-    filtroCatalogoCampos: catalogosCampos[];
     onAplicarFiltro?:any;
     menuAbierto:any; 
+    filtroCatalogoCampos: catalogosCampos[];
     filtroCatalogoValues : catalogosValues[]
     filtroInformacion: informacionFiltros[];
     onBuscar?:(buscar:any)=>void
@@ -50,10 +49,7 @@ interface GridViewBGProps{
     dataSetGraficos? : {mensual:GridViewBGPropsDataSetGrafico, anual:GridViewBGPropsDataSetGrafico}
 }
 
-interface FiltroAplicado {
-  filtros:Array<any>
-  longitud:number
-}
+
 interface GridViewBGState {
   openDropDown:boolean
   openModalContent:boolean
@@ -63,7 +59,7 @@ interface GridViewBGState {
   columnsGrupo:any
   rowTotales:any
   rowGrupos:any
-  filtrosAplicadosObjeto:FiltroAplicado
+  filtrosAplicadosObjeto:catalogosValues[]
 }
 
 
@@ -83,10 +79,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       columnsGrupo: this.props.columns,
       rowTotales: this.props.rowsTotal,
       rowGrupos: this.props.rows,
-      filtrosAplicadosObjeto: {
-        filtros:[],
-        longitud: 0
-      }
+      filtrosAplicadosObjeto: []
     }
   }
 
@@ -180,7 +173,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       })
     }
 
-    SetFiltro(filtro:FiltroAplicado): Promise<any>{
+    SetFiltro(filtro:catalogosValues[]): Promise<any>{
     return new Promise((resolve, reject)=>{
       this.setState(()=>{
         resolve(0)
@@ -188,7 +181,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       } )})
     }
 
-   onOk = async (e:FiltroAplicado)=>
+   onOk = async (e:catalogosValues[])=>
     { 
       this.setState(()=> { return {openDropDown: false}})
       await this.SetFiltro(e)
@@ -207,7 +200,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
 
     onClearFiltro = async ()=>{
       let lista = this.state.filtrosAplicadosObjeto
-      lista = { filtros: [], longitud: 0}
+      lista = []
       await this.SetFiltro(lista)
     }
 
@@ -389,12 +382,12 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     
     async BorrarTag (removedTag:any){
       let tags = this.state.filtrosAplicadosObjeto
-      tags.filtros = tags.filtros.filter(tag => tag.id !== removedTag.id);
-      await this.SetFiltro(tags)
+      tags = tags.filter(tag => tag.id !== removedTag.id);
+      await this.SetFiltro(tags).then(x=> this.render())
     }
 
     FiltrosAplicados = () => {
-      const { filtros } = this.state.filtrosAplicadosObjeto;
+      const { filtrosAplicadosObjeto } = this.state;
       
       return (<> 
       <div className="row no-gutters">
@@ -403,9 +396,9 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
        </div>
        <div className="col-10">
            {
-              filtros?.map((valor:any, index:number)=>{
+              filtrosAplicadosObjeto?.map((valor:any, index:number)=>{
                 return (<>
-                  <Tag  color="#bc157c" key={index} closable onClose={()=>this.BorrarTag(valor)}>
+                  <Tag  color="#bc157c" key={valor.id} closable onClose={()=>this.BorrarTag(valor)}>
                       {valor.campo}: { this.PresentarOpciones(valor)}
                   </Tag>
                 </>)
@@ -467,7 +460,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
                                 type="normal" 
                                 icon={<ReloadOutlined />} /> 
              <Dropdown placement="bottomRight" visible={this.state.openDropDown} trigger={['click']} overlay={<>
-              <ModalBG catalogosValues={this.props.filtroCatalogoValues}  filtroCatalogoCampos = {this.props.filtroCatalogoCampos} filtroInformacion={this.props.filtroInformacion} open={this.state.openDropDown} onCancel={()=>this.onCancel()} onOk={(e:FiltroAplicado)=>this.onOk(e)} onClearFiltro={()=>this.onClearFiltro()}  />
+              <ModalBG FiltrosVista={this.state.filtrosAplicadosObjeto} catalogosValues={this.props.filtroCatalogoValues}  filtroCatalogoCampos = {this.props.filtroCatalogoCampos} filtroInformacion={this.props.filtroInformacion} open={this.state.openDropDown} onCancel={()=>this.onCancel()} onOk={(e:catalogosValues[])=>this.onOk(e)} onClearFiltro={()=>this.onClearFiltro()}  />
                   </>}>
                     <ButtonBG 
                           shape="round" 

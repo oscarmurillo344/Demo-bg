@@ -15,14 +15,14 @@ interface ModalBGProps {
     filtroCatalogoCampos: catalogosCampos[];
     filtroInformacion: informacionFiltros[]
     catalogosValues : catalogosValues[]
-    
+    FiltrosVista: catalogosValues[]
 }
 
 interface ModalBGState {
     open:boolean;
     filtros : Array<any>
     tipoCatalogo: Array<ModalBGStateCatalogo>
-    values: any;
+    FiltrosVista:catalogosValues[]
     
 }
 
@@ -39,14 +39,13 @@ interface ModalBGStateCatalogo{
 
 export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
 {
-    retornoFiltrosAplicados = new Array<any>();
     constructor(props:ModalBGProps){
         super(props)
         this.state = {
             open: this.props.open,
             filtros : [],
             tipoCatalogo: [],            
-            values: ["1"]
+            FiltrosVista: this.props.FiltrosVista
         }
 
     }
@@ -76,6 +75,15 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         return new Promise((resolve, reject)=>{
             let result = valor
             this.setState({...this.state, filtros: result}, ()=>{
+                resolve(0)
+            })
+        })
+    }
+
+    setElementosFiltroVista =  (valor: any[])=>{
+        return new Promise((resolve, reject)=>{
+            let result = valor
+            this.setState({...this.state, FiltrosVista: result}, ()=>{
                 resolve(0)
             })
         })
@@ -134,11 +142,11 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
     }
 
     onChangeValue = (e:any)=>{
+        const { filtros } = this.state
         
-        
-        if( this.retornoFiltrosAplicados.filter(x=>x.id === e.campo).length > 0)
+        if(filtros.filter(x=>x.id === e.campo).length > 0)
         {
-            this.retornoFiltrosAplicados.map((recorre)=>{
+            filtros.map((recorre)=>{
                 if(recorre.id === e.campo)
                 {
                     recorre.value = e.value
@@ -146,7 +154,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                 }
             })
         }else{
-            this.retornoFiltrosAplicados.push({campo:this.state.tipoCatalogo.find(x=>x.idContainer === e.campo)?.campo, value:e.value, id:e.campo})
+            filtros.push({campo:this.state.tipoCatalogo.find(x=>x.idContainer === e.campo)?.campo, value:e.value, id:e.campo})
         }
         
         
@@ -262,6 +270,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
       
     
       quitarFiltro = async (idIngreso:number)=>{
+          
         const retorno = this.ElementosFiltro().map(x=>{
             if(x.estado)
             {
@@ -272,7 +281,8 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
             }            
             return x;
         })
-        this.retornoFiltrosAplicados = this.retornoFiltrosAplicados.filter(x=> x.id !== idIngreso)
+        let filtro = this.state.FiltrosVista.filter(x=> x.id !== idIngreso.toString())
+       await this.setElementosFiltroVista(filtro) 
        await this.setElementosFiltro(retorno)
         let FiltrosEliminado = this.ElementosFiltro()?.map((recorre, index)=>{   
             if(recorre.estado)
@@ -286,9 +296,9 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
       quitarFiltrosAll = async ()=>{
         
         ReactDOM.render(<> </>, document.getElementById("contenedorFiltro"))
-        this.retornoFiltrosAplicados = []
-        await this.setElementosFiltro(this.retornoFiltrosAplicados)
         this.setState({...this.state, tipoCatalogo:[]})     
+        await this.setElementosFiltro([])
+        await this.setElementosFiltroVista([])
         this.props.onClearFiltro(0)         
       }
       
@@ -296,7 +306,7 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
         if(this.props.onOk)
         {
             this.cancelModla()
-            this.props.onOk({longitud: this.ElementosFiltro().filter(x=>x.estado).length, filtros:this.retornoFiltrosAplicados})
+            this.props.onOk({longitud: this.ElementosFiltro().filter(x=>x.estado).length, filtros:this.state.FiltrosVista})
         }
       }
 
