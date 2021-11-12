@@ -31,7 +31,7 @@ const SeleccionMultipleBG = (props:SelectMultipleBG)=>{
     }
     
     return (<>
-            <Select mode="multiple"  allowClear={true}  style={{ display:show?"inline-block":"none", width:"300px"}} value={value} onChange={onChangeValor}  options={props.opciones} placeholder="Valores" maxTagCount="responsive"  />
+            <Select mode="multiple" onClick={e => e.stopPropagation()} allowClear={true}  style={{ display:show?"inline-block":"none", width:"300px"}} value={value} onChange={onChangeValor}  options={props.opciones} placeholder="Valores" maxTagCount="responsive"  />
     </>);
 }
 

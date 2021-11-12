@@ -5,6 +5,19 @@
     justify-content: start;
 }
 
+.SubFiltro{
+    width: 550px;
+    padding: 30px 0 15px 30px;
+    border: 1.5px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 5px;
+    background-color: white;
+    border-radius: 20px;
+    height: auto;
+    box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.06);
+    -webkit-box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.06);
+    -moz-box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.06);
+}
+
 .acciones >*
 {
     margin-right: 15px;

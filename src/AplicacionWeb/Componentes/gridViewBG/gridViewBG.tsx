@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
-import { Table, Tabs, Tree, DatePicker, Divider, Tag, Tooltip } from 'antd';
+import { Table, Tabs, Tree, DatePicker, Divider, Tag, Tooltip, Dropdown } from 'antd';
 import { DownloadOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, ReloadOutlined, RotateRightOutlined } from '@ant-design/icons';
 import ButtonBG from '../buttonBG/buttonBG';
 import ColumnGroup from 'rc-table/lib/sugar/ColumnGroup';
@@ -173,6 +173,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
    
    onOk = async (e:FiltrosValores)=>
     { 
+     if(e.campo != "" && e.listaFiltro.length > 0){
       let listaFiltro:any[] = [...this.state.filtrosAplicadosObjeto].filter(x=>x.campo !== e.campo)
       let existeIgual = [...this.state.filtrosAplicadosObjeto].filter(x=>x.campo === e.campo)
       if(existeIgual.length > 0){
@@ -193,6 +194,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       {
         this.props.onAplicarFiltro(this.state.filtrosAplicadosObjeto);
       }
+     }
     }
 
     onDowload =()=>
@@ -386,6 +388,17 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       await this.SetFiltro(tags)
     }
 
+    FiltroCahnge = ()=>{
+      return (<div className="SubFiltro">
+           < FiltroBg 
+                      onClick={e => e.stopPropagation()}
+                      filtroCatalogoCampos={ this.props.filtroCatalogoCampos}
+                      filtroInformacion={ this.props.filtroInformacion}
+                      catalogosValues={ this.props.filtroCatalogoValues}
+                      Guardar = {(filtro:FiltrosValores)=> this.onOk(filtro)} />
+      </div>)
+    }
+
     FiltrosAplicados = () => {
       const { filtrosAplicadosObjeto } = this.state;
       
@@ -399,9 +412,18 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
               filtrosAplicadosObjeto?.map((valor:FiltrosValores)=>{
                 return (<>
                 <Tooltip title={this.PresentacionToolTip(valor)} key={valor.id}>
-                  <Tag  color="#bc157c" className={"forma-tag"} key={valor.id} closable onClose={()=>this.BorrarTag(valor)}>
-                      {valor.campo}: { this.PresentarOpciones(valor.listaFiltro, valor.campo)}
-                  </Tag>
+                  <Dropdown key={valor.id}  
+                            destroyPopupOnHide={true} arrow={true} 
+                            overlay={this.FiltroCahnge} 
+                            trigger={['click']}>
+                    <Tag  color="#bc157c" 
+                          className={"forma-tag"} 
+                          key={valor.id} 
+                          closable
+                          onClose={()=>this.BorrarTag(valor)}>
+                        {valor.campo}: { this.PresentarOpciones(valor.listaFiltro, valor.campo)}
+                    </Tag>
+                  </Dropdown>
                 </Tooltip>
                 </>)
               })
@@ -448,7 +470,8 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
                     }
                   </div>
                   <div className="col-sm-5 col-12">
-                      < FiltroBg filtroCatalogoCampos={ this.props.filtroCatalogoCampos}
+                      < FiltroBg onClick={e => e.stopPropagation()}
+                                 filtroCatalogoCampos={ this.props.filtroCatalogoCampos}
                                  filtroInformacion={ this.props.filtroInformacion}
                                  catalogosValues={ this.props.filtroCatalogoValues}
                                  Guardar = {(filtro:FiltrosValores)=> this.onOk(filtro)} />

@@ -10,6 +10,7 @@ interface FiltroBgProps {
     filtroCatalogoCampos: catalogosCampos[];
     filtroInformacion: informacionFiltros[]
     catalogosValues : catalogosValues[]
+    onClick: (e:any) => void
     Guardar:(valor:FiltrosValores) => void
 }
 interface FiltroBgState {
@@ -36,6 +37,7 @@ export default class FiltroBg extends React.Component<FiltroBgProps,FiltroBgStat
             ResetSeleccion: false
         }
     }
+
     setFiltroVista(filtro:any){
         this.setState(()=>{
             return {...this.state, FiltrosVista: filtro}
@@ -96,7 +98,8 @@ export default class FiltroBg extends React.Component<FiltroBgProps,FiltroBgStat
         return opciones
     }
 
-    private Guardar() {
+    private Guardar(event:any) {
+        console.log(event)
         this.props.Guardar(this.state.FiltrosVista)
         this.SetResetSeleccion(!this.state.ResetSeleccion)
     }
@@ -104,9 +107,10 @@ export default class FiltroBg extends React.Component<FiltroBgProps,FiltroBgStat
     render(){
         const { tipoCatalogo, ResetSeleccion } = this.state
         return (<>
-         <div className="row no-gutters" >
+         <div className="row no-gutters" onClick={e => this.props.onClick(e)}>
             <div className="col-4">
             <Select 
+                onClick={e => this.props.onClick(e)}
                 onChange={(e)=>this.onChangeCampo(e)} defaultValue="-1" style={{ width: 150 }}>
                   <Select.Option value="-1">Campos</Select.Option>  
                   {
@@ -116,19 +120,20 @@ export default class FiltroBg extends React.Component<FiltroBgProps,FiltroBgStat
                   }                  
             </Select>
             </div>
-            <div className="col-6">
-            <Input onChange={(e:any)=>{this.onChangeValue(e.target.value)}}  placeholder="Valor" style={{display: !tipoCatalogo.isCatalogo && (tipoCatalogo.tipoDato === "string" || tipoCatalogo.tipoDato === "number") ? "inline" : "none", width:"300px" }} />
-            <DatePicker onChange={(e:any)=>{this.onChangeValue(e)}} format="DD/mm/yyyy"  style={{display: tipoCatalogo.tipoDato === "date" && !tipoCatalogo.isCatalogo ? "inline" : "none", width:"300px" }} />
+            <div className="col-6" >
+            <Input onClick={e => this.props.onClick(e)} onChange={(e:any)=>{this.onChangeValue(e.target.value)}}  placeholder="Valor" style={{display: !tipoCatalogo.isCatalogo && (tipoCatalogo.tipoDato === "string" || tipoCatalogo.tipoDato === "number") ? "inline" : "none", width:"300px" }} />
+            <DatePicker onClick={e => this.props.onClick(e)} onChange={(e:any)=>{this.onChangeValue(e)}} format="DD/mm/yyyy"  style={{display: tipoCatalogo.tipoDato === "date" && !tipoCatalogo.isCatalogo ? "inline" : "none", width:"300px" }} />
             <SeleccionMultipleBG resetValue={ResetSeleccion} onChange={(e:any)=>{this.onChangeValue(e.values)}}  show={tipoCatalogo.isCatalogo} opciones={this.optenerCatalogosValues()} />
             </div>
         </div>
         <div className="row no-gutters justify-content-end mt-2">
+            <div className="col-8" onClick={e => this.props.onClick(e)}></div>
             <div className="col-4">
             <ButtonBG shape="round" text="Guardar Filtro" type="normal"
-                                    onClick={()=>this.Guardar()} 
+                                    onClick={(e:any)=>this.Guardar(e)} 
                                     icon={<FunnelPlotOutlined />} />  
             </div>
         </div>
-        </>)
+    </>)
     }
 }
