@@ -1,8 +1,7 @@
 import 'antd/dist/antd.css';
 import './gridViewBG.css'
-import {Line} from 'react-chartjs-2'
-import { Table, Tabs, Tree, DatePicker, Dropdown, Divider, Tag } from 'antd';
-import { DoubleLeftOutlined, DownloadOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, FunnelPlotOutlined, ReloadOutlined, RotateRightOutlined } from '@ant-design/icons';
+import { Table, Tabs, Tree, DatePicker, Divider, Tag, Tooltip } from 'antd';
+import { DownloadOutlined, FileExcelOutlined, FileOutlined, FilePdfOutlined, ReloadOutlined, RotateRightOutlined } from '@ant-design/icons';
 import ButtonBG from '../buttonBG/buttonBG';
 import ColumnGroup from 'rc-table/lib/sugar/ColumnGroup';
 import Column from 'rc-table/lib/sugar/Column';
@@ -53,7 +52,6 @@ interface GridViewBGState {
   openDropDown:boolean
   openModalContent:boolean
   openModalColumn:boolean
-  openGrafico:boolean
   columnsTotales:any
   columnsGrupo:any
   rowTotales:any
@@ -73,7 +71,6 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       openDropDown:false,
       openModalContent: false,
       openModalColumn: false,
-      openGrafico: false,
       columnsTotales: this.props.columnsTotal,
       columnsGrupo: this.props.columns,
       rowTotales: this.props.rowsTotal,
@@ -153,40 +150,44 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     
   }
 
-  onOpenModal = ()=>{
-      this.setState({
-        ...this.state,
-        openDropDown: !this.state.openDropDown
-      })
-  }
    onOkModalDownload = ()=>{
     this.setState({
       ...this.state,
-      openModalContent: !this.state.openDropDown
+      openModalContent: !this.state.openModalContent
     })
   } 
     onCancelModalDownload = ()=>{
       this.setState({
         ...this.state,
-        openModalContent: !this.state.openDropDown
+        openModalContent: !this.state.openModalContent
       })
     }
 
     SetFiltro(filtro:FiltrosValores[]): Promise<any>{
     return new Promise((resolve, reject)=>{
       this.setState(()=>{
+        resolve(0)
         return { ...this.state, filtrosAplicadosObjeto: filtro}
-      } )})
+      })})
     }
-
+   
    onOk = async (e:FiltrosValores)=>
     { 
-      let listaFiltro:any[] = [...this.state.filtrosAplicadosObjeto]
-      listaFiltro.push({
-        id: this.state.filtrosAplicadosObjeto.length -1,
-        campo: e.campo,
-        listaFiltro: e.listaFiltro
-      })
+      let listaFiltro:any[] = [...this.state.filtrosAplicadosObjeto].filter(x=>x.campo !== e.campo)
+      let existeIgual = [...this.state.filtrosAplicadosObjeto].filter(x=>x.campo === e.campo)
+      if(existeIgual.length > 0){
+        listaFiltro.push({
+          id: existeIgual[0].id,
+          campo: e.campo,
+          listaFiltro: e.listaFiltro
+        })
+      }else {
+        listaFiltro.push({
+          id: this.state.filtrosAplicadosObjeto.length-1,
+          campo: e.campo,
+          listaFiltro: e.listaFiltro
+        })
+      }
       await this.SetFiltro(listaFiltro)
       if(this.props.onAplicarFiltro)
       {
@@ -395,11 +396,13 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
        </div>
        <div className="col-10">
            {
-              filtrosAplicadosObjeto?.map((valor:any)=>{
+              filtrosAplicadosObjeto?.map((valor:FiltrosValores)=>{
                 return (<>
+                <Tooltip title={this.PresentacionToolTip(valor)} key={valor.id}>
                   <Tag  color="#bc157c" className={"forma-tag"} key={valor.id} closable onClose={()=>this.BorrarTag(valor)}>
                       {valor.campo}: { this.PresentarOpciones(valor.listaFiltro, valor.campo)}
                   </Tag>
+                </Tooltip>
                 </>)
               })
            }
@@ -408,10 +411,13 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       </>)
     }
 
+    PresentacionToolTip(valor:FiltrosValores): any[] {
+      return valor.listaFiltro.map((x:any,index:number)=> valor.listaFiltro.length-1 == index ? x.value : `${x.value}, `)
+    }
     PresentarOpciones(valor:any[], campo:string): string{
-      if(valor.length == 1){
+      if(valor.length === 1){
         return valor[0].value
-      }if(this.props.filtroCatalogoValues.filter(x=> x.campo ==  campo).length == valor.length){
+      }if(this.props.filtroCatalogoValues.filter(x=> x.campo == campo).length == valor.length){
         return "Todos"
       }
       return "Varios"
@@ -429,10 +435,6 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     const retorno = this.props.onOpenDetalle(e)
     return <Table scroll={{y:340}} dataSource={retorno.rows} pagination={false} columns={retorno.columns} >    </Table>;
   };
-
-  onClickCloseGrafico =()=>{
-    this.setState({...this.state, openGrafico: !this.state.openGrafico})
-  }
 
   render(): JSX.Element{
     return (

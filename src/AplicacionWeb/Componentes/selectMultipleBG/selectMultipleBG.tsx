@@ -6,26 +6,32 @@ interface SelectMultipleBG {
     show:boolean,
     opciones:any[],
     onChange:any;
+    resetValue:boolean;
 }
 const SeleccionMultipleBG = (props:SelectMultipleBG)=>{
     
-    const [show, setShow] = useState(props.show)
-    const [value, setValue] = useState([]);
+    const [show, setShow] =     useState(props.show)
+    const [value, setValue] =   useState([]);
+                                useState(props.resetValue)
     
     useEffect(()=>{
         setShow(props.show)
     }, [props.show])
 
+    useEffect(()=>{
+        setValue([])
+    }, [props.resetValue])
+
     const onChangeValor = (newValue:any)=>{
-        setValue(newValue);
         if(props.onChange)
         {
             props.onChange({values:newValue});
             setValue(newValue);
         }
     }
+    
     return (<>
-            <Select mode="multiple"  style={{ display:show?"inline-block":"none", width:"240px"}} value={value} onChange={onChangeValor}  options={props.opciones} placeholder="Valores" maxTagCount="responsive"  />
+            <Select mode="multiple"  allowClear={true}  style={{ display:show?"inline-block":"none", width:"300px"}} value={value} onChange={onChangeValor}  options={props.opciones} placeholder="Valores" maxTagCount="responsive"  />
     </>);
 }
 

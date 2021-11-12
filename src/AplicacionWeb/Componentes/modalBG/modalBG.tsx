@@ -178,7 +178,6 @@ export default class ModalBG extends React.Component<ModalBGProps,ModalBGState>
                   
                 <Input onChange={(e:any)=>{this.onChangeValue({campo: id, value:[e.target.value]})}} key={`${id}-valor`}  placeholder="Valor" style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && (x.tipoDato === "string" || x.tipoDato === "number" )&&  !x.isCatalogo).length > 0? "inline" : "none", width:"240px" }} />
                 <DatePicker onChange={(e:any)=>{this.onChangeValue({campo: id, value:[e.target.value]})}} format="DD/mm/yyyy"  style={{display: this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.tipoDato === "date" && !x.isCatalogo ).length > 0? "inline" : "none", width:"240px" }} />
-                <SeleccionMultipleBG onChange={(e:any)=>{this.onChangeValue({campo: id, value:e.values})}}  show={this.state.tipoCatalogo.filter(x=>x.idContainer === id && x.isCatalogo).length > 0? true:false } opciones={this.optenerCatalogosValues(id)} />
 
                 <div style={{justifyContent:"center", alignItems:"center"}}  className="flex" >
                 
