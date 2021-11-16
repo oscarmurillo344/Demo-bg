@@ -49,6 +49,11 @@ const informacionFiltro = [
       campo : "saldo",
       tipoDato : "number",
       esCatalogo: false
+    },
+    {
+      campo : "fecha",
+      tipoDato : "date",
+      esCatalogo: false
     }
   ]
 

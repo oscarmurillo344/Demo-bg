@@ -31,6 +31,9 @@ const CatalogoCampos = [
     },
     {
         campo:"saldo"
+    } ,
+    {
+        campo:"fecha"
     }         
   ]
 

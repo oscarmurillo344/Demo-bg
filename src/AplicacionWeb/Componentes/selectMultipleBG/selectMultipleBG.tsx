@@ -3,17 +3,17 @@ import { Select } from "antd";
 import {useEffect, useState} from "react";
 
 interface SelectMultipleBG {
-    show:boolean,
-    opciones:any[],
+    show:boolean
+    opciones:any[]
     onChange:any;
     resetValue:boolean;
+    DefaultValue:any
 }
 const SeleccionMultipleBG = (props:SelectMultipleBG)=>{
     
     const [show, setShow] =     useState(props.show)
     const [value, setValue] =   useState([]);
-                                useState(props.resetValue)
-    
+                                useState(props.resetValue)    
     useEffect(()=>{
         setShow(props.show)
     }, [props.show])
@@ -31,7 +31,6 @@ const SeleccionMultipleBG = (props:SelectMultipleBG)=>{
     }
     
     return (<>
-            <Select mode="multiple" onClick={e => e.stopPropagation()} allowClear={true}  style={{ display:show?"inline-block":"none", width:"300px"}} value={value} onChange={onChangeValor}  options={props.opciones} placeholder="Valores" maxTagCount="responsive"  />
     </>);
 }
 
