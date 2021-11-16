@@ -6,7 +6,16 @@ export interface catalogosCampos{
 export interface FiltrosValores {
     id:number
     campo:string
+    valor?:any
     listaFiltro:any[]
+}
+
+export interface ModalBGStateCatalogo{
+    campo:string;
+    tipoDato:string;
+    isCatalogo: boolean
+    catalogoValue:catalogosValues[] 
+    FiltrosVista:FiltrosValores
 }
 
 export interface catalogosValues{

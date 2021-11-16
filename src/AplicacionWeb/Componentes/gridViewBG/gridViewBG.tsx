@@ -8,7 +8,7 @@ import Column from 'rc-table/lib/sugar/Column';
 import moment from 'moment';
 import ModalContentBG from '../modalContentBG/modalContentBG';
 import ColumnasGrupo from '../../Modelos/columnasGrupos';
-import { catalogosCampos, catalogosValues, FiltrosValores, informacionFiltros } from '../../Modelos/filtros';
+import { catalogosCampos, catalogosValues, FiltrosValores, informacionFiltros, ModalBGStateCatalogo } from '../../Modelos/filtros';
 import React from 'react';
 import FiltroBg from '../FiltroBg/FiltroBg';
 const { TabPane } = Tabs;
@@ -56,7 +56,7 @@ interface GridViewBGState {
   columnsGrupo:any
   rowTotales:any
   rowGrupos:any
-  filtrosAplicadosObjeto:FiltrosValores[]
+  filtrosAplicadosObjeto:ModalBGStateCatalogo[]
 }
 
 
@@ -79,7 +79,11 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
     }
   }
 
-  componentDidUpdate(Prevprops:GridViewBGProps){
+ async componentDidMount(){
+   this.SetFiltroStorage()
+  }
+
+ componentDidUpdate(Prevprops:GridViewBGProps){
       if(Prevprops.onLoad)
       {
         this.props.onLoad({
@@ -100,7 +104,7 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
           ...this.state,
           rowGrupos: this.props.rows
         })
-      }
+      }     
   } 
  
    getColumnsGroup = (columns:any[])=>{
@@ -163,38 +167,73 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       })
     }
 
-    SetFiltro(filtro:FiltrosValores[]): Promise<any>{
-    return new Promise((resolve, reject)=>{
+    SetFiltro(filtro:ModalBGStateCatalogo[]): void{
       this.setState(()=>{
-        resolve(0)
+        if(filtro != undefined && filtro != [])
+          localStorage.setItem("FiltrosBg",JSON.stringify(filtro))
         return { ...this.state, filtrosAplicadosObjeto: filtro}
-      })})
+      })
+    }
+
+    async SetFiltroStorage(){
+      let filtroValido = localStorage.getItem("FiltrosBg")
+      if(filtroValido)
+         this.SetFiltro(JSON.parse(filtroValido)as ModalBGStateCatalogo[])
     }
    
-   onOk = async (e:FiltrosValores)=>
+   onOk = async (filtro:ModalBGStateCatalogo)=>
     { 
-     if(e.campo != "" && e.listaFiltro.length > 0){
-      let listaFiltro:any[] = [...this.state.filtrosAplicadosObjeto].filter(x=>x.campo !== e.campo)
-      let existeIgual = [...this.state.filtrosAplicadosObjeto].filter(x=>x.campo === e.campo)
-      if(existeIgual.length > 0){
+      let listaFiltro = [...this.state.filtrosAplicadosObjeto].filter(x=>x.campo !==filtro.campo)
+      let existeIgual = [...this.state.filtrosAplicadosObjeto].filter(x=>x.campo === filtro.campo)
+
+      if(filtro.FiltrosVista.listaFiltro.length == 0){
         listaFiltro.push({
-          id: existeIgual[0].id,
-          campo: e.campo,
-          listaFiltro: e.listaFiltro
+          campo: filtro.campo,
+          tipoDato: filtro.tipoDato,
+          isCatalogo: filtro.isCatalogo,
+          catalogoValue: filtro.catalogoValue,
+          FiltrosVista: {
+            id: this.state.filtrosAplicadosObjeto.length-1,
+            campo: filtro.FiltrosVista.campo,
+            valor: filtro.FiltrosVista.valor,
+            listaFiltro: []
+          }
         })
-      }else {
-        listaFiltro.push({
-          id: this.state.filtrosAplicadosObjeto.length-1,
-          campo: e.campo,
-          listaFiltro: e.listaFiltro
-        })
+      }else{
+        if(filtro.FiltrosVista.campo != "" && filtro.FiltrosVista.listaFiltro.length > 0){
+          
+          if(existeIgual.length > 0){
+            listaFiltro.push({
+              campo: filtro.campo,
+              tipoDato: filtro.tipoDato,
+              isCatalogo: filtro.isCatalogo,
+              catalogoValue: filtro.catalogoValue,
+              FiltrosVista:{
+                id: existeIgual[0].FiltrosVista.id,
+                campo: filtro.campo,
+                listaFiltro: filtro.FiltrosVista.listaFiltro
+              }
+            })
+          }else {
+            listaFiltro.push({
+              campo: filtro.campo,
+              tipoDato: filtro.tipoDato,
+              isCatalogo: filtro.isCatalogo,
+              catalogoValue: filtro.catalogoValue,
+              FiltrosVista:{
+                id: this.state.filtrosAplicadosObjeto.length-1,
+                campo: filtro.campo,
+                listaFiltro: filtro.FiltrosVista.listaFiltro
+              }
+            })
+          }
+       }
       }
-      await this.SetFiltro(listaFiltro)
+      this.SetFiltro(listaFiltro)
       if(this.props.onAplicarFiltro)
       {
         this.props.onAplicarFiltro(this.state.filtrosAplicadosObjeto);
       }
-     }
     }
 
     onDowload =()=>
@@ -382,20 +421,22 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
        </> 
     }
     
-    async BorrarTag (removedTag:any){
+    async BorrarTag (removedTag:ModalBGStateCatalogo){
       let tags = this.state.filtrosAplicadosObjeto
-      tags = tags.filter(tag => tag.id !== removedTag.id);
-      await this.SetFiltro(tags)
+      tags = tags.filter(tag => tag.FiltrosVista.id !== removedTag.FiltrosVista.id);
+      this.SetFiltro(tags)
     }
 
-    FiltroCahnge = ()=>{
+    FiltroChange = (filtroDefault:ModalBGStateCatalogo)=>{
       return (<div className="SubFiltro">
            < FiltroBg 
                       onClick={e => e.stopPropagation()}
+                      disabled={true}
+                      selectDefault={ filtroDefault }
                       filtroCatalogoCampos={ this.props.filtroCatalogoCampos}
                       filtroInformacion={ this.props.filtroInformacion}
                       catalogosValues={ this.props.filtroCatalogoValues}
-                      Guardar = {(filtro:FiltrosValores)=> this.onOk(filtro)} />
+                      Guardar = {(filtro:ModalBGStateCatalogo)=> this.onOk(filtro)} />
       </div>)
     }
 
@@ -404,24 +445,24 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       
       return (<> 
       <div className="row no-gutters">
-       <div className="col-1">
+       <div className="col-2" style={{marginRight:"-70px"}}>
            <h4>Filtros aplicados: </h4>
        </div>
        <div className="col-10">
            {
-              filtrosAplicadosObjeto?.map((valor:FiltrosValores)=>{
+              filtrosAplicadosObjeto?.map((valor:ModalBGStateCatalogo)=>{
                 return (<>
-                <Tooltip title={this.PresentacionToolTip(valor)} key={valor.id}>
-                  <Dropdown key={valor.id}  
+                <Tooltip title={this.PresentacionToolTip(valor.FiltrosVista!)} key={valor.FiltrosVista.id}>
+                  <Dropdown key={valor.FiltrosVista.id}  
                             destroyPopupOnHide={true} arrow={true} 
-                            overlay={this.FiltroCahnge} 
+                            overlay={this.FiltroChange(valor)} 
                             trigger={['click']}>
                     <Tag  color="#bc157c" 
                           className={"forma-tag"} 
-                          key={valor.id} 
+                          key={valor.FiltrosVista.id} 
                           closable
                           onClose={()=>this.BorrarTag(valor)}>
-                        {valor.campo}: { this.PresentarOpciones(valor.listaFiltro, valor.campo)}
+                        {valor.campo}: { this.PresentarOpciones(valor.FiltrosVista!)}
                     </Tag>
                   </Dropdown>
                 </Tooltip>
@@ -433,13 +474,20 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
       </>)
     }
 
-    PresentacionToolTip(valor:FiltrosValores): any[] {
-      return valor.listaFiltro.map((x:any,index:number)=> valor.listaFiltro.length-1 == index ? x.value : `${x.value}, `)
+    PresentacionToolTip(valor:FiltrosValores): any {
+      if(valor.listaFiltro.length == 0){
+        return valor.valor
+      }else{
+        return valor.listaFiltro.map((x:any,index:number)=> valor.listaFiltro.length-1 == index ? x.value : `${x.value}, `)
+      }
     }
-    PresentarOpciones(valor:any[], campo:string): string{
-      if(valor.length === 1){
-        return valor[0].value
-      }if(this.props.filtroCatalogoValues.filter(x=> x.campo == campo).length == valor.length){
+
+    PresentarOpciones(valor:FiltrosValores): string{
+      if(valor.listaFiltro.length == 0){
+        return valor.valor? valor.valor:""
+      }else if(valor.listaFiltro.length === 1){
+        return valor.listaFiltro[0].value
+      }if(this.props.filtroCatalogoValues.filter(x=> x.campo == valor.campo).length == valor.listaFiltro.length){
         return "Todos"
       }
       return "Varios"
@@ -464,17 +512,19 @@ export default class GridViewBG extends React.Component<GridViewBGProps,GridView
        <div className="tabContainer" > 
                 
                 <div className="row pt-3">
-                  <div className="col-sm-7 col-12">
+                  <div className="col-sm-6 col-12">
                     {
                       this.fechas()
                     }
                   </div>
-                  <div className="col-sm-5 col-12">
+                  <div className="col-sm-6 col-12">
                       < FiltroBg onClick={e => e.stopPropagation()}
+                                 disabled={false}
+                                 selectDefault={{ campo:"-1", tipoDato:"", isCatalogo: false, catalogoValue:[], FiltrosVista: { id:0, campo: "", listaFiltro: []}}}
                                  filtroCatalogoCampos={ this.props.filtroCatalogoCampos}
                                  filtroInformacion={ this.props.filtroInformacion}
                                  catalogosValues={ this.props.filtroCatalogoValues}
-                                 Guardar = {(filtro:FiltrosValores)=> this.onOk(filtro)} />
+                                 Guardar = {(filtro:ModalBGStateCatalogo)=> this.onOk(filtro)} />
                   </div>                 
            </div>
            <Divider style={{margin: "12px 0"}} />
